@@ -1,0 +1,4468 @@
+{
+  "$defs": {
+    "AchievementGoal": {
+      "additionalProperties": false,
+      "properties": {
+        "completenessPolicy": {
+          "$ref": "#/$defs/StableId"
+        },
+        "condition": {
+          "$ref": "#/$defs/Formula"
+        },
+        "kind": {
+          "const": "achievement"
+        },
+        "termination": {
+          "$ref": "#/$defs/Formula"
+        },
+        "window": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "condition",
+        "window"
+      ],
+      "type": "object"
+    },
+    "AggregateTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "input": {
+          "$ref": "#/$defs/Term"
+        },
+        "kind": {
+          "const": "aggregate"
+        },
+        "op": {
+          "enum": [
+            "sum",
+            "count",
+            "min",
+            "max",
+            "average"
+          ]
+        },
+        "options": {
+          "$ref": "#/$defs/JsonObject"
+        }
+      },
+      "required": [
+        "kind",
+        "op",
+        "input"
+      ],
+      "type": "object"
+    },
+    "Anchor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "coverage": {
+              "enum": [
+                "exact",
+                "partial",
+                "contextual",
+                "disputed"
+              ]
+            },
+            "id": {},
+            "kind": {
+              "const": "anchor"
+            },
+            "labels": {},
+            "package": {},
+            "provenance": {},
+            "relation": {
+              "enum": [
+                "formalizes",
+                "interprets",
+                "quotes",
+                "paraphrases",
+                "derives_from",
+                "applies",
+                "limits",
+                "invalidates",
+                "distinguishes"
+              ]
+            },
+            "semanticNode": {
+              "$ref": "#/$defs/StableId"
+            },
+            "sourceFragment": {
+              "$ref": "#/$defs/StableId"
+            },
+            "sourceSpan": {}
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "semanticNode",
+            "sourceFragment",
+            "relation",
+            "coverage"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Assertion": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "evidence": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "id": {},
+            "judgment": {
+              "additionalProperties": false,
+              "properties": {
+                "authority": {
+                  "$ref": "#/$defs/StableId"
+                },
+                "payload": {
+                  "$ref": "#/$defs/Term"
+                },
+                "request": {
+                  "$ref": "#/$defs/StableId"
+                }
+              },
+              "required": [
+                "authority"
+              ],
+              "type": "object"
+            },
+            "kind": {
+              "const": "assertion"
+            },
+            "labels": {},
+            "literal": {
+              "$ref": "#/$defs/Literal"
+            },
+            "observedAt": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/DateString"
+                },
+                {
+                  "$ref": "#/$defs/InstantString"
+                }
+              ]
+            },
+            "origin": {
+              "enum": [
+                "case_input",
+                "source_asserted",
+                "external_snapshot",
+                "derived",
+                "adjudicated",
+                "assumed_for_simulation"
+              ]
+            },
+            "package": {},
+            "provenance": {},
+            "recordedAt": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/DateString"
+                },
+                {
+                  "$ref": "#/$defs/InstantString"
+                }
+              ]
+            },
+            "sourceSpan": {},
+            "valid": {
+              "$ref": "#/$defs/TemporalInterval"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "literal",
+            "origin"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "BinaryTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "binary"
+        },
+        "left": {
+          "$ref": "#/$defs/Term"
+        },
+        "op": {
+          "type": "string"
+        },
+        "right": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "op",
+        "left",
+        "right"
+      ],
+      "type": "object"
+    },
+    "BindPattern": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "bind"
+        },
+        "variable": {
+          "$ref": "#/$defs/Variable"
+        }
+      },
+      "required": [
+        "kind",
+        "variable"
+      ],
+      "type": "object"
+    },
+    "BoolFormula": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "boolean"
+        },
+        "value": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "type": "object"
+    },
+    "CalendarSnapshot": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "datasetHash": {
+              "$ref": "#/$defs/Digest"
+            },
+            "format": {
+              "type": "string"
+            },
+            "id": {},
+            "kind": {
+              "const": "calendar_snapshot"
+            },
+            "labels": {},
+            "package": {},
+            "provenance": {},
+            "resourceUri": {
+              "type": "string"
+            },
+            "sourceArtifacts": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "sourceSpan": {},
+            "timezone": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "timezoneDbSnapshot": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "valid": {
+              "$ref": "#/$defs/TemporalInterval"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "timezone",
+            "valid",
+            "sourceArtifacts",
+            "datasetHash",
+            "timezoneDbSnapshot"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "EvidencePolicy": {
+      "description": "Носитель исполнимой EvidencePolicy §78.2 (DECISION-0126). Правила фазы ЗАКРЫТЫ перечнем `rules`; открытых metadata у узла нет.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "profile",
+            "accepts",
+            "protects",
+            "rules"
+          ],
+          "properties": {
+            "kind": {
+              "const": "evidence_policy"
+            },
+            "visibility": {
+              "description": "§24 (DECISION-0165 §1.8): `pub` у политики — она адресуема осью дела соседа `пакет::Политика`; отсутствие поля — internal, байты без `pub` не меняются.",
+              "enum": [
+                "public"
+              ]
+            },
+            "id": {},
+            "package": {},
+            "contentHash": {},
+            "sourceSpan": {},
+            "annotations": {},
+            "labels": {},
+            "anchors": {},
+            "provenance": {},
+            "profile": {
+              "type": "string",
+              "minLength": 1
+            },
+            "accepts": {
+              "$ref": "#/$defs/StableId"
+            },
+            "protects": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/StableId"
+              }
+            },
+            "inputs": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/StableId"
+              },
+              "propertyNames": {
+                "enum": [
+                  "edge",
+                  "status",
+                  "issuer",
+                  "observed",
+                  "recorded",
+                  "available",
+                  "current",
+                  "authentic",
+                  "knowledge",
+                  "source"
+                ]
+              }
+            },
+            "fields": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/StableId"
+              }
+            },
+            "args": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/StableId"
+              },
+              "propertyNames": {
+                "pattern": "^(0|[1-9][0-9]*)$"
+              }
+            },
+            "targets": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/$defs/StableId"
+              }
+            },
+            "rules": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/StableId"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "DeadlinePolicy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "policy"
+          ],
+          "properties": {
+            "kind": {
+              "const": "deadline_policy"
+            },
+            "visibility": {
+              "description": "§24 (DECISION-0165 §1.8): `pub` у политики — она адресуема осью дела соседа `пакет::Политика`; отсутствие поля — internal, байты без `pub` не меняются.",
+              "enum": [
+                "public"
+              ]
+            },
+            "id": {},
+            "package": {},
+            "contentHash": {},
+            "sourceSpan": {},
+            "annotations": {},
+            "labels": {},
+            "anchors": {},
+            "provenance": {},
+            "policy": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "start_count",
+                "include_end",
+                "roll"
+              ],
+              "properties": {
+                "start_count": {
+                  "enum": [
+                    "same_day",
+                    "next_day"
+                  ]
+                },
+                "include_end": {
+                  "type": "boolean"
+                },
+                "roll": {
+                  "enum": [
+                    "no_roll",
+                    "next_working_day",
+                    "previous_working_day"
+                  ]
+                },
+                "cutoff": {
+                  "type": "string",
+                  "pattern": "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+                },
+                "month_end": {
+                  "enum": [
+                    "last_day_of_month",
+                    "reject_nonexistent"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TemporalResolutionPolicy": {
+      "description": "§82.1: разрешение `Date` → `Instant` (errata E-0143). Исполняется ТОЛЬКО `utcOffset`; `timezone` — ярлык провенанса, tz-база не читается ни одной реализацией.",
+      "allOf": [
+        {"$ref": "#/$defs/NodeCommon"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "id", "package", "contentHash", "utcOffset"],
+          "properties": {
+            "kind": {"const": "temporal_resolution_policy"},
+            "visibility": {
+              "description": "§24 (DECISION-0165 §1.8): `pub` у политики — она адресуема осью дела соседа `пакет::Политика`; отсутствие поля — internal, байты без `pub` не меняются.",
+              "enum": [
+                "public"
+              ]
+            },
+            "id": {},
+            "package": {},
+            "contentHash": {},
+            "sourceSpan": {},
+            "annotations": {},
+            "labels": {},
+            "anchors": {},
+            "provenance": {},
+            "utcOffset": {"type": "string", "pattern": "^[+-]([01]\\d|2[0-3]):[0-5]\\d$"},
+            "dayBoundary": {"type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"},
+            "timezone": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "Procedure": {
+      "description": "§201.1: автомат профиля §159–§164 как ДАННЫЕ, исполняемые фазой свёртки §161.1 (DECISION-0156). Правил `<P>/initial`, `<P>/<T>/valid`, `<P>/<T>/enters` десугаризация больше не эмитирует.",
+      "allOf": [
+        {"$ref": "#/$defs/NodeCommon"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "id", "package", "contentHash", "instanceType", "states", "transitions", "instancePredicate", "attemptedPredicate", "validPredicate", "enteredPredicate", "leftPredicate", "initialPredicate", "stateBeforePredicate", "currentStatePredicate"],
+          "properties": {
+            "kind": {"const": "procedure"},
+            "id": {},
+            "package": {},
+            "contentHash": {},
+            "sourceSpan": {},
+            "annotations": {},
+            "labels": {},
+            "anchors": {},
+            "provenance": {},
+            "instanceType": {"$ref": "#/$defs/TypeRef"},
+            "instancePredicate": {"description": "§201.1: `procedure_instance` ЭТОЙ процедуры. Восемь предикатов профиля §164.1 названы узлом поимённо: при двух процедурах в одном пакете имена квалифицируются (DECISION-0013 §2.3), и принадлежность факта процедуре иначе выводилась бы догадкой по имени — тем самым способом, который §201.1 снимает.", "$ref": "#/$defs/StableId"},
+            "attemptedPredicate": {"$ref": "#/$defs/StableId"},
+            "validPredicate": {"$ref": "#/$defs/StableId"},
+            "enteredPredicate": {"$ref": "#/$defs/StableId"},
+            "leftPredicate": {"$ref": "#/$defs/StableId"},
+            "initialPredicate": {"$ref": "#/$defs/StableId"},
+            "stateBeforePredicate": {"$ref": "#/$defs/StableId"},
+            "currentStatePredicate": {"$ref": "#/$defs/StableId"},
+            "completedPredicate": {"description": "§163.1/§201.1: предикат сахара `completed(P, y)` этой процедуры. Необязателен: процедура, к завершённости которой ни одна норма пакета не обращается, его не объявляет. Названный узлом, а не угаданный по форме первого аргумента: догадка «двухместное отношение, чей первый аргумент есть имя процедуры» покрывает и постороннее `paid(ProcedureA, y)`, и свёртка объявляла бы его истинным, ничего о нём не зная.", "$ref": "#/$defs/StableId"},
+            "states": {
+              "type": "array",
+              "minItems": 1,
+              "items": {"$ref": "#/$defs/ProcedureState"}
+            },
+            "transitions": {
+              "type": "array",
+              "items": {"$ref": "#/$defs/ProcedureTransition"}
+            }
+          }
+        }
+      ]
+    },
+    "ProcedureState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "initial", "terminal"],
+      "properties": {
+        "id": {"$ref": "#/$defs/StableId"},
+        "initial": {"type": "boolean"},
+        "terminal": {"type": "boolean"},
+        "regions": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"$ref": "#/$defs/ProcedureRegion"}
+        },
+        "join": {"$ref": "#/$defs/ProcedureJoin"}
+      }
+    },
+    "ProcedureRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "states", "transitions"],
+      "properties": {
+        "id": {"$ref": "#/$defs/StableId"},
+        "states": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/ProcedureState"}
+        },
+        "transitions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/ProcedureTransition"}
+        }
+      }
+    },
+    "ProcedureTransition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "from", "to", "requires"],
+      "properties": {
+        "id": {"$ref": "#/$defs/StableId"},
+        "from": {"$ref": "#/$defs/StableId"},
+        "to": {"$ref": "#/$defs/StableId"},
+        "on": {"$ref": "#/$defs/StableId"},
+        "guard": {"$ref": "#/$defs/Formula"},
+        "requires": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/Formula"}
+        }
+      }
+    },
+    "ProcedureJoin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy"],
+      "properties": {
+        "policy": {"enum": ["all", "any", "quorum"]},
+        "count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "Stage": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "status"
+          ],
+          "properties": {
+            "kind": {
+              "const": "stage"
+            },
+            "id": {},
+            "package": {},
+            "contentHash": {},
+            "sourceSpan": {},
+            "annotations": {},
+            "labels": {},
+            "anchors": {},
+            "provenance": {},
+            "status": {
+              "const": "reserved"
+            }
+          }
+        }
+      ]
+    },
+    "CallTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "$ref": "#/$defs/Term"
+          },
+          "type": "array"
+        },
+        "function": {
+          "$ref": "#/$defs/StableId"
+        },
+        "kind": {
+          "const": "call"
+        }
+      },
+      "required": [
+        "kind",
+        "function",
+        "args"
+      ],
+      "type": "object"
+    },
+    "ClosurePolicy": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "completeAsOf": {
+              "$ref": "#/$defs/InstantString"
+            },
+            "contentHash": {},
+            "deriveExplicitNegative": {
+              "type": "boolean"
+            },
+            "domain": {
+              "$ref": "#/$defs/Term"
+            },
+            "effective": {
+              "$ref": "#/$defs/TemporalInterval"
+            },
+            "id": {},
+            "kind": {
+              "const": "closure_policy"
+            },
+            "labels": {},
+            "package": {},
+            "predicate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "provenance": {},
+            "snapshot": {
+              "$ref": "#/$defs/StableId"
+            },
+            "sourceSpan": {}
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "predicate",
+            "domain",
+            "snapshot",
+            "completeAsOf"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "ComparisonFormula": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "comparison"
+        },
+        "left": {
+          "$ref": "#/$defs/Term"
+        },
+        "op": {
+          "enum": [
+            "eq",
+            "ne",
+            "lt",
+            "le",
+            "gt",
+            "ge",
+            "in",
+            "text_matches"
+          ]
+        },
+        "right": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "op",
+        "left",
+        "right"
+      ],
+      "type": "object"
+    },
+    "ComprehensionTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "binders": {
+          "description": "§52.1: auxiliary existential-local generator binders; they distinguish List positions but are not collection elements.",
+          "items": {
+            "$ref": "#/$defs/Variable"
+          },
+          "type": "array"
+        },
+        "distinct": {
+          "description": "§51/§52.1: true — Set<T> (`collect`, различные ground-значения); false — List<T> (`collect all`, по элементу на каждую solution substitution generator-а; errata E-0012). Обязательно, умолчания нет: кратность — семантическое решение автора, а не default схемы.",
+          "type": "boolean"
+        },
+        "element": {
+          "$ref": "#/$defs/Term"
+        },
+        "generator": {
+          "$ref": "#/$defs/Formula"
+        },
+        "kind": {
+          "const": "comprehension"
+        },
+        "variable": {
+          "$ref": "#/$defs/Variable"
+        }
+      },
+      "required": [
+        "kind",
+        "variable",
+        "element",
+        "generator",
+        "distinct"
+      ],
+      "type": "object"
+    },
+    "Constraint": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "antecedent": {
+              "$ref": "#/$defs/Formula"
+            },
+            "contentHash": {},
+            "effective": {
+              "$ref": "#/$defs/TemporalInterval"
+            },
+            "id": {},
+            "interpretations": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "constraint"
+            },
+            "labels": {},
+            "message": {
+              "type": "string"
+            },
+            "package": {},
+            "provenance": {},
+            "requirement": {
+              "$ref": "#/$defs/Formula"
+            },
+            "scope": {
+              "$ref": "#/$defs/Formula"
+            },
+            "severity": {
+              "enum": [
+                "info",
+                "warning",
+                "error",
+                "critical"
+              ]
+            },
+            "sourceSpan": {},
+            "variables": {
+              "items": {
+                "$ref": "#/$defs/Variable"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "variables",
+            "antecedent",
+            "requirement",
+            "scope",
+            "severity",
+            "interpretations"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "CounterfactualDecl": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "constraints": {
+              "items": {
+                "$ref": "#/$defs/Formula"
+              },
+              "type": "array"
+            },
+            "contentHash": {},
+            "costModel": {
+              "$ref": "#/$defs/StableId"
+            },
+            "id": {},
+            "immutable": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array",
+              "uniqueItems": true
+            },
+            "kind": {
+              "const": "counterfactual_decl"
+            },
+            "labels": {},
+            "metadata": {
+              "$ref": "#/$defs/JsonObject"
+            },
+            "mutable": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "package": {},
+            "provenance": {},
+            "sourceSpan": {},
+            "target": {
+              "$ref": "#/$defs/Formula"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "target",
+            "mutable",
+            "immutable",
+            "costModel",
+            "constraints"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "DateString": {
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "type": "string"
+    },
+    "DecimalString": {
+      "pattern": "^(?:0|-?(?:[1-9][0-9]*(?:\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9]))$",
+      "type": "string"
+    },
+    "Digest": {
+      "pattern": "^[A-Za-z0-9_-]+:[A-Fa-f0-9]+$",
+      "type": "string"
+    },
+    "DutyPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "activation": {
+          "$ref": "#/$defs/Formula"
+        },
+        "allocationPolicy": {
+          "oneOf": [
+            {
+              "enum": [
+                "individual",
+                "joint",
+                "several",
+                "joint_and_several"
+              ]
+            },
+            {
+              "$ref": "#/$defs/StableId"
+            }
+          ]
+        },
+        "bearer": {
+          "$ref": "#/$defs/Term"
+        },
+        "beneficiary": {
+          "$ref": "#/$defs/Term"
+        },
+        "dischargePolicy": {
+          "$ref": "#/$defs/StableId"
+        },
+        "goal": {
+          "$ref": "#/$defs/Goal"
+        },
+        "kind": {
+          "const": "duty"
+        },
+        "violationPolicy": {
+          "$ref": "#/$defs/StableId"
+        }
+      },
+      "required": [
+        "kind",
+        "bearer",
+        "goal"
+      ],
+      "type": "object"
+    },
+    "DynamicReference": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "id": {},
+            "kind": {
+              "const": "reference"
+            },
+            "labels": {},
+            "language": {
+              "$ref": "#/$defs/LanguageTag"
+            },
+            "locator": {
+              "type": "string"
+            },
+            "package": {},
+            "policy": {
+              "$ref": "#/$defs/StableId"
+            },
+            "provenance": {},
+            "resolveAt": {
+              "const": "legal_time"
+            },
+            "sourceSpan": {},
+            "work": {
+              "$ref": "#/$defs/StableId"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "work",
+            "resolveAt"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "EvidenceItem": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "documentHash": {
+              "$ref": "#/$defs/Digest"
+            },
+            "evidenceType": {
+              "$ref": "#/$defs/TypeRef"
+            },
+            "id": {},
+            "issuer": {
+              "$ref": "#/$defs/Term"
+            },
+            "kind": {
+              "const": "evidence_item"
+            },
+            "labels": {},
+            "observedAt": {
+              "$ref": "#/$defs/InstantString"
+            },
+            "package": {},
+            "payload": {
+              "$ref": "#/$defs/JsonObject"
+            },
+            "provenance": {},
+            "recordedAt": {
+              "$ref": "#/$defs/InstantString"
+            },
+            "sourceSpan": {},
+            "status": {
+              "type": "string"
+            },
+            "valid": {
+              "$ref": "#/$defs/TemporalInterval"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "evidenceType",
+            "status",
+            "payload"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "ExternalDecl": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "authority": {
+              "$ref": "#/$defs/Term"
+            },
+            "capability": {
+              "type": "string"
+            },
+            "contentHash": {},
+            "effect": {
+              "enum": [
+                "snapshot",
+                "judgment",
+                "opaque"
+              ]
+            },
+            "id": {},
+            "kind": {
+              "const": "external_decl"
+            },
+            "labels": {},
+            "package": {},
+            "provenance": {},
+            "requestType": {
+              "$ref": "#/$defs/TypeRef"
+            },
+            "responseType": {
+              "$ref": "#/$defs/TypeRef"
+            },
+            "snapshotBinding": {
+              "type": "string"
+            },
+            "sourceSpan": {},
+            "symbol": {
+              "$ref": "#/$defs/StableId"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "effect": {
+                    "const": "snapshot"
+                  }
+                },
+                "required": [
+                  "effect"
+                ]
+              },
+              "then": {
+                "required": [
+                  "capability",
+                  "snapshotBinding",
+                  "responseType"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "effect": {
+                    "const": "judgment"
+                  }
+                },
+                "required": [
+                  "effect"
+                ]
+              },
+              "then": {
+                "required": [
+                  "authority"
+                ]
+              }
+            }
+          ],
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "symbol",
+            "effect"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "FieldTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "field"
+        },
+        "target": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "target",
+        "field"
+      ],
+      "type": "object"
+    },
+    "ForbearanceGoal": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/Term"
+        },
+        "completenessPolicy": {
+          "$ref": "#/$defs/StableId"
+        },
+        "kind": {
+          "const": "forbearance"
+        },
+        "window": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "action",
+        "window"
+      ],
+      "type": "object"
+    },
+    "Formula": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/Literal"
+        },
+        {
+          "$ref": "#/$defs/BoolFormula"
+        },
+        {
+          "$ref": "#/$defs/NaryFormula"
+        },
+        {
+          "$ref": "#/$defs/StatusFormula"
+        },
+        {
+          "$ref": "#/$defs/ComparisonFormula"
+        },
+        {
+          "$ref": "#/$defs/QuantifiedFormula"
+        },
+        {
+          "$ref": "#/$defs/TemporalFormula"
+        },
+        {
+          "$ref": "#/$defs/RoundingFormula"
+        }
+      ]
+    },
+    "Fragment": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "edition": {
+              "$ref": "#/$defs/StableId"
+            },
+            "fragmentKind": {
+              "type": "string"
+            },
+            "id": {},
+            "kind": {
+              "const": "fragment"
+            },
+            "labels": {},
+            "locator": {
+              "type": "string"
+            },
+            "package": {},
+            "parent": {
+              "$ref": "#/$defs/StableId"
+            },
+            "provenance": {},
+            "sourceSpan": {},
+            "texts": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "contentHash": {
+                    "$ref": "#/$defs/Digest",
+                    "description": "§194 (errata E-0024): digest точных UTF-8 байтов официального текста. ОБЯЗАТЕЛЕН, если редакция фрагмента объявила materializationStatus из группы закреплённых (§27.2: PINNED_OFFICIAL_BYTES, PINNED_UNOFFICIAL_COPY, PINNED_EDITORIAL_RECONSTRUCTION) — отсутствие есть LDC-E5205, расхождение с текстом есть LDC-E5201. Обязанность кросс-узловая (зависит от редакции), поэтому `required` её не выражает и держит статика §194; вне группы закреплённых поле остаётся необязательным: ABSTRACT_ONLY объявляет отсутствие текста."
+                  },
+                  "language": {
+                    "$ref": "#/$defs/LanguageTag"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "language",
+                  "status",
+                  "text"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "visibility": {
+              "description": "§24/§33: `pub fragment` — единственная форма cross-package @source target. Отсутствие означает internal, как у остальных экспортируемых declarations.",
+              "enum": [
+                "public"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "edition",
+            "fragmentKind",
+            "locator"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "FunctionDecl": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "body": {
+              "$ref": "#/$defs/Term"
+            },
+            "contentHash": {},
+            "effect": {
+              "const": "pure"
+            },
+            "id": {},
+            "kind": {
+              "const": "function_decl"
+            },
+            "labels": {},
+            "package": {},
+            "parameters": {
+              "items": {
+                "$ref": "#/$defs/Variable"
+              },
+              "type": "array"
+            },
+            "provenance": {},
+            "sourceSpan": {},
+            "symbol": {
+              "$ref": "#/$defs/StableId"
+            },
+            "terminationCertificate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "visibility": {
+              "description": "§24: видимость декларации. Отсутствие поля — умолчание `internal`; `public` пишется только для `pub`-деклараций, поэтому появление поля аддитивно и не меняет байты программ без `pub`. Межпакетные ссылки `pkg::Symbol` разрешаются только в public-декларации.",
+              "enum": [
+                "public"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "symbol",
+            "parameters",
+            "body",
+            "effect"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Goal": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/AchievementGoal"
+        },
+        {
+          "$ref": "#/$defs/MaintenanceGoal"
+        },
+        {
+          "$ref": "#/$defs/ForbearanceGoal"
+        },
+        {
+          "$ref": "#/$defs/RecurringGoal"
+        }
+      ]
+    },
+    "IfTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "condition": {
+          "$ref": "#/$defs/Formula"
+        },
+        "else": {
+          "$ref": "#/$defs/Term"
+        },
+        "kind": {
+          "const": "if"
+        },
+        "then": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "condition",
+        "then",
+        "else"
+      ],
+      "type": "object"
+    },
+    "ImmunityPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "against": {
+          "$ref": "#/$defs/Term"
+        },
+        "holder": {
+          "$ref": "#/$defs/Term"
+        },
+        "kind": {
+          "const": "immunity"
+        },
+        "protectedEffect": {
+          "$ref": "#/$defs/LegalEffect"
+        },
+        "window": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "holder",
+        "protectedEffect"
+      ],
+      "type": "object"
+    },
+    "InstantString": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$",
+      "type": "string"
+    },
+    "Interpretation": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "authority": {
+              "$ref": "#/$defs/Term"
+            },
+            "contentHash": {},
+            "effective": {
+              "$ref": "#/$defs/TemporalInterval"
+            },
+            "excludes": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "extends": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "id": {},
+            "includes": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "interpretation"
+            },
+            "visibility": {
+              "description": "§24, DECISION-0152: pub interpretation экспортирует прочтение целиком. Отсутствие означает internal.",
+              "enum": [
+                "public"
+              ]
+            },
+            "labels": {},
+            "metadata": {
+              "$ref": "#/$defs/JsonObject"
+            },
+            "of": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "package": {},
+            "provenance": {},
+            "sourceSpan": {},
+            "status": {
+              "type": "string"
+            },
+            "origin": {
+              "description": "§276.10: id узла precedent_decl, из которого узел порождён компилятором; на рукописных узлах отсутствует.",
+              "$ref": "#/$defs/StableId"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "status",
+            "includes",
+            "excludes"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "InterpretationGroup": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "alternatives": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "minItems": 2,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "id": {},
+            "kind": {
+              "const": "interpretation_group"
+            },
+            "labels": {},
+            "metadata": {
+              "$ref": "#/$defs/JsonObject"
+            },
+            "package": {},
+            "provenance": {},
+            "selection": {
+              "enum": [
+                "exactly_one",
+                "any_of",
+                "compose_explicitly"
+              ]
+            },
+            "sourceSpan": {}
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "alternatives",
+            "selection"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "IntervalTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "$ref": "#/$defs/Term"
+        },
+        "endInclusive": {
+          "type": "boolean"
+        },
+        "kind": {
+          "const": "interval"
+        },
+        "start": {
+          "$ref": "#/$defs/Term"
+        },
+        "startInclusive": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "kind",
+        "start",
+        "end",
+        "startInclusive",
+        "endInclusive"
+      ],
+      "type": "object"
+    },
+    "JsonObject": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "type": "object"
+    },
+    "JsonValue": {
+      "oneOf": [
+        {
+          "type": [
+            "string",
+            "number",
+            "integer",
+            "boolean",
+            "null"
+          ]
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/JsonValue"
+          },
+          "type": "array"
+        },
+        {
+          "$ref": "#/$defs/JsonObject"
+        }
+      ]
+    },
+    "Label": {
+      "additionalProperties": false,
+      "properties": {
+        "grammaticalForms": {
+          "type": "object",
+          "description": "§218.1: морфологические формы метки; ключ — слот из закрытого словаря своего language tag, значение — непустая форма. Презентационны: вне semantic hash §209 (errata E-0010), внутри content hash узла §202.",
+          "propertyNames": {
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minProperties": 1
+        },
+        "language": {
+          "$ref": "#/$defs/LanguageTag"
+        },
+        "status": {
+          "enum": [
+            "official",
+            "unofficial",
+            "translation"
+          ]
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "language",
+        "status",
+        "text"
+      ],
+      "type": "object"
+    },
+    "LanguageTag": {
+      "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$",
+      "type": "string"
+    },
+    "LegalEffect": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "$ref": "#/$defs/Formula"
+        },
+        "before": {
+          "$ref": "#/$defs/Formula"
+        },
+        "description": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "create",
+            "terminate",
+            "modify",
+            "opaque"
+          ]
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    },
+    "LetTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "$ref": "#/$defs/Term"
+        },
+        "kind": {
+          "const": "let"
+        },
+        "value": {
+          "$ref": "#/$defs/Term"
+        },
+        "variable": {
+          "$ref": "#/$defs/Variable"
+        }
+      },
+      "required": [
+        "kind",
+        "variable",
+        "value",
+        "body"
+      ],
+      "type": "object"
+    },
+    "LibertyPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/Term"
+        },
+        "against": {
+          "$ref": "#/$defs/Term"
+        },
+        "holder": {
+          "$ref": "#/$defs/Term"
+        },
+        "kind": {
+          "const": "liberty"
+        },
+        "window": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "holder",
+        "action",
+        "window"
+      ],
+      "type": "object"
+    },
+    "LifecycleEvent": {
+      "additionalProperties": false,
+      "properties": {
+        "extent": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/TemporalInterval"
+            },
+            {
+              "$ref": "#/$defs/DateString"
+            },
+            {
+              "$ref": "#/$defs/InstantString"
+            }
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/StableId"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "extent"
+      ],
+      "type": "object"
+    },
+    "ListTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/Term"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "const": "list"
+        }
+      },
+      "required": [
+        "kind",
+        "items"
+      ],
+      "type": "object"
+    },
+    "Literal": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "$ref": "#/$defs/Term"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "const": "literal"
+        },
+        "polarity": {
+          "enum": [
+            "positive",
+            "negative"
+          ]
+        },
+        "predicate": {
+          "$ref": "#/$defs/StableId"
+        }
+      },
+      "required": [
+        "kind",
+        "polarity",
+        "predicate",
+        "args"
+      ],
+      "type": "object"
+    },
+    "LiteralTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "currency": {
+          "type": "string"
+        },
+        "display": {
+          "type": "string"
+        },
+        "kind": {
+          "const": "value"
+        },
+        "type": {
+          "$ref": "#/$defs/TypeRef"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue"
+        },
+        "factors": {
+          "description": "§49.1 (E-0136): мультимножитель простых единиц величины. `unit` при чтении не разбирается, а СВЕРЯЕТСЯ с его рендерингом: грамматика «база _per_ база» неоднозначна.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "unit": {
+                "type": "string"
+              },
+              "exp": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "unit",
+              "exp"
+            ]
+          }
+        },
+        "lower": {
+          "description": "§259.2 (E-0136): нижняя граница отрезка, несократимая дробь `<n>/<d>`.",
+          "type": "string",
+          "pattern": "^-?[0-9]+/[1-9][0-9]*$"
+        },
+        "upper": {
+          "description": "§259.2 (E-0136): верхняя граница отрезка.",
+          "type": "string",
+          "pattern": "^-?[0-9]+/[1-9][0-9]*$"
+        },
+        "derivation": {
+          "description": "§259.2 (E-0136): канон деривации. По нему границы ПЕРЕСЧИТЫВАЮТСЯ, а не сверяются поле с полем.",
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "kind",
+        "type"
+      ],
+      "type": "object"
+    },
+    "LockedImport": {
+      "additionalProperties": false,
+      "properties": {
+        "contentHash": {
+          "$ref": "#/$defs/Digest"
+        },
+        "features": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "package": {
+          "$ref": "#/$defs/PackageRef"
+        }
+      },
+      "required": [
+        "package",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "MaintenanceGoal": {
+      "additionalProperties": false,
+      "properties": {
+        "completenessPolicy": {
+          "$ref": "#/$defs/StableId"
+        },
+        "condition": {
+          "$ref": "#/$defs/Formula"
+        },
+        "kind": {
+          "const": "maintenance"
+        },
+        "termination": {
+          "$ref": "#/$defs/Formula"
+        },
+        "window": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "condition",
+        "window"
+      ],
+      "type": "object"
+    },
+    "MapTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "entries": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "$ref": "#/$defs/Term"
+              },
+              "value": {
+                "$ref": "#/$defs/Term"
+              }
+            },
+            "required": [
+              "key",
+              "value"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "const": "map"
+        }
+      },
+      "required": [
+        "kind",
+        "entries"
+      ],
+      "type": "object"
+    },
+    "MatchArm": {
+      "additionalProperties": false,
+      "properties": {
+        "pattern": {
+          "$ref": "#/$defs/Pattern"
+        },
+        "value": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "pattern",
+        "value"
+      ],
+      "type": "object"
+    },
+    "MatchTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "arms": {
+          "items": {
+            "$ref": "#/$defs/MatchArm"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "kind": {
+          "const": "match"
+        },
+        "subject": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "subject",
+        "arms"
+      ],
+      "type": "object"
+    },
+    "NaryFormula": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/Formula"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "and",
+            "or"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "items"
+      ],
+      "type": "object"
+    },
+    "Node": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/SourceWork"
+        },
+        {
+          "$ref": "#/$defs/SourceEdition"
+        },
+        {
+          "$ref": "#/$defs/Publication"
+        },
+        {
+          "$ref": "#/$defs/Fragment"
+        },
+        {
+          "$ref": "#/$defs/DynamicReference"
+        },
+        {
+          "$ref": "#/$defs/CalendarSnapshot"
+        },
+        {
+          "$ref": "#/$defs/DeadlinePolicy"
+        },
+        {
+          "$ref": "#/$defs/TemporalResolutionPolicy"
+        },
+        {
+          "$ref": "#/$defs/EvidencePolicy"
+        },
+        {
+          "$ref": "#/$defs/Stage"
+        },
+        {
+          "$ref": "#/$defs/TypeDecl"
+        },
+        {
+          "$ref": "#/$defs/SymbolDecl"
+        },
+        {
+          "$ref": "#/$defs/FunctionDecl"
+        },
+        {
+          "$ref": "#/$defs/ExternalDecl"
+        },
+        {
+          "$ref": "#/$defs/Assertion"
+        },
+        {
+          "$ref": "#/$defs/EvidenceItem"
+        },
+        {
+          "$ref": "#/$defs/SupportEdge"
+        },
+        {
+          "$ref": "#/$defs/Rule"
+        },
+        {
+          "$ref": "#/$defs/NormTemplate"
+        },
+        {
+          "$ref": "#/$defs/PriorityRule"
+        },
+        {
+          "$ref": "#/$defs/Interpretation"
+        },
+        {
+          "$ref": "#/$defs/InterpretationGroup"
+        },
+        {
+          "$ref": "#/$defs/Anchor"
+        },
+        {
+          "$ref": "#/$defs/Revision"
+        },
+        {
+          "$ref": "#/$defs/Entrenchment"
+        },
+        {
+          "$ref": "#/$defs/ClosurePolicy"
+        },
+        {
+          "$ref": "#/$defs/Constraint"
+        },
+        {
+          "$ref": "#/$defs/Procedure"
+        },
+        {
+          "$ref": "#/$defs/CounterfactualDecl"
+        },
+        {
+          "$ref": "#/$defs/Query"
+        },
+        {
+          "$ref": "#/$defs/FactorVocabulary"
+        },
+        {
+          "$ref": "#/$defs/PrecedentDecl"
+        },
+        {
+          "$ref": "#/$defs/UnitDecl"
+        }
+      ]
+    },
+    "NodeCommon": {
+      "properties": {
+        "anchors": {
+          "items": {
+            "$ref": "#/$defs/StableId"
+          },
+          "type": "array"
+        },
+        "annotations": {
+          "$ref": "#/$defs/JsonObject"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/Digest"
+        },
+        "id": {
+          "$ref": "#/$defs/StableId"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "$ref": "#/$defs/Label"
+          },
+          "type": "array"
+        },
+        "package": {
+          "$ref": "#/$defs/StableId"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceEdge"
+          },
+          "type": "array"
+        },
+        "sourceSpan": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "package",
+        "contentHash"
+      ],
+      "type": "object"
+    },
+    "NormTemplate": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "id": {},
+            "kind": {
+              "const": "norm_template"
+            },
+            "labels": {},
+            "modality": {
+              "enum": [
+                "duty",
+                "liberty",
+                "power",
+                "immunity"
+              ]
+            },
+            "package": {},
+            "payload": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/DutyPayload"
+                },
+                {
+                  "$ref": "#/$defs/LibertyPayload"
+                },
+                {
+                  "$ref": "#/$defs/PowerPayload"
+                },
+                {
+                  "$ref": "#/$defs/ImmunityPayload"
+                }
+              ]
+            },
+            "provenance": {},
+            "sourceSpan": {}
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "modality",
+            "payload"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "NormTemplateRef": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/StableId"
+        },
+        "kind": {
+          "const": "norm_template_ref"
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ],
+      "type": "object"
+    },
+    "PackageRef": {
+      "additionalProperties": false,
+      "properties": {
+        "labels": {
+          "type": "array",
+          "description": "§22/§218 (errata E-0025): человеческое название пакета — того акта или свода, который он формализует. Пакет не является узлом (§201), поэтому `labels` из NodeCommon §202 на него не распространялись, и назвать пакет было нечем. Поле необязательное и презентационное: вне semantic hash §209 (`labels` в RECURSIVE_EXCLUDED_KEYS), внутри канонических байтов §208 — то есть меняет contentHash пакета, но не может изменить ни одного вывода.",
+          "items": {
+            "$ref": "#/$defs/Label"
+          }
+        },
+        "name": {
+          "$ref": "#/$defs/QName"
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "semanticHash": {
+          "$ref": "#/$defs/Digest"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version",
+        "namespace",
+        "semanticHash"
+      ],
+      "type": "object"
+    },
+    "Pattern": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/WildcardPattern"
+        },
+        {
+          "$ref": "#/$defs/BindPattern"
+        },
+        {
+          "$ref": "#/$defs/ValuePattern"
+        },
+        {
+          "$ref": "#/$defs/VariantPattern"
+        }
+      ]
+    },
+    "PatternField": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "pattern": {
+          "$ref": "#/$defs/Pattern"
+        }
+      },
+      "required": [
+        "name",
+        "pattern"
+      ],
+      "type": "object"
+    },
+    "PowerPayload": {
+      "additionalProperties": false,
+      "properties": {
+        "effect": {
+          "$ref": "#/$defs/LegalEffect"
+        },
+        "exercise": {
+          "$ref": "#/$defs/Term"
+        },
+        "holder": {
+          "$ref": "#/$defs/Term"
+        },
+        "kind": {
+          "const": "power"
+        },
+        "over": {
+          "$ref": "#/$defs/Term"
+        },
+        "subject": {
+          "description": "§127 (DECISION-0043): предмет полномочия — КОНЕЧНОЕ перечисление того, что делегат вправе урегулировать, идентификаторами словаря самого уполномочившего акта. Конечность существенна: §105.1 запрещает выводить «норма A охватывает норму B вообще», и предметная компетенция проверяется принадлежностью объявленного множеству объявленных, а не выводом из текста. Отсутствие поля означает, что предмет не объявлен и проверить его нечем (LDC-W5302), — это НЕ «предмет любой».",
+          "items": {
+            "$ref": "#/$defs/StableId"
+          },
+          "type": "array"
+        },
+        "validWhen": {
+          "$ref": "#/$defs/Formula"
+        },
+        "window": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "holder",
+        "exercise",
+        "effect",
+        "validWhen"
+      ],
+      "type": "object"
+    },
+    "PriorityRule": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "condition": {
+              "$ref": "#/$defs/Formula"
+            },
+            "contentHash": {},
+            "higher": {
+              "$ref": "#/$defs/Term"
+            },
+            "id": {},
+            "interpretations": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "priority_rule"
+            },
+            "labels": {},
+            "lower": {
+              "$ref": "#/$defs/Term"
+            },
+            "package": {},
+            "priorityKind": {
+              "enum": [
+                "direct",
+                "policy"
+              ]
+            },
+            "provenance": {},
+            "reason": {
+              "$ref": "#/$defs/StableId"
+            },
+            "sourceSpan": {},
+            "variables": {
+              "description": "Мета-домен priority policy §118: переменные, пробегающие grounded RuleApplication; на них ссылаются higher/lower и condition. У direct-приоритетов §116/§117 отсутствует: стороны названы const_ref-ами, а v0/v1 в условии §117 — применения higher и lower соответственно.",
+              "items": {
+                "$ref": "#/$defs/Variable"
+              },
+              "type": "array"
+            },
+            "origin": {
+              "description": "§276.10: id узла precedent_decl, из которого узел порождён компилятором; на рукописных узлах отсутствует.",
+              "$ref": "#/$defs/StableId"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "priorityKind",
+            "condition",
+            "higher",
+            "lower"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "ProvenanceEdge": {
+      "additionalProperties": false,
+      "description": "Нормализованное ребро provenance graph (§202). Профили `attributes`: сахар §144 — `{declaration: \"definition\", mode: necessary|exact, part: sufficient|necessary, alternative?: Integer}` на правиле и ограничении, `target` — символ понятия (DECISION-0151); таблицы решений A3 — `{decisionKind, hitPolicy, rows}` (DECISION-0143); группы фактов — `{factGroup, visibility?}`.",
+      "properties": {
+        "at": {
+          "$ref": "#/$defs/InstantString"
+        },
+        "attributes": {
+          "$ref": "#/$defs/JsonObject"
+        },
+        "relation": {
+          "enum": [
+            "was_derived_from",
+            "was_generated_by",
+            "was_attributed_to",
+            "used",
+            "was_revision_of",
+            "was_invalidated_by"
+          ]
+        },
+        "target": {
+          "$ref": "#/$defs/StableId"
+        }
+      },
+      "required": [
+        "relation",
+        "target"
+      ],
+      "type": "object"
+    },
+    "Publication": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "documentHash": {
+              "$ref": "#/$defs/Digest"
+            },
+            "edition": {
+              "$ref": "#/$defs/StableId"
+            },
+            "id": {},
+            "kind": {
+              "const": "publication"
+            },
+            "labels": {},
+            "mediaType": {
+              "type": "string"
+            },
+            "package": {},
+            "provenance": {},
+            "retrievedAt": {
+              "$ref": "#/$defs/InstantString"
+            },
+            "sourceSpan": {},
+            "uri": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "edition",
+            "mediaType",
+            "uri",
+            "documentHash"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "QName": {
+      "pattern": "^[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*$",
+      "type": "string"
+    },
+    "QuantifiedFormula": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "$ref": "#/$defs/Formula"
+        },
+        "domain": {
+          "$ref": "#/$defs/Term"
+        },
+        "kind": {
+          "const": "quantified"
+        },
+        "quantifier": {
+          "enum": [
+            "exists",
+            "forall"
+          ]
+        },
+        "variable": {
+          "$ref": "#/$defs/Variable"
+        }
+      },
+      "required": [
+        "kind",
+        "quantifier",
+        "variable",
+        "domain",
+        "body"
+      ],
+      "type": "object"
+    },
+    "Query": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "body": {
+              "$ref": "#/$defs/Term"
+            },
+            "contentHash": {},
+            "id": {},
+            "kind": {
+              "const": "query"
+            },
+            "labels": {},
+            "package": {},
+            "parameters": {
+              "items": {
+                "$ref": "#/$defs/Variable"
+              },
+              "type": "array"
+            },
+            "provenance": {},
+            "returnType": {
+              "$ref": "#/$defs/TypeRef"
+            },
+            "sourceSpan": {}
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "parameters",
+            "returnType",
+            "body"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "RecordTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Term"
+          },
+          "type": "object"
+        },
+        "kind": {
+          "const": "record"
+        },
+        "type": {
+          "$ref": "#/$defs/TypeRef"
+        }
+      },
+      "required": [
+        "kind",
+        "type",
+        "fields"
+      ],
+      "type": "object"
+    },
+    "RecurringGoal": {
+      "additionalProperties": false,
+      "description": "§124.4.1: `over` — интервал всей повторяемости; он же якорь расписания и его конечность (errata E-0146). Необязательное `activation` — ВНУТРЕННЯЯ формула активации §135.1, единственная, которая видит мета-термы `occurrence.*`; внешняя активация расписания целиком живёт полем `activation` у `DutyPayload` §123.",
+      "properties": {
+        "activation": {
+          "$ref": "#/$defs/Formula"
+        },
+        "goal": {
+          "$ref": "#/$defs/Goal"
+        },
+        "kind": {
+          "const": "recurring"
+        },
+        "over": {
+          "$ref": "#/$defs/Term"
+        },
+        "schedule": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "schedule",
+        "over",
+        "goal"
+      ],
+      "type": "object"
+    },
+    "RefTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/StableId"
+        },
+        "kind": {
+          "enum": [
+            "const_ref",
+            "entity_ref"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "id"
+      ],
+      "type": "object"
+    },
+    "Revision": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "causedBy": {
+              "$ref": "#/$defs/StableId"
+            },
+            "contentHash": {},
+            "effectiveAt": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/DateString"
+                },
+                {
+                  "$ref": "#/$defs/InstantString"
+                }
+              ]
+            },
+            "id": {},
+            "kind": {
+              "const": "revision"
+            },
+            "labels": {},
+            "next": {
+              "$ref": "#/$defs/StableId"
+            },
+            "operations": {
+              "description": "§32.1: формализованная дельта изменяющего акта. Ребро без операций — аннотация связи; ребро с операциями обязано удовлетворять инварианту консолидации §32.2 (apply(previous, operations) ≡ next), иначе LDC-E5401.",
+              "items": {
+                "$ref": "#/$defs/RevisionOperation"
+              },
+              "type": "array"
+            },
+            "package": {},
+            "previous": {
+              "$ref": "#/$defs/StableId"
+            },
+            "provenance": {},
+            "relation": {
+              "type": "string"
+            },
+            "sourceSpan": {}
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "previous",
+            "next",
+            "relation"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "Entrenchment": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "id": {},
+            "kind": {
+              "const": "entrenchment"
+            },
+            "labels": {},
+            "locator": {
+              "description": "§32.3: защищены этот locator и его потомки по сегментам '/'.",
+              "type": "string"
+            },
+            "package": {},
+            "provenance": {},
+            "source": {
+              "$ref": "#/$defs/StableId"
+            },
+            "sourceSpan": {},
+            "window": {
+              "$ref": "#/$defs/TemporalInterval"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "source",
+            "locator",
+            "window"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "RevisionOperation": {
+      "allOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "contentHash": {
+              "$ref": "#/$defs/Digest"
+            },
+            "effectiveAt": {
+              "description": "§32.1: атрибут ОПЕРАЦИИ, а не ребра — акт вводится поэтапно. При отсутствии наследуется от ребра.",
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/DateString"
+                },
+                {
+                  "$ref": "#/$defs/InstantString"
+                }
+              ]
+            },
+            "language": {
+              "$ref": "#/$defs/LanguageTag"
+            },
+            "locator": {
+              "type": "string"
+            },
+            "op": {
+              "enum": [
+                "replace",
+                "insert",
+                "repeal",
+                "renumber"
+              ]
+            },
+            "text": {
+              "description": "§32.1: операции экстенсиональны — здесь РЕЗУЛЬТАТ (текст фрагмента после поправки), а не инструкция изменяющего акта.",
+              "type": "string"
+            },
+            "toLocator": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "op": {
+                  "const": "replace"
+                }
+              },
+              "required": [
+                "op",
+                "locator",
+                "language",
+                "text"
+              ]
+            },
+            {
+              "properties": {
+                "op": {
+                  "const": "insert"
+                }
+              },
+              "required": [
+                "op",
+                "locator",
+                "language",
+                "text"
+              ]
+            },
+            {
+              "properties": {
+                "op": {
+                  "const": "repeal"
+                }
+              },
+              "required": [
+                "op",
+                "locator"
+              ]
+            },
+            {
+              "properties": {
+                "op": {
+                  "const": "renumber"
+                }
+              },
+              "required": [
+                "op",
+                "locator",
+                "toLocator"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Rule": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "body": {
+              "$ref": "#/$defs/Formula"
+            },
+            "contentHash": {},
+            "effective": {
+              "$ref": "#/$defs/TemporalInterval"
+            },
+            "governs": {
+              "items": {
+                "$ref": "#/$defs/TemporalInterval"
+              },
+              "type": "array"
+            },
+            "head": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/Literal"
+                },
+                {
+                  "$ref": "#/$defs/NormTemplateRef"
+                }
+              ]
+            },
+            "id": {},
+            "interpretations": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "rule"
+            },
+            "labels": {},
+            "package": {},
+            "provenance": {},
+            "scope": {
+              "$ref": "#/$defs/Formula"
+            },
+            "sourceSpan": {},
+            "stratum": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "strength": {
+              "enum": [
+                "strict",
+                "defeasible",
+                "defeater"
+              ]
+            },
+            "variables": {
+              "items": {
+                "$ref": "#/$defs/Variable"
+              },
+              "type": "array"
+            },
+            "visibility": {
+              "description": "§24: видимость декларации. Отсутствие поля — умолчание `internal`; `public` пишется только для `pub`-деклараций, поэтому появление поля аддитивно и не меняет байты программ без `pub`. Межпакетные ссылки `pkg::Symbol` разрешаются только в public-декларации.",
+              "enum": [
+                "public"
+              ]
+            },
+            "origin": {
+              "description": "§276.10: id узла precedent_decl, из которого узел порождён компилятором; на рукописных узлах отсутствует.",
+              "$ref": "#/$defs/StableId"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "strength",
+            "variables",
+            "body",
+            "head",
+            "scope",
+            "interpretations"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "SetTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "items": {
+          "items": {
+            "$ref": "#/$defs/Term"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "kind": {
+          "const": "set"
+        }
+      },
+      "required": [
+        "kind",
+        "items"
+      ],
+      "type": "object"
+    },
+    "SourceEdition": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "applicability": {
+              "const": "timeless",
+              "description": "Явная вневременная применимость edition (§31): для Писания, доктрины и иных источников без даты вступления в силу. Совместима только с пустым lifecycle; не создаёт выдуманной даты и не меняет семантику edition, у которой applicability отсутствует."
+            },
+            "annotations": {},
+            "contentHash": {},
+            "documentHash": {
+              "$ref": "#/$defs/Digest"
+            },
+            "id": {},
+            "kind": {
+              "const": "source_edition"
+            },
+            "labels": {},
+            "language": {
+              "$ref": "#/$defs/LanguageTag"
+            },
+            "lifecycle": {
+              "items": {
+                "$ref": "#/$defs/LifecycleEvent"
+              },
+              "type": "array"
+            },
+            "materializationStatus": {
+              "description": "§27.2 (errata E-0013, расширено E-0057; PATCH-0.1.1 §9 в узкой форме): насколько байты редакции действительно закреплены. Объявляется явно, а не выводится из наличия publication — отсутствие закреплённых байтов есть заявление о качестве источника. ГРУППА ЗАКРЕПЛЁННЫХ — PINNED_OFFICIAL_BYTES, PINNED_UNOFFICIAL_COPY, PINNED_EDITORIAL_RECONSTRUCTION. Профили §8.6: core-auditable — статус из группы закреплённых, core-production — PINNED_OFFICIAL_BYTES безусловно. PINNED_EDITORIAL_RECONSTRUCTION отличается от копии не степенью закрепления, а тем, что оригинала, копией которого текст был бы, не существует: издатель собрал его из цитат в чужих сочинениях.",
+              "enum": [
+                "PINNED_OFFICIAL_BYTES",
+                "PINNED_UNOFFICIAL_COPY",
+                "PINNED_EDITORIAL_RECONSTRUCTION",
+                "DYNAMIC_OFFICIAL_PAGE",
+                "ABSTRACT_ONLY",
+                "UNAVAILABLE"
+              ]
+            },
+            "officiality": {
+              "type": "string"
+            },
+            "package": {},
+            "provenance": {},
+            "sourceSpan": {},
+            "work": {
+              "$ref": "#/$defs/StableId"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "applicability": {
+                    "const": "timeless"
+                  }
+                },
+                "required": [
+                  "applicability"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "lifecycle": {
+                    "maxItems": 0
+                  }
+                }
+              }
+            }
+          ],
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "work",
+            "language",
+            "officiality",
+            "lifecycle"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "SourceSpan": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact": {
+          "$ref": "#/$defs/StableId"
+        },
+        "column": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "end": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "line": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "start": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "artifact",
+        "start",
+        "end"
+      ],
+      "type": "object"
+    },
+    "SourceWork": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "authority": {
+              "$ref": "#/$defs/Term"
+            },
+            "basis": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array",
+              "description": "§27.1 (DECISION-0042, повторяемое DECISION-0046): основания издания — StableId power-норм §127 уполномочившего акта, названный самим подзаконным актом («издан на основании статьи X закона Y»). Провенансные ДАННЫЕ, а не программная ссылка: делегация не есть импорт §23, и уполномочивший акт в мир вычисления не втягивается. Разрешимость основания и действие power на дату принятия проверяет делегационная цепочка (LDC-E5304/E5305), читающая CLIR родителя отдельно; компилятор пакета этого доказать не может. В semantic hash §209 ВХОДИТ — это утверждение пакета о праве, а не оформление, в отличие от меток (errata E-0010). Поле ПОВТОРЯЕМОЕ: у приказа V2000021744 оснований два, и выбрасывать одно значит терять половину делегации; цепочка проверяет КАЖДОЕ, а предметная компетенция сверяется против ОБЪЕДИНЕНИЯ их предметов."
+            },
+            "contentHash": {},
+            "id": {},
+            "jurisdiction": {
+              "$ref": "#/$defs/Term"
+            },
+            "regulates": {
+              "description": "§27.1 (DECISION-0043): предмет самого акта — что он регулирует, идентификаторами словаря уполномочившего акта. Провенансные данные того же рода, что `basis`: строки, а не квалифицированные ссылки, потому что делегация не есть импорт §23. Предметная компетенция проверяется цепочкой как ВКЛЮЧЕНИЕ `regulates ⊆ subject` power-нормы (LDC-E5307).",
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "kind": {
+              "const": "source_work"
+            },
+            "labels": {},
+            "number": {
+              "type": "string"
+            },
+            "package": {},
+            "provenance": {},
+            "sourceKind": {
+              "$ref": "#/$defs/StableId"
+            },
+            "sourceSpan": {}
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "sourceKind"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "StableId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "StatusFormula": {
+      "additionalProperties": false,
+      "properties": {
+        "formula": {
+          "$ref": "#/$defs/Literal"
+        },
+        "kind": {
+          "const": "status"
+        },
+        "policy": {
+          "$ref": "#/$defs/StableId"
+        },
+        "status": {
+          "enum": [
+            "established",
+            "supported",
+            "monotone",
+            "refuted",
+            "opposed",
+            "conflicted",
+            "unknown",
+            "not_known",
+            "no_evidence"
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "status",
+        "formula"
+      ],
+      "type": "object"
+    },
+    "Stratum": {
+      "additionalProperties": false,
+      "properties": {
+        "index": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/$defs/StableId"
+          },
+          "type": "array"
+        },
+        "strictSccs": {
+          "items": {
+            "items": {
+              "$ref": "#/$defs/StableId"
+            },
+            "type": "array"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "index",
+        "rules"
+      ],
+      "type": "object"
+    },
+    "SupportEdge": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "from": {
+              "$ref": "#/$defs/StableId"
+            },
+            "id": {},
+            "kind": {
+              "const": "support_edge"
+            },
+            "labels": {},
+            "package": {},
+            "policy": {
+              "$ref": "#/$defs/StableId"
+            },
+            "provenance": {},
+            "relation": {
+              "enum": [
+                "supports",
+                "refutes",
+                "authenticates",
+                "measures",
+                "reports",
+                "establishes"
+              ]
+            },
+            "sourceSpan": {},
+            "to": {
+              "$ref": "#/$defs/Literal"
+            },
+            "valid": {
+              "$ref": "#/$defs/TemporalInterval"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "from",
+            "relation",
+            "to"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "SymbolDecl": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "symbolKind": {
+                    "const": "relation"
+                  }
+                },
+                "required": [
+                  "symbolKind"
+                ]
+              },
+              "then": {
+                "required": [
+                  "relationKind"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "symbolKind": {
+                    "const": "function"
+                  }
+                },
+                "required": [
+                  "symbolKind"
+                ]
+              },
+              "then": {
+                "required": [
+                  "returnType"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "symbolKind": {
+                    "const": "constant"
+                  }
+                },
+                "required": [
+                  "symbolKind"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "parameters": {
+                    "maxItems": 0
+                  }
+                },
+                "required": [
+                  "returnType",
+                  "value"
+                ]
+              }
+            }
+          ],
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "effect": {
+              "enum": [
+                "pure",
+                "snapshot",
+                "judgment",
+                "opaque"
+              ]
+            },
+            "id": {},
+            "keys": {
+              "items": {
+                "items": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "minItems": 1,
+                "type": "array",
+                "uniqueItems": true
+              },
+              "type": "array",
+              "uniqueItems": true
+            },
+            "kind": {
+              "const": "symbol_decl"
+            },
+            "labels": {},
+            "metadata": {
+              "$ref": "#/$defs/JsonObject"
+            },
+            "name": {
+              "type": "string"
+            },
+            "package": {},
+            "parameters": {
+              "description": "0.1-форма — TypeRef[]; 0.2-форма (DECISION-0001) — ParameterDecl[]. Форма определяется schemaVersion конверта документа; смешение форм внутри документа запрещено semantic-правилом (проверяется реализацией, не схемой).",
+              "items": {
+                "anyOf": [
+                  {
+                    "$ref": "#/$defs/ParameterDecl"
+                  },
+                  {
+                    "$ref": "#/$defs/TypeRef"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            "judgment": {
+              "additionalProperties": false,
+              "properties": {
+                "authority": {
+                  "$ref": "#/$defs/StableId"
+                },
+                "requestSchema": {
+                  "$ref": "#/$defs/TypeRef"
+                }
+              },
+              "required": [
+                "authority"
+              ],
+              "type": "object"
+            },
+            "provenance": {},
+            "relationKind": {
+              "type": "string"
+            },
+            "returnType": {
+              "$ref": "#/$defs/TypeRef"
+            },
+            "sourceSpan": {},
+            "symbolKind": {
+              "enum": [
+                "relation",
+                "function",
+                "constant"
+              ]
+            },
+            "value": {
+              "$ref": "#/$defs/Term"
+            },
+            "visibility": {
+              "description": "§24: видимость декларации. Отсутствие поля — умолчание `internal`; `public` пишется только для `pub`-деклараций, поэтому появление поля аддитивно и не меняет байты программ без `pub`. Межпакетные ссылки `pkg::Symbol` разрешаются только в public-декларации.",
+              "enum": [
+                "public"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "symbolKind",
+            "name",
+            "parameters"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "TemporalFormula": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "temporal"
+        },
+        "left": {
+          "$ref": "#/$defs/Term"
+        },
+        "op": {
+          "enum": [
+            "before",
+            "after",
+            "during",
+            "overlaps",
+            "contains",
+            "starts",
+            "finishes"
+          ]
+        },
+        "right": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "op",
+        "left",
+        "right"
+      ],
+      "type": "object"
+    },
+    "TemporalInterval": {
+      "additionalProperties": false,
+      "properties": {
+        "axis": {
+          "type": "string"
+        },
+        "end": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DateString"
+            },
+            {
+              "$ref": "#/$defs/InstantString"
+            },
+            {
+              "const": "infinity"
+            }
+          ]
+        },
+        "endInclusive": {
+          "type": "boolean"
+        },
+        "start": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DateString"
+            },
+            {
+              "$ref": "#/$defs/InstantString"
+            },
+            {
+              "const": "-infinity"
+            }
+          ]
+        },
+        "startInclusive": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "startInclusive",
+        "endInclusive"
+      ],
+      "type": "object"
+    },
+    "Term": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/LiteralTerm"
+        },
+        {
+          "$ref": "#/$defs/VarTerm"
+        },
+        {
+          "$ref": "#/$defs/WildcardTerm"
+        },
+        {
+          "$ref": "#/$defs/RefTerm"
+        },
+        {
+          "$ref": "#/$defs/CallTerm"
+        },
+        {
+          "$ref": "#/$defs/FieldTerm"
+        },
+        {
+          "$ref": "#/$defs/RecordTerm"
+        },
+        {
+          "$ref": "#/$defs/ListTerm"
+        },
+        {
+          "$ref": "#/$defs/SetTerm"
+        },
+        {
+          "$ref": "#/$defs/MapTerm"
+        },
+        {
+          "$ref": "#/$defs/IntervalTerm"
+        },
+        {
+          "$ref": "#/$defs/IfTerm"
+        },
+        {
+          "$ref": "#/$defs/LetTerm"
+        },
+        {
+          "$ref": "#/$defs/MatchTerm"
+        },
+        {
+          "$ref": "#/$defs/VariantTerm"
+        },
+        {
+          "$ref": "#/$defs/BinaryTerm"
+        },
+        {
+          "$ref": "#/$defs/UnaryTerm"
+        },
+        {
+          "$ref": "#/$defs/ComprehensionTerm"
+        },
+        {
+          "$ref": "#/$defs/AggregateTerm"
+        }
+      ]
+    },
+    "TypeDecl": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "typeKind": {
+                    "const": "alias"
+                  }
+                },
+                "required": [
+                  "typeKind"
+                ]
+              },
+              "then": {
+                "required": [
+                  "target"
+                ]
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "typeKind": {
+                    "const": "variant"
+                  }
+                },
+                "required": [
+                  "typeKind"
+                ]
+              },
+              "then": {
+                "required": [
+                  "variants",
+                  "cases"
+                ],
+                "properties": {
+                  "variants": {
+                    "minItems": 2
+                  }
+                }
+              },
+              "else": {
+                "not": {
+                  "required": [
+                    "cases"
+                  ]
+                }
+              }
+            }
+          ],
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "base": {
+              "$ref": "#/$defs/TypeRef"
+            },
+            "cases": {
+              "items": {
+                "$ref": "#/$defs/VariantCase"
+              },
+              "minItems": 2,
+              "type": "array"
+            },
+            "contentHash": {},
+            "fields": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "constraint": {
+                    "$ref": "#/$defs/Formula"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "$ref": "#/$defs/TypeRef"
+                  }
+                },
+                "required": [
+                  "name",
+                  "type"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "id": {},
+            "kind": {
+              "const": "type_decl"
+            },
+            "labels": {},
+            "metadata": {
+              "$ref": "#/$defs/JsonObject"
+            },
+            "name": {
+              "type": "string"
+            },
+            "package": {},
+            "provenance": {},
+            "sourceSpan": {},
+            "target": {
+              "description": "Transparent target of `type Name = T`; distinct from `base`, which is entity inheritance.",
+              "$ref": "#/$defs/TypeRef"
+            },
+            "typeKind": {
+              "enum": [
+                "entity",
+                "record",
+                "enum",
+                "variant",
+                "alias"
+              ]
+            },
+            "variants": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "visibility": {
+              "description": "§24: видимость декларации. Отсутствие поля — умолчание `internal`; `public` пишется только для `pub`-деклараций, поэтому появление поля аддитивно и не меняет байты программ без `pub`. Межпакетные ссылки `pkg::Symbol` разрешаются только в public-декларации.",
+              "enum": [
+                "public"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "typeKind",
+            "name"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "VariantCaseField": {
+      "additionalProperties": false,
+      "properties": {
+        "constraint": {
+          "$ref": "#/$defs/Formula"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/TypeRef"
+        }
+      },
+      "required": [
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "VariantCase": {
+      "additionalProperties": false,
+      "properties": {
+        "constructor": {
+          "$ref": "#/$defs/StableId"
+        },
+        "fields": {
+          "items": {
+            "$ref": "#/$defs/VariantCaseField"
+          },
+          "type": "array"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "constructor"
+      ],
+      "type": "object"
+    },
+    "ParameterDecl": {
+      "additionalProperties": false,
+      "description": "0.2-форма параметра символа (DECISION-0001): id — StableId параметра (прецедентность источника: явный @id, суффикс из role, суффикс из name); name — имя аргумента, non-semantic metadata вне semantic hash; role — необязательная семантическая роль (СЛЕДУЕТ для pub; ДОЛЖЕН вместе с @id для public в core-auditable и ontology-пакетов); порядок и длина массива сохраняют валидность позиционных keys; labels — метки §218 самого параметра (errata E-0153, DECISION-0161), только непустые.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/StableId"
+        },
+        "labels": {
+          "description": "§218 (errata E-0153, DECISION-0161): метки самого параметра — носитель свой, не узел-владелец. Только непустой список (minItems 1): пустой не сериализуется, неразмеченный параметр — прежние байты. Вне semantic/theory/artifact hash §209 (E-0010 рекурсивно), внутри contentHash узла-владельца §202.",
+          "items": {
+            "$ref": "#/$defs/Label"
+          },
+          "minItems": 1,
+          "type": "array"
+        },
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "optional": {
+          "default": false,
+          "type": "boolean"
+        },
+        "role": {
+          "$ref": "#/$defs/StableId"
+        },
+        "type": {
+          "$ref": "#/$defs/TypeRef"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "type"
+      ],
+      "type": "object"
+    },
+    "TypeRef": {
+      "additionalProperties": false,
+      "properties": {
+        "args": {
+          "items": {
+            "$ref": "#/$defs/TypeRef"
+          },
+          "type": "array"
+        },
+        "name": {
+          "$ref": "#/$defs/StableId"
+        },
+        "optional": {
+          "default": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "UnaryTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "unary"
+        },
+        "op": {
+          "type": "string"
+        },
+        "operand": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "op",
+        "operand"
+      ],
+      "type": "object"
+    },
+    "ValuePattern": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "value"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/LiteralTerm"
+            },
+            {
+              "$ref": "#/$defs/RefTerm"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "value"
+      ],
+      "type": "object"
+    },
+    "WildcardTerm": {
+      "additionalProperties": false,
+      "description": "E-0165 §98: экзистенциальный аргумент литерала тела правила — «есть какое-либо значение». Связывания не даёт, в подстановку не входит; законен только аргументом положительного литерала тела (иначе LDC-E0207).",
+      "properties": {
+        "kind": {
+          "const": "wildcard"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    },
+    "VarTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "var"
+        },
+        "var": {
+          "pattern": "^v[0-9]+$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "var"
+      ],
+      "type": "object"
+    },
+    "Variable": {
+      "additionalProperties": false,
+      "properties": {
+        "domain": {
+          "$ref": "#/$defs/Term"
+        },
+        "id": {
+          "pattern": "^v[0-9]+$",
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/TypeRef"
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "type": "object"
+    },
+    "VariantTerm": {
+      "additionalProperties": false,
+      "description": "Значение алгебраического типа: Result/Option и user enum payload. В отличие от VariantPattern это term, а не pattern.",
+      "properties": {
+        "kind": {
+          "const": "variant_value"
+        },
+        "constructor": {
+          "$ref": "#/$defs/StableId"
+        },
+        "fields": {
+          "items": {
+            "$ref": "#/$defs/Term"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "kind",
+        "constructor",
+        "fields"
+      ],
+      "type": "object"
+    },
+    "VariantPattern": {
+      "additionalProperties": false,
+      "properties": {
+        "constructor": {
+          "$ref": "#/$defs/StableId"
+        },
+        "fields": {
+          "items": {
+            "$ref": "#/$defs/PatternField"
+          },
+          "type": "array"
+        },
+        "kind": {
+          "const": "variant"
+        }
+      },
+      "required": [
+        "kind",
+        "constructor",
+        "fields"
+      ],
+      "type": "object"
+    },
+    "WildcardPattern": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "wildcard"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    },
+    "FactorVocabulary": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "id": {},
+            "kind": {
+              "const": "factor_vocabulary"
+            },
+            "labels": {},
+            "package": {},
+            "provenance": {},
+            "sourceSpan": {},
+            "signature": {
+              "description": "§276.2: упорядоченный кортеж связывателей словаря.",
+              "items": {
+                "$ref": "#/$defs/Variable"
+              },
+              "type": "array",
+              "minItems": 1
+            },
+            "plaintiff": {
+              "description": "§276.2: факторы за истца (id отношений), порядок объявления.",
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "defendant": {
+              "description": "§276.2: факторы за ответчика.",
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "courts": {
+              "description": "§276.2: частичный предпорядок судов — цепочки от старшего к младшему; суды вне цепочек несравнимы.",
+              "items": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "minItems": 1
+              },
+              "type": "array"
+            },
+            "domain": {
+              "description": "§276.2: established-литералы над переменными сигнатуры, связывающие все её переменные; читаются первыми в каждом holding.",
+              "items": {
+                "$ref": "#/$defs/Literal"
+              },
+              "type": "array",
+              "minItems": 1
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "domain",
+            "package",
+            "contentHash",
+            "signature",
+            "plaintiff",
+            "defendant",
+            "courts"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "PrecedentDecl": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "id": {},
+            "kind": {
+              "const": "precedent_decl"
+            },
+            "labels": {},
+            "package": {},
+            "provenance": {},
+            "sourceSpan": {},
+            "vocabulary": {
+              "$ref": "#/$defs/StableId"
+            },
+            "court": {
+              "type": "string",
+              "description": "§276.3: имя суда; отсутствие — суд несравним со всеми."
+            },
+            "decided": {
+              "$ref": "#/$defs/DateString"
+            },
+            "plaintiff": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "defendant": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array"
+            },
+            "outcome": {
+              "$ref": "#/$defs/Literal",
+              "description": "§276.3: исход над переменными сигнатуры (var v<i>); положительная полярность — за истца, отрицательная — за ответчика."
+            },
+            "ratio": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array",
+              "description": "§276.3: факторы-основания выигравшей стороны (reason model)."
+            },
+            "preferOver": {
+              "items": {
+                "$ref": "#/$defs/StableId"
+              },
+              "type": "array",
+              "description": "§276.3: правила baseline, которые holding побеждает."
+            },
+            "overruled": {
+              "additionalProperties": false,
+              "properties": {
+                "at": {
+                  "$ref": "#/$defs/DateString"
+                },
+                "by": {
+                  "$ref": "#/$defs/StableId"
+                }
+              },
+              "required": [
+                "at",
+                "by"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "vocabulary",
+            "decided",
+            "plaintiff",
+            "defendant",
+            "outcome"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "UnitDecl": {
+      "description": "§49.2 / E-0150: simple — атом с точным рациональным масштабом и вектором семи баз SI; derived раскрывается в атомы; alias — второе имя. Сахар нормализуется до хэширования §209.",
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "anchors": {},
+            "annotations": {},
+            "contentHash": {},
+            "dimension": {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "enum": [
+                      "Length",
+                      "Mass",
+                      "Time",
+                      "Current",
+                      "Temperature",
+                      "Amount",
+                      "Luminosity"
+                    ]
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": -9223372036854775808,
+                    "maximum": 9223372036854775807
+                  }
+                ]
+              }
+            },
+            "factors": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "unit": {
+                    "type": "string"
+                  },
+                  "exp": {
+                    "type": "integer",
+                    "minimum": -9223372036854775808,
+                    "maximum": 9223372036854775807
+                  }
+                },
+                "required": [
+                  "unit",
+                  "exp"
+                ]
+              }
+            },
+            "id": {},
+            "kind": {
+              "const": "unit_decl"
+            },
+            "labels": {},
+            "package": {},
+            "provenance": {},
+            "public": {
+              "type": "boolean"
+            },
+            "scaleDen": {
+              "type": "string",
+              "pattern": "^[1-9][0-9]*$"
+            },
+            "scaleNum": {
+              "type": "string",
+              "pattern": "^[1-9][0-9]*$"
+            },
+            "sourceSpan": {},
+            "target": {
+              "type": "string"
+            },
+            "unitKind": {
+              "enum": [
+                "simple",
+                "derived",
+                "alias"
+              ]
+            },
+            "unitName": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "kind",
+            "id",
+            "unitName",
+            "unitKind"
+          ],
+          "type": "object"
+        },
+        {
+          "if": {
+            "properties": {
+              "unitKind": {
+                "const": "simple"
+              }
+            },
+            "required": [
+              "unitKind"
+            ]
+          },
+          "then": {
+            "required": [
+              "dimension",
+              "scaleNum",
+              "scaleDen"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "unitKind": {
+                "const": "derived"
+              }
+            },
+            "required": [
+              "unitKind"
+            ]
+          },
+          "then": {
+            "required": [
+              "factors"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "unitKind": {
+                "const": "alias"
+              }
+            },
+            "required": [
+              "unitKind"
+            ]
+          },
+          "then": {
+            "required": [
+              "target"
+            ]
+          }
+        }
+      ]
+    },
+    "RoundingFormula": {
+      "description": "§64.2 (errata E-0136): единственная формула Core, чья опора берётся из ДОКАЗАТЕЛЬСТВА. `I ⊆ C` даёт TRUE_ONLY, `I ∩ C = ∅` — FALSE_ONLY, пересечение нескольких ячеек — NEITHER по недостаточности границ.",
+      "additionalProperties": false,
+      "properties": {
+        "bounds": {
+          "$ref": "#/$defs/Term"
+        },
+        "kind": {
+          "const": "rounding"
+        },
+        "mode": {
+          "enum": [
+            "HALF_UP",
+            "HALF_EVEN",
+            "HALF_DOWN",
+            "UP",
+            "DOWN",
+            "CEILING",
+            "FLOOR"
+          ]
+        },
+        "precision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sourceSpan": {},
+        "value": {
+          "$ref": "#/$defs/Term"
+        }
+      },
+      "required": [
+        "kind",
+        "bounds",
+        "value",
+        "precision",
+        "mode"
+      ],
+      "type": "object"
+    }
+  },
+  "$id": "urn:law-dsl:core:0.1:schema:legal-ir",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Draft machine-readable schema for the canonical Legal IR defined by Law DSL Core 0.1.",
+  "properties": {
+    "features": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "imports": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/LockedImport"
+      },
+      "type": "array"
+    },
+    "metadata": {
+      "$ref": "#/$defs/JsonObject"
+    },
+    "nodes": {
+      "items": {
+        "$ref": "#/$defs/Node"
+      },
+      "type": "array"
+    },
+    "package": {
+      "$ref": "#/$defs/PackageRef"
+    },
+    "schemaVersion": {
+      "description": "Конверт документа определяет форму SymbolDecl.parameters и МИНИМАЛЬНУЮ версию читателя: law.core.ir/0.1 — TypeRef[], law.core.ir/0.2 — ParameterDecl[] (DECISION-0001; чтение 0.1 — compat mode). law.core.ir/0.3 (DECISION-0156 §2.9) — та же форма параметров плюс узлы событийной модели (procedure §201.1, temporal_resolution_policy §82.1); документ пишется 0.3 ТОЛЬКО когда несёт такой узел, иначе остаётся 0.2 — конверт объявляет требуемого читателя, а не дату сборки, и программа без нового узла читается прежней реализацией без изменений.",
+      "enum": [
+        "law.core.ir/0.1",
+        "law.core.ir/0.2",
+        "law.core.ir/0.3"
+      ]
+    },
+    "semanticHash": {
+      "$ref": "#/$defs/Digest"
+    },
+    "theoryHash": {
+      "$ref": "#/$defs/Digest",
+      "description": "§209/DECISION-0111 §2.6: normalized declarations without presentation or provenance"
+    },
+    "artifactHash": {
+      "$ref": "#/$defs/Digest",
+      "description": "§209/DECISION-0111 §2.6: canonical CLIR artifact identity with provenance, excluding presentation labels"
+    },
+    "semanticVersion": {
+      "pattern": "^(?:0\\.1(?:\\.\\d+)?|0\\.2(?:-draft|\\.\\d+)?)$",
+      "type": "string"
+    },
+    "strata": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Stratum"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "semanticVersion",
+    "package",
+    "nodes",
+    "semanticHash"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "semanticVersion": {
+            "pattern": "^0\\.2"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "theoryHash",
+          "artifactHash"
+        ]
+      }
+    }
+  ],
+  "title": "Law DSL Core 0.1 Canonical Legal IR",
+  "type": "object"
+}

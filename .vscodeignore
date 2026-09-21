@@ -1,0 +1,7 @@
+.github/**
+tools/**
+CONTRIBUTING.md
+engine.lock.json
+.gitignore
+**/*.vsix
+node_modules/**

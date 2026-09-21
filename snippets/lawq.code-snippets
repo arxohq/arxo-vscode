@@ -1,0 +1,58 @@
+{
+  "from-where-select": {
+    "prefix": "from",
+    "body": [
+      "from ${1:r} in ${2:rules}",
+      "where ${1:r}.${3:strength} == \"${4:strict}\"",
+      "select ${1:r}.id as ${5:node}, anchor(${1:r}.id) as anchors$0"
+    ],
+    "description": "Structural LawQL query: binding, filter, projection"
+  },
+  "from-package": {
+    "prefix": "package",
+    "body": [
+      "from ${1:n} in package(\"${2:kz.corpus.marriage}\").${3:nodes}",
+      "where ${1:n}.${4:kind} == \"${5:rule}\"",
+      "select ${1:n}.id as node, labels(${1:n}.id) as labels$0"
+    ],
+    "description": "Query against a single package by name"
+  },
+  "exists": {
+    "prefix": "exists",
+    "body": [
+      "exists(${1:b} in ${2:labels} where (${1:b}.${3:node} == ${4:a}.${3:node}))$0"
+    ],
+    "description": "Correlated existence — instead of a second `from` (Cartesian product)"
+  },
+  "catalog-header": {
+    "prefix": "name",
+    "body": [
+      "# name: ${1:query-name}",
+      "# description: ${2:Что находит запрос.}",
+      "# source: ${3:docs/plans/engine/QL-PLAN.ru.md; SPEC §…}",
+      "$0"
+    ],
+    "description": "Header of a named query in the corpus/ql/lints catalog"
+  },
+  "let-eval": {
+    "prefix": "let",
+    "body": [
+      "let ${1:doc} = eval(\"${2:package.name}\", \"${3:../scenarios/case}\")",
+      "from ${4:r} in ${1:doc}.results",
+      "select ${4:r}.query as query, ${4:r}.truthStatus as truth_status$0"
+    ],
+    "description": "Materialization of an evaluation document and reading its rows"
+  },
+  "query-over": {
+    "prefix": "query",
+    "body": [
+      "query ${1:name} over \"${2:package.name}\" {",
+      "  for ${3:x}: ${4:Text};",
+      "  case \"${5:case.json}\";",
+      "  where ${6:predicate}(${3:x});",
+      "  select ${7:goal}(${3:x});",
+      "}$0"
+    ],
+    "description": "query-over: a named rule is compiled into an ephemeral CLIR and executed by the oracle"
+  }
+}

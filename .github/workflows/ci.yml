@@ -1,0 +1,27 @@
+# Builds the extension from this repository alone. The store releases are
+# built in the Arxo monorepo with the freshest compiler bundle; this job
+# proves the public tree packages with the published @arxo/law-engine.
+name: build
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Syntax check
+        run: |
+          set -e
+          for f in extension.js lib/*.js lib/*.mjs; do node --check "$f"; done
+          node -e "for (const f of ['package.json','engine.lock.json','data/hover.json','data/std.json','snippets/law.code-snippets','snippets/lawq.code-snippets']) JSON.parse(require('fs').readFileSync(f,'utf8'))"
+      - name: Package .vsix
+        run: tools/build.sh "$RUNNER_TEMP/out"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vsix
+          path: ${{ runner.temp }}/out/*.vsix

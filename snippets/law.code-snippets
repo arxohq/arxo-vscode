@@ -1,0 +1,792 @@
+{
+  "action": {
+    "prefix": "action",
+    "body": [
+      "pub action ${1:SubmitDeclaration} {",
+      "    actor: Taxpayer;",
+      "    declaration: Declaration;",
+      "    time: Interval<Instant>;",
+      "}",
+      "$0"
+    ],
+    "description": "action — SPEC §80. Action declaration"
+  },
+  "align": {
+    "prefix": "align",
+    "body": [
+      "align ${1:BVR_125_3_RU} with BVR_125_3_KK {",
+      "    relation corresponding_official_text;",
+      "    status reviewed;",
+      "    reviewer LEGAL_EDITOR_17;",
+      "}",
+      "$0"
+    ],
+    "description": "align — SPEC §29. Alignment мультиязычных фрагментов"
+  },
+  "assert": {
+    "prefix": "assert",
+    "body": [
+      "assert \"${1:assert-acme-registered}\": registered(ACME) {",
+      "    valid [@2024-03-12, infinity);",
+      "    observed @2026-08-25T09:00:00+05:00;",
+      "    recorded @2026-08-25T09:00:03+05:00;",
+      "    evidence REGISTRY_RECORD_991;",
+      "    origin external_snapshot;",
+      "}",
+      "$0"
+    ],
+    "description": "assert — SPEC §71. Assertion"
+  },
+  "calendar": {
+    "prefix": "calendar",
+    "body": [
+      "calendar ${1:KZ_2026} {",
+      "    timezone \"Asia/Qyzylorda\";",
+      "    timezone_db \"iana-tzdb@2026a\";",
+      "    period [@2026-01-01, @2027-01-01);",
+      "    source KZ_OFFICIAL_CALENDAR_2026;",
+      "    resource \"artifact:calendars/kz-2026.json\";",
+      "    format \"law.calendar/0.1\";",
+      "    content_hash \"sha256:...\";",
+      "}",
+      "$0"
+    ],
+    "description": "calendar — SPEC §85. Calendar snapshot"
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case ${1:Historical1993} {",
+      "    context {",
+      "        legal_time @1993-03-12;",
+      "        deadline_policy KZ_DEFAULT_DEADLINES_2026;",
+      "    }",
+      "}",
+      "$0"
+    ],
+    "description": "case — SPEC §168. Case file"
+  },
+  "classification": {
+    "prefix": "classification",
+    "body": [
+      "classification ${1:SmallBusiness}(c: Company) defeasible {",
+      "    when annual_revenue(c) <= threshold",
+      "      and employee_count(c) <= max_count;",
+      "}",
+      "$0"
+    ],
+    "description": "classification — SPEC §148. Classification"
+  },
+  "closure": {
+    "prefix": "closure",
+    "body": [
+      "closure ${1:PermitRegistryClosure} {",
+      "    predicate valid_permit;",
+      "    domain companies_in_registry_snapshot;",
+      "    snapshot PERMIT_REGISTRY_2026_08_25;",
+      "    complete_as_of @2026-08-25T00:00:00+05:00;",
+      "    derive_explicit_negative true;",
+      "}",
+      "$0"
+    ],
+    "description": "closure — SPEC §70. Closed-world declarations"
+  },
+  "concept": {
+    "prefix": "concept",
+    "body": [
+      "concept ${1:Minor}(person: Person);",
+      "$0"
+    ],
+    "description": "concept — SPEC §44. Concept sugar"
+  },
+  "const": {
+    "prefix": "const",
+    "body": [
+      "const ${1:KZ}: Jurisdiction = entity_ref(\"urn:kz:jurisdiction:KZ\");",
+      "$0"
+    ],
+    "description": "const — SPEC §54. Const"
+  },
+  "constraint": {
+    "prefix": "constraint",
+    "body": [
+      "constraint ${1:MinorOnlyIfAge}(p: Person) {",
+      "    when Minor(p);",
+      "    require age(p) < 18 year;",
+      "    severity error;",
+      "}",
+      "$0"
+    ],
+    "description": "constraint — SPEC §93.1. Назначение"
+  },
+  "context": {
+    "prefix": "context",
+    "body": [
+      "context profile KZ_COMPLIANCE_2026 {",
+      "    jurisdiction KZ;",
+      "    timezone \"Asia/Qyzylorda\";",
+      "    timezone_db_snapshot TZDB_2026A;",
+      "    source_resolver KZ_OFFICIAL_RESOLVER_2026;",
+      "    evidence_policy OFFICIAL_RECORDS_POLICY;",
+      "    calendar KZ_2026;",
+      "    deadline_policy KZ_DEFAULT_DEADLINES_2026;",
+      "    mode compliance;",
+      "}",
+      "$0"
+    ],
+    "description": "context — SPEC §89. Evaluation Context"
+  },
+  "counterfactual": {
+    "prefix": "counterfactual",
+    "body": [
+      "counterfactual ${1:MakeCompliant} {",
+      "    target compliant(Project17, BVR_DISTANCE);",
+      "    mutable measured_safety_distance;",
+      "    immutable charge_mass, source_rules, evidence_history;",
+      "    cost absolute_quantity_change;",
+      "}",
+      "$0"
+    ],
+    "description": "counterfactual — SPEC §186. Counterfactual"
+  },
+  "deadline": {
+    "prefix": "deadline",
+    "body": [
+      "deadline policy KZ_DEFAULT_DEADLINES_2026 {",
+      "    start_count next_day;",
+      "    include_end true;",
+      "    roll next_working_day;",
+      "    cutoff \"18:00:00\";",
+      "    month_end last_day_of_month;",
+      "}",
+      "$0"
+    ],
+    "description": "deadline — SPEC §86. Deadline policy"
+  },
+  "decision": {
+    "prefix": "decision",
+    "body": [
+      "decision ${1:Eligibility}(",
+      "    applicant: Applicant,",
+      "    benefit: Benefit",
+      ") -> EligibilityResult {",
+      "    rule ...",
+      "}",
+      "$0"
+    ],
+    "description": "decision — SPEC §165. Decision declaration"
+  },
+  "definition": {
+    "prefix": "definition",
+    "body": [
+      "definition ${1:Minor}(p: Person) sufficient {",
+      "    when age(p) < 18 year;",
+      "    scope context.jurisdiction == KZ;",
+      "}",
+      "$0"
+    ],
+    "description": "definition — SPEC §144. Definition"
+  },
+  "derived": {
+    "prefix": "derived",
+    "body": [
+      "derived unit m_per_s = m / s;",
+      "$0"
+    ],
+    "description": "derived — SPEC §49. Dimensional checking"
+  },
+  "edition": {
+    "prefix": "edition",
+    "body": [
+      "pub edition ${1:ORDER_343_2025_RU} of ORDER_343 {",
+      "    language ru-KZ;",
+      "    officiality official;",
+      "    adopted @2024-12-01;",
+      "    published @2024-12-20;",
+      "    in_force [@2025-01-01, infinity);",
+      "    content_hash \"sha256:...\";",
+      "}",
+      "$0"
+    ],
+    "description": "edition — SPEC §27. Три уровня идентичности источника"
+  },
+  "entity": {
+    "prefix": "entity",
+    "body": [
+      "pub entity ${1:Person};",
+      "$0"
+    ],
+    "description": "entity — SPEC §36. Nominal entity types"
+  },
+  "entrenchment": {
+    "prefix": "entrenchment",
+    "body": [
+      "entrenchment ${1:EQUAL_SENATE_SUFFRAGE} {",
+      "    source US_CONSTITUTION_1787;",
+      "    locator \"article/V/last-proviso\";",
+      "    window [@1789-03-04, infinity);",
+      "}",
+      "$0"
+    ],
+    "description": "entrenchment — SPEC §32.3. Entrenchment"
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "pub enum ${1:EvidenceStatus} {",
+      "    verified;",
+      "    unverified;",
+      "    disputed;",
+      "    expired;",
+      "    inadmissible;",
+      "}",
+      "$0"
+    ],
+    "description": "enum — SPEC §38. Enums"
+  },
+  "event": {
+    "prefix": "event",
+    "body": [
+      "pub event ${1:ContractSigned} {",
+      "    contract: Contract;",
+      "    parties: Set<Actor>;",
+      "    time: Interval<Instant>;",
+      "    place: Option<Location>;",
+      "}",
+      "$0"
+    ],
+    "description": "event — SPEC §79. Event declaration"
+  },
+  "evidence": {
+    "prefix": "evidence",
+    "body": [
+      "evidence ${1:REGISTRY_RECORD_991}: RegistryRecord {",
+      "    issuer BUSINESS_REGISTRY;",
+      "    subject ACME;",
+      "    issued_at @2026-08-25T08:59:00+05:00;",
+      "    observed_at @2026-08-25T09:00:00+05:00;",
+      "    valid [@2024-03-12, infinity);",
+      "    status verified;",
+      "    uri \"...\";",
+      "    content_hash \"sha256:...\";",
+      "}",
+      "$0"
+    ],
+    "description": "evidence — SPEC §74. Evidence declaration"
+  },
+  "expand": {
+    "prefix": "expand",
+    "body": [
+      "expand ${1:offence_liability} Article214_1 {",
+      "    label ru-KZ official \"Статья 214-1. Квалификация и ответственность\";",
+      "    bind subject = organization: LegalEntity;",
+      "    bind act = act: AdministrativeAct;",
+      "    qualifies = qualified_under_article_214_1;",
+      "    elements = [ conducted_transaction_with_property, property_is_criminal_proceeds ];",
+      "    guilt = some covered_person_knew_property_was_criminal_proceeds;",
+      "    @source(AC_ART214_1_NOTE_2)",
+      "    case exemption VoluntaryReport {",
+      "        label ru-KZ official \"Примечание 2. Освобождение вследствие добровольного заявления\";",
+      "        premises = [ voluntarily_reported_transaction, no_other_offence_in_conduct ];",
+      "    }",
+      "}",
+      "$0"
+    ],
+    "description": "expand — SPEC §279.1.3. Экземпляр"
+  },
+  "exports": {
+    "prefix": "exports",
+    "body": [
+      "    exports { liability = self/liability; }",
+      "$0"
+    ],
+    "description": "exports — SPEC §279.1.2. Определение"
+  },
+  "external": {
+    "prefix": "external",
+    "body": [
+      "external snapshot function exchange_rate(",
+      "    from: Currency,",
+      "    to: Currency,",
+      "    date: Date",
+      ") -> Decimal {",
+      "    capability \"nbk.exchange-rates\";",
+      "    snapshot_from context.exchange_rate_snapshot;",
+      "}",
+      "$0"
+    ],
+    "description": "external — SPEC §47. Effect/capability classes"
+  },
+  "facts": {
+    "prefix": "facts",
+    "body": [
+      "pub facts ${1:Lexicon} {",
+      "    assert classified(entity_ref(\"urn:kz:lexicon#ana\"), Zhinishke);",
+      "    assert classified(entity_ref(\"urn:kz:lexicon#qala\"), Zhuan);",
+      "}",
+      "$0"
+    ],
+    "description": "facts — SPEC §23. Import"
+  },
+  "fiction": {
+    "prefix": "fiction",
+    "body": [
+      "fiction ${1:DeemedReceipt} strict {",
+      "    for d: Document;",
+      "    for date: Date;",
+      "    when delivered_to_registered_address(d, date);",
+      "    deem legally_received(d, date);",
+      "}",
+      "$0"
+    ],
+    "description": "fiction — SPEC §147. Fiction"
+  },
+  "fragment": {
+    "prefix": "fragment",
+    "body": [
+      "pub fragment ${1:BVR_125_3_RU} in ORDER_343_2025_RU {",
+      "    kind paragraph;",
+      "    locator \"article/125/paragraph/3\";",
+      "    parent BVR_125_RU;",
+      "",
+      "    text ru-KZ official \"\"\"",
+      "    ... официальный текст ...",
+      "    \"\"\";",
+      "",
+      "    content_hash \"sha256:...\";",
+      "}",
+      "$0"
+    ],
+    "description": "fragment — SPEC §28. Fragment"
+  },
+  "function": {
+    "prefix": "function",
+    "body": [
+      "pub pure function ${1:required_distance}(",
+      "    charge: Quantity",
+      ") -> Quantity = if charge <= 500 kg then 320 m else 400 m;",
+      "$0"
+    ],
+    "description": "function — SPEC §46. Functions"
+  },
+  "import": {
+    "prefix": "import",
+    "body": [
+      "import ${1:law}.std.time version \"0.1.0\";",
+      "$0"
+    ],
+    "description": "import — SPEC §23. Import"
+  },
+  "interpretation": {
+    "prefix": "interpretation",
+    "body": [
+      "interpretation ${1:LiteralReading} of ARTICLE_25_P3 {",
+      "    status reviewed;",
+      "    authority LEGAL_TEAM_A;",
+      "    effective [@2026-01-01, infinity);",
+      "",
+      "    include R_LITERAL_1, R_LITERAL_2;",
+      "}",
+      "$0"
+    ],
+    "description": "interpretation — SPEC §152. Interpretation"
+  },
+  "interpretation_group": {
+    "prefix": "interpretation_group",
+    "body": [
+      "interpretation_group ${1:MeaningOfArticle25} {",
+      "    alternatives LiteralReading, CourtReading, AcademicReading;",
+      "    selection exactly_one;",
+      "}",
+      "$0"
+    ],
+    "description": "interpretation_group — SPEC §155. Interpretation group"
+  },
+  "language": {
+    "prefix": "language",
+    "body": [
+      "language \"law.core\" version \"0.1\";",
+      "$0"
+    ],
+    "description": "language — SPEC §22. Заголовок файла"
+  },
+  "map": {
+    "prefix": "map",
+    "body": [
+      "pub map ${1:harmony_of}: Vowel -> Harmony {",
+      "    A  => Zhuan;",
+      "    Ae => Zhinishke;",
+      "    Y  => Zhuan;",
+      "}",
+      "$0"
+    ],
+    "description": "map — SPEC §46. Functions"
+  },
+  "namespace": {
+    "prefix": "namespace",
+    "body": [
+      "namespace \"urn:kz:law:bvr\";",
+      "$0"
+    ],
+    "description": "namespace — SPEC §22. Заголовок файла"
+  },
+  "package": {
+    "prefix": "package",
+    "body": [
+      "package ${1:kz}.bvr version \"2026.1.0\";",
+      "$0"
+    ],
+    "description": "package — SPEC §22. Заголовок файла"
+  },
+  "params": {
+    "prefix": "params",
+    "body": [
+      "    params {",
+      "        subject: binder;",
+      "        act: binder;",
+      "        qualifies: relation(subject, act);",
+      "        elements: list<relation(subject, act)> min 2;",
+      "        guilt: option<relation(subject, act)>;",
+      "        exemption: cases { premises: list<relation(subject, act)> min 1; };",
+      "    }",
+      "$0"
+    ],
+    "description": "params — SPEC §279.1.2. Определение"
+  },
+  "presumption": {
+    "prefix": "presumption",
+    "body": [
+      "presumption ${1:Innocence}(p: Person) {",
+      "    when accused(p);",
+      "    presume innocent(p);",
+      "    unless final_conviction(p);",
+      "}",
+      "$0"
+    ],
+    "description": "presumption — SPEC §146. Presumption"
+  },
+  "priority": {
+    "prefix": "priority",
+    "body": [
+      "priority ${1:ConvictionOverPresumption}:",
+      "    FinalConviction > PresumptionOfInnocence reason explicit_exception;",
+      "$0"
+    ],
+    "description": "priority — SPEC §116. Direct priority"
+  },
+  "procedure": {
+    "prefix": "procedure",
+    "body": [
+      "procedure ${1:LicenseApplication}(application: Application) {",
+      "    state Draft initial;",
+      "    state Submitted;",
+      "    state UnderReview;",
+      "    state Approved terminal;",
+      "    state Rejected terminal;",
+      "    state Appealed;",
+      "",
+      "    transition Submit {",
+      "        from Draft;",
+      "        to Submitted;",
+      "        on ApplicationSubmitted;",
+      "        when documents_present(application);",
+      "    }",
+      "}",
+      "$0"
+    ],
+    "description": "procedure — SPEC §160. Procedure declaration"
+  },
+  "property": {
+    "prefix": "property",
+    "body": [
+      "property ${1:NonNegativeTax} {",
+      "    forall input in GeneratedTaxInputs;",
+      "    expect calculate_tax(input) >= 0 KZT;",
+      "}",
+      "$0"
+    ],
+    "description": "property — SPEC §270. Property-based tests"
+  },
+  "publication": {
+    "prefix": "publication",
+    "body": [
+      "publication ${1:ORDER_343_2025_RU_XML} of ORDER_343_2025_RU {",
+      "    media_type \"application/xml\";",
+      "    uri \"...\";",
+      "    content_hash \"sha256:...\";",
+      "    retrieved_at @2026-08-25T09:00:00Z;",
+      "}",
+      "$0"
+    ],
+    "description": "publication — SPEC §27. Три уровня идентичности источника"
+  },
+  "query": {
+    "prefix": "query",
+    "body": [
+      "query ${1:CheckDistance}(project: BlastProject, blast: BlastEvent)",
+      "    -> ComplianceResult {",
+      "",
+      "    let required = required_distance(charge_mass_value(project));",
+      "    let actual = measured_distance_value(project, blast);",
+      "",
+      "    return compliance_result(BVR_DISTANCE, required, actual);",
+      "}",
+      "$0"
+    ],
+    "description": "query — SPEC §173. Query declaration"
+  },
+  "record": {
+    "prefix": "record",
+    "body": [
+      "pub record ${1:Address} {",
+      "    country: CountryCode;",
+      "    region: Text;",
+      "    city: Text;",
+      "    street: Text;",
+      "    postal_code: Option<Text>;",
+      "}",
+      "$0"
+    ],
+    "description": "record — SPEC §37. Value records"
+  },
+  "reference": {
+    "prefix": "reference",
+    "body": [
+      "reference ${1:CURRENT_ART_125} {",
+      "    source ORDER_343;",
+      "    locator \"article/125/paragraph/3\";",
+      "    resolve_at legal_time;",
+      "    policy kz.sources::OfficialEditionResolver;",
+      "}",
+      "$0"
+    ],
+    "description": "reference — SPEC §30. Reference"
+  },
+  "region": {
+    "prefix": "region",
+    "body": [
+      "region ${1:KyzylordaRegion};",
+      "$0"
+    ],
+    "description": "region — SPEC §93. Material и personal scope"
+  },
+  "relation": {
+    "prefix": "relation",
+    "body": [
+      "pub relation ${1:registered}(company: Company)",
+      "    kind institutional;",
+      "$0"
+    ],
+    "description": "relation — SPEC §45. Relations"
+  },
+  "revision": {
+    "prefix": "revision",
+    "body": [
+      "revision ${1:AMENDMENT_2026} {",
+      "    previous ORDER_343_2025_RU;",
+      "    next ORDER_343_2026_RU;",
+      "    caused_by LAW_123_2026_RU;",
+      "    relation supersedes;",
+      "    effective @2026-07-01;",
+      "}",
+      "$0"
+    ],
+    "description": "revision — SPEC §32. Revision graph"
+  },
+  "role": {
+    "prefix": "role",
+    "body": [
+      "role ${1:Taxpayer} for Actor;",
+      "$0"
+    ],
+    "description": "role — SPEC §43. Role sugar"
+  },
+  "rule": {
+    "prefix": "rule",
+    "body": [
+      "rule ${1:BVR_DISTANCE}(",
+      "    project: BlastProject,",
+      "    blast: BlastPerformed,",
+      "    actual: Quantity,",
+      "    mass: Quantity,",
+      ") defeasible {",
+      "",
+      "    scope context.jurisdiction == KZ;",
+      "    effective [@2025-01-01, infinity);",
+      "",
+      "    when blast_occurs(project, blast)",
+      "      and measured_safety_distance(project, blast, actual)",
+      "      and charge_mass(project, mass)",
+      "      and actual >= required_distance(mass);",
+      "",
+      "    then compliant_distance(project, blast);",
+      "}",
+      "$0"
+    ],
+    "description": "rule — SPEC §94. Общая форма"
+  },
+  "snapshot": {
+    "prefix": "snapshot",
+    "body": [
+      "    snapshot ${1:PERMIT_REGISTRY_2026_08_25};",
+      "$0"
+    ],
+    "description": "snapshot — SPEC §70. Closed-world declarations"
+  },
+  "source": {
+    "prefix": "source",
+    "body": [
+      "pub source ${1:ORDER_343} {",
+      "    kind kz.sources::MinisterOrder;",
+      "    jurisdiction KZ;",
+      "    authority entity_ref(\"urn:org:kz:authority:example\");",
+      "    number \"343\";",
+      "",
+      "    label kk-KZ official \"...\";",
+      "    label ru-KZ official \"...\";",
+      "}",
+      "$0"
+    ],
+    "description": "source — SPEC §27. Три уровня идентичности источника"
+  },
+  "state": {
+    "prefix": "state",
+    "body": [
+      "    state ${1:Draft} initial;",
+      "$0"
+    ],
+    "description": "state — SPEC §160. Procedure declaration"
+  },
+  "support": {
+    "prefix": "support",
+    "body": [
+      "support ${1:REGISTRY_RECORD_991} supports registered(ACME) {",
+      "    policy OfficialRegistryEvidence;",
+      "}",
+      "$0"
+    ],
+    "description": "support — SPEC §75. Support edges"
+  },
+  "temporal_resolution_policy": {
+    "prefix": "temporal_resolution_policy",
+    "body": [
+      "temporal_resolution_policy ${1:KZ_CIVIL_DAY_RESOLUTION} {",
+      "    utc_offset \"+05:00\";",
+      "    day_boundary \"00:00:00\";",
+      "    timezone \"Asia/Almaty\";",
+      "}",
+      "$0"
+    ],
+    "description": "temporal_resolution_policy — SPEC §82. Temporal axes"
+  },
+  "term": {
+    "prefix": "term",
+    "body": [
+      "term ${1:DeclarationDeadline}(l: Lico, den: Date) {",
+      "    from uvedomlenie_o_reestre_polucheno_v_den(l, den);",
+      "    due predelnyy_den_predstavleniya_deklaracii(l);",
+      "    effective [@2026-01-01, infinity);",
+      "    default 1 calendar_month",
+      "        label ru-KZ official \"общий месячный срок\";",
+      "    case ValidReasons when uvazhitelnye_prichiny(l): 3 calendar_month",
+      "        label ru-KZ official \"особый трёхмесячный срок\";",
+      "}",
+      "$0"
+    ],
+    "description": "term — SPEC §86. Deadline policy"
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "test \"18-year-old is classified as adult\" {",
+      "    given {",
+      "        const p: Person = entity_ref(\"urn:person:P1\");",
+      "        assert age(p, 18 year);",
+      "    }",
+      "",
+      "    evaluate truth(adult(p));",
+      "    expect truth_status == TRUE_ONLY;",
+      "}",
+      "$0"
+    ],
+    "description": "test — SPEC §267. Test syntax"
+  },
+  "transition": {
+    "prefix": "transition",
+    "body": [
+      "    transition ${1:Submit} {",
+      "        from Draft;",
+      "        to Submitted;",
+      "        on ApplicationSubmitted;",
+      "        when documents_present(application);",
+      "    }",
+      "$0"
+    ],
+    "description": "transition — SPEC §160. Procedure declaration"
+  },
+  "type": {
+    "prefix": "type",
+    "body": [
+      "type ${1:ArticleNumber} = Natural;",
+      "$0"
+    ],
+    "description": "type — SPEC §40. Type aliases"
+  },
+  "unit": {
+    "prefix": "unit",
+    "body": [
+      "unit ${1:atm} = 101325 * Pa;",
+      "$0"
+    ],
+    "description": "unit — SPEC §49. Dimensional checking"
+  },
+  "sum": {
+    "prefix": "sum",
+    "body": [
+      "sum all a: Money for o: Order where order_amount(o, a)",
+      "$0"
+    ],
+    "description": "sum — SPEC §59. Aggregates"
+  },
+  "count": {
+    "prefix": "count",
+    "body": [
+      "count distinct o: Order for a: Money where order_amount(o, a)",
+      "$0"
+    ],
+    "description": "count — SPEC §59. Aggregates"
+  },
+  "min": {
+    "prefix": "min",
+    "body": [
+      "min all a: Money for o: Order where order_amount(o, a)",
+      "$0"
+    ],
+    "description": "min — SPEC §59. Aggregates"
+  },
+  "max": {
+    "prefix": "max",
+    "body": [
+      "max all a: Money for o: Order where order_amount(o, a)",
+      "$0"
+    ],
+    "description": "max — SPEC §59. Aggregates"
+  },
+  "test-variants": {
+    "prefix": "test-variants",
+    "body": [
+      "test \"Порог\" variants (cost: Money) {",
+      "    \"threshold/below\" (799999 KZT);",
+      "    \"threshold/exact\" (800000 KZT);",
+      "} {",
+      "    given {",
+      "        assert repair_cost(cost);",
+      "    }",
+      "    evaluate truth(total_loss());",
+      "    expect truth_status == NEITHER;",
+      "}",
+      "$0"
+    ],
+    "description": "test variants — SPEC §267. Test syntax"
+  }
+}

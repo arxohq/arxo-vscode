@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:law-dsl:core:0.1:schema:calendar-dataset",
+  "title": "Law DSL Calendar Dataset 0.1",
+  "description": "Immutable deterministic calendar snapshot used by Law DSL Core business-time functions.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "law.calendar/0.1"
+    },
+    "id": {
+      "$ref": "#/$defs/StableId"
+    },
+    "timezone": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timezoneDbSnapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "valid": {
+      "$ref": "#/$defs/DateRange"
+    },
+    "weeklySchedule": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/DaySchedule"
+      }
+    },
+    "overrides": {
+      "type": "array",
+      "default": [],
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/DateOverride"
+      }
+    },
+    "sourceArtifacts": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/StableId"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "timezone",
+    "timezoneDbSnapshot",
+    "valid",
+    "weeklySchedule",
+    "sourceArtifacts"
+  ],
+  "$defs": {
+    "StableId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "DateString": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "LocalTimeStart": {
+      "type": "string",
+      "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?$"
+    },
+    "LocalTimeEnd": {
+      "type": "string",
+      "pattern": "^(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?|24:00:00)$"
+    },
+    "DateRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "$ref": "#/$defs/DateString"
+        },
+        "endExclusive": {
+          "$ref": "#/$defs/DateString"
+        }
+      },
+      "required": [
+        "start",
+        "endExclusive"
+      ]
+    },
+    "WorkingInterval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "$ref": "#/$defs/LocalTimeStart"
+        },
+        "end": {
+          "$ref": "#/$defs/LocalTimeEnd"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ]
+    },
+    "DaySchedule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "day": {
+          "enum": [
+            "monday",
+            "tuesday",
+            "wednesday",
+            "thursday",
+            "friday",
+            "saturday",
+            "sunday"
+          ]
+        },
+        "working": {
+          "type": "boolean"
+        },
+        "intervals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WorkingInterval"
+          }
+        }
+      },
+      "required": [
+        "day",
+        "working",
+        "intervals"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "working": {
+                "const": true
+              }
+            },
+            "required": [
+              "working"
+            ]
+          },
+          "then": {
+            "properties": {
+              "intervals": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "working": {
+                "const": false
+              }
+            },
+            "required": [
+              "working"
+            ]
+          },
+          "then": {
+            "properties": {
+              "intervals": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Label": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "type": "string",
+          "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "language",
+        "text"
+      ]
+    },
+    "DateOverride": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "$ref": "#/$defs/DateString"
+        },
+        "working": {
+          "type": "boolean"
+        },
+        "intervals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WorkingInterval"
+          }
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Label"
+          }
+        },
+        "reason": {
+          "type": "string"
+        },
+        "sourceFragments": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/StableId"
+          }
+        }
+      },
+      "required": [
+        "date",
+        "working",
+        "intervals"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "working": {
+                "const": true
+              }
+            },
+            "required": [
+              "working"
+            ]
+          },
+          "then": {
+            "properties": {
+              "intervals": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "working": {
+                "const": false
+              }
+            },
+            "required": [
+              "working"
+            ]
+          },
+          "then": {
+            "properties": {
+              "intervals": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

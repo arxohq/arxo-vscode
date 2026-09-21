@@ -1,0 +1,3988 @@
+{
+  "generatedFrom": [
+    "spec/grammar.ebnf",
+    "spec/SPEC.ru",
+    "packs/std"
+  ],
+  "entries": {
+    "_": {
+      "sec": "47",
+      "title": "Effect/capability classes",
+      "doc": "Переменную правила, которую не связала цель, связывает СВИДЕТЕЛЬ (errata E-0189). Обход транзитивен — §47.5 выводит `JUDGMENT_DEPENDENT` по transitive dependency graph, и неопределённая не-судейская подцель разбирается своими правилами на любую глубину, — но спускается он в ground-подцель, а у правила `contract_avoided(c) ⇐ may_avoid_contract(c, p) ∧ notice_given(c, p)` цель `contract_avoided(c)`  …",
+      "also": [
+        "49",
+        "98",
+        "185",
+        "190",
+        "208"
+      ]
+    },
+    "accepts": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации."
+    },
+    "achieve": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "`achieve F during W;` задаёт цель достижения `F` в окне `W`, а\n`maintain F during W;` — цель поддержания `F` в этом окне. Эти краткие\nформы в `duty` эквивалентны полным блокам `goal achievement` и\n`goal maintenance` с полями `condition F; window W;` (DECISION-0185).",
+      "also": [
+        "15",
+        "279.2.3"
+      ]
+    },
+    "achievement": {
+      "sec": "136",
+      "title": "Achievement satisfaction",
+      "doc": "Achievement duty `satisfied`, если accepted support подтверждает condition в window.",
+      "also": [
+        "15",
+        "77",
+        "123",
+        "124",
+        "129",
+        "135"
+      ]
+    },
+    "action": {
+      "sec": "80",
+      "title": "Action declaration",
+      "doc": "Action является event с выделенным actor/agent. Декларация action не создаёт permission или duty.",
+      "also": [
+        "15",
+        "105.1",
+        "124",
+        "125",
+        "126",
+        "130"
+      ]
+    },
+    "activation": {
+      "sec": "135",
+      "title": "Activation",
+      "doc": "1. creating rule application accepted;\n2. activation condition/event установлены;\n3. context/time scope удовлетворены;\n4. position не blocked higher-priority position/effect.",
+      "also": [
+        "101",
+        "123",
+        "124",
+        "133",
+        "190",
+        "201.1"
+      ]
+    },
+    "add_calendar_period": {
+      "sec": "279.2.2",
+      "title": "Новые типы параметров и датовый терм",
+      "doc": "1. связыватель типа `Date` (параметр `binder`);\n2. литерал даты `@ГГГГ-ММ-ДД`;\n3. `add_calendar_period(<binder Date>, <quantity>)` — календарный шаг §84.2\n   от связывателя на переданную длительность; второй аргумент — параметр\n   `quantity` определения.",
+      "also": [
+        "84",
+        "86",
+        "124",
+        "258",
+        "279.2.3",
+        "279.2.6"
+      ]
+    },
+    "adopted": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "31",
+        "271"
+      ]
+    },
+    "after": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "Пятая и шестая строки — ТЕРМЫ, а не предикаты: `before`/`after`/`during`/`overlaps`/`contains` возвращают Boolean и ничего не строят, тогда как эти девять порождают значения (`Date` у шагов и границ, `Integer` у измерений и дня недели). …",
+      "also": [
+        "86",
+        "280.2"
+      ]
+    },
+    "against": {
+      "sec": "125",
+      "title": "Liberty",
+      "doc": "`liberty` является explicit/strong permission. Она может участвовать в priority conflict с prohibition/duty to forbear.",
+      "also": [
+        "47",
+        "53",
+        "105.1",
+        "128",
+        "129",
+        "270"
+      ]
+    },
+    "aggregate": {
+      "sec": "59",
+      "title": "Aggregates",
+      "doc": "DECISION-0187: `sum all a: Money for o: Order where F` — краткая запись\n`sum(collect all a: Money, o: Order where F)`. Поддержаны sum/count/min/max;\nобязательный distinct раскрывается в прежний collect без all. Проекция,\nсвязыватели и страты прежние. `where` поглощает полную формулу; в сравнении\nрезультат отделяется скобками. Пустой count даёт 0, пустые sum/min/max\nсохраняют EMPTY_AGGREGATE. …",
+      "also": [
+        "279.1.5"
+      ]
+    },
+    "alias": {
+      "sec": "40",
+      "title": "Type aliases",
+      "doc": "**Алиас на тип чужого пакета** (`type Persona = doctrine.ius_privatum::Persona;`) — та же qualified-ссылка §23, что и прямое употребление `pkg::T` в сигнатуре, и разрешается так же: без предъявленной зависимости — `LDC-E1104`/`LDC-E1105` при lowering (§24), с предъявленной — понижается в `type_decl` вида `alias` с целью `pkg#T`, а переменная такого типа — в локальный `ns#Persona`. …",
+      "also": [
+        "49",
+        "168",
+        "170",
+        "279.1.8",
+        "279.1.9"
+      ]
+    },
+    "align": {
+      "sec": "29",
+      "title": "Alignment мультиязычных фрагментов",
+      "doc": "Alignment не создаёт логическую эквивалентность формализаций.",
+      "also": [
+        "15"
+      ]
+    },
+    "all": {
+      "sec": "123",
+      "title": "Duty",
+      "doc": "Для нескольких bearers автор обязан указать allocation policy; коллективная обязанность не разворачивается автоматически в индивидуальные обязанности каждого участника.",
+      "also": [
+        "52.1",
+        "59",
+        "93.2",
+        "93.3",
+        "162",
+        "181.1"
+      ]
+    },
+    "alternatives": {
+      "sec": "155",
+      "title": "Interpretation group",
+      "doc": "`alternatives` принимает и квалифицированную ссылку на `pub interpretation` чужого пакета (§23/§24, DECISION-0152) — тогда группа собирается в пакете-потребителе над прочтениями, каждое из которых объявлено рядом со СВОИМ закреплённым первоисточником. …",
+      "also": [
+        "15",
+        "24",
+        "152",
+        "156",
+        "157"
+      ]
+    },
+    "and": {
+      "sec": "15",
+      "title": "Ключевые слова",
+      "doc": "Lexer различает **hard keywords** и **contextual keywords**.",
+      "also": [
+        "52.1",
+        "63.1",
+        "64",
+        "76",
+        "77",
+        "88"
+      ]
+    },
+    "any": {
+      "sec": "155",
+      "title": "Interpretation group",
+      "doc": "`alternatives` принимает и квалифицированную ссылку на `pub interpretation` чужого пакета (§23/§24, DECISION-0152) — тогда группа собирается в пакете-потребителе над прочтениями, каждое из которых объявлено рядом со СВОИМ закреплённым первоисточником. …",
+      "also": [
+        "162",
+        "166",
+        "201.1"
+      ]
+    },
+    "any_of": {
+      "sec": "153",
+      "title": "Nested authoring",
+      "doc": "Межправиловые проверки — цикл §110, поздний производитель §111, приоритеты §116, цель дефитера §149 — рассуждают о правилах, которые могут быть активны ОДНОВРЕМЕННО, и потому считаются с учётом членства §104.4: по каждому максимальному согласованному выбору прочтений (одна альтернатива из каждой группы `exactly_one` §155 плюс все прочтения вне таких групп). …",
+      "also": [
+        "15",
+        "155"
+      ]
+    },
+    "arg": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации."
+    },
+    "as": {
+      "sec": "15",
+      "title": "Ключевые слова",
+      "doc": "Lexer различает **hard keywords** и **contextual keywords**.",
+      "also": [
+        "23",
+        "71",
+        "73",
+        "79",
+        "168",
+        "179"
+      ]
+    },
+    "assert": {
+      "sec": "71",
+      "title": "Assertion",
+      "doc": "DECISION-0187 позволяет вынести строковый StableId §14 в заголовок:\n`assert \"assert-acme-registered\": registered(ACME);`. Это то же поле `id`,\nчто у source-узлов и evidence (ERRATA E-0027); прежняя форма допустима:",
+      "also": [
+        "14",
+        "15",
+        "23",
+        "79",
+        "168",
+        "179"
+      ]
+    },
+    "authenticates": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации.",
+      "also": [
+        "75",
+        "168"
+      ]
+    },
+    "authority": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "15",
+        "47",
+        "53",
+        "152",
+        "153",
+        "194"
+      ]
+    },
+    "basis": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "`basis` (аддитивно, DECISION-0042; повторяемое, DECISION-0046) — основание издания подзаконного акта: StableId power-нормы §127 уполномочившего акта, то есть то, что сам акт называет в преамбуле («издан в соответствии с пунктом 1 статьи 34 закона Y»). …",
+      "also": [
+        "270"
+      ]
+    },
+    "bearer": {
+      "sec": "77",
+      "title": "Burden и standard of proof",
+      "doc": "Они представляются rules над evidence graph. Бремя доказывания есть\nНОРМАТИВНАЯ ПОЗИЦИЯ §134 над эпистемической целью: обязанность стороны\nдобиться установленности вопроса в отведённом окне.",
+      "also": [
+        "15",
+        "53",
+        "123",
+        "129",
+        "130",
+        "133"
+      ]
+    },
+    "before": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "Пятая и шестая строки — ТЕРМЫ, а не предикаты: `before`/`after`/`during`/`overlaps`/`contains` возвращают Boolean и ничего не строят, тогда как эти девять порождают значения (`Date` у шагов и границ, `Integer` у измерений и дня недели). …"
+    },
+    "beneficiary": {
+      "sec": "123",
+      "title": "Duty",
+      "doc": "Для нескольких bearers автор обязан указать allocation policy; коллективная обязанность не разворачивается автоматически в индивидуальные обязанности каждого участника.",
+      "also": [
+        "15",
+        "53",
+        "129",
+        "130",
+        "133",
+        "141"
+      ]
+    },
+    "between": {
+      "sec": "279.1.5",
+      "title": "Посылка-агрегат (квантор с порогом)",
+      "doc": "`<ev>` и `<day>` — связыватели экземпляра (сущность события и её `Date`),\n`<events>` — параметр `relation(subject, ev, day)` (порядок и число\nаргументов — по объявлению параметра), `<window>` — параметр `window`,\n`<threshold>` — параметр `integer`; посылка-агрегат — не более одной на\nправило (вторая — `LDC-E1335`). Порождается ровно то, что написал бы\nавтор в теле правила §52.1/§59:",
+      "also": [
+        "279.2.3"
+      ]
+    },
+    "bind": {
+      "sec": "279.1.3",
+      "title": "Экземпляр",
+      "doc": "`expand <ссылка> <Имя> { … }`. Ссылка разрешается в определение ровно одним\nиз двух способов: (а) локальное определение `expansion <ссылка>` того же\nпакета; (б) алиас закреплённого пакета определения по §279.1.8. Оба способа\nразом — ошибка неоднозначности; ни одного — `LDC-E1336`. `<Имя>` — обычный\nидентификатор экземпляра; `self` — его StableId (§279.1.4).",
+      "also": [
+        "154",
+        "279.1.2",
+        "279.1.4",
+        "279.2.6"
+      ]
+    },
+    "binder": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:",
+      "also": [
+        "52.1",
+        "279.1.3",
+        "279.2.2"
+      ]
+    },
+    "by": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "Cases, holdings и distinguishing представимы через sources, interpretations, rules и priorities. Специализированная similarity/precedent модель остаётся profile.",
+      "also": [
+        "280.2"
+      ]
+    },
+    "calendar": {
+      "sec": "85",
+      "title": "Calendar snapshot",
+      "doc": "`calendar` понижается в `CalendarSnapshot` со следующими обязательными полями:\n\n`resource` является описательной локальной или content-addressed привязкой к\ndataset; исполнитель НЕ ДОЛЖЕН читать байты по этому URI напрямую. …",
+      "also": [
+        "9",
+        "10",
+        "14",
+        "15",
+        "55",
+        "86"
+      ]
+    },
+    "capability": {
+      "sec": "242",
+      "title": "Capability sandbox",
+      "doc": "- объявляется manifest-ом;\n- имеет typed request/response;\n- binding фиксируется snapshot/provider ID;\n- получает минимальные permissions;\n- не может менять legal program state;\n- логирует provenance.",
+      "also": [
+        "47",
+        "212"
+      ]
+    },
+    "case": {
+      "sec": "168",
+      "title": "Case file",
+      "doc": "Имя ЧЛЕНА АВТОМАТА §201.1 (состояния либо перехода) дело пишет так же, как его\nпишет сама программа, — голым именем; разрешается оно по ТОЙ ПРОГРАММЕ, к\nкоторой дело предъявлено, её таблицей членов. Программа при этом остаётся вне\nдела (§169): предъявляет её вызывающий, и без предъявления член не разрешается\nвовсе. …",
+      "also": [
+        "9",
+        "15",
+        "36",
+        "73",
+        "78.2",
+        "79"
+      ]
+    },
+    "cases": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:",
+      "also": [
+        "9",
+        "168",
+        "279.1.3"
+      ]
+    },
+    "caused_by": {
+      "sec": "32",
+      "title": "Revision graph",
+      "doc": "Revision graph ДОЛЖЕН быть immutable. Consolidated edition является новым edition с provenance chain.",
+      "also": [
+        "32.1"
+      ]
+    },
+    "claim": {
+      "sec": "129",
+      "title": "Correlative views",
+      "doc": "Core не создаёт дубликаты norm instances; views ссылаются на один canonical position.",
+      "also": [
+        "15"
+      ]
+    },
+    "classification": {
+      "sec": "148",
+      "title": "Classification",
+      "doc": "Десугаризуется в ordinary strict/defeasible rule. `defeater` недопустим как classification strength, потому что classification должна либо поддерживать класс, либо быть отдельным targeted exception.",
+      "also": [
+        "15",
+        "47.5"
+      ]
+    },
+    "closure": {
+      "sec": "70",
+      "title": "Closed-world declarations",
+      "doc": "Только после валидной closure policy отсутствие записи может породить explicit negative assertion. Closure scope ДОЛЖЕН быть конечным и точно определённым.",
+      "also": [
+        "15",
+        "78.2",
+        "103",
+        "111",
+        "181.1",
+        "231.1"
+      ]
+    },
+    "collect": {
+      "sec": "52.1",
+      "title": "Finite relation comprehensions",
+      "doc": "`collect` в `core-executable` ДОЛЖЕН:\n\n- быть range-restricted хотя бы одной положительной finite relation/domain;\n- иметь конечный evaluation domain;\n- не содержать `not_known`, `judgment`, `opaque` или side effects;\n- не зависеть циклически от consumer rule;\n- использовать `supported(P)` явно, если конфликтные positive supports намеренно должны входить в результат.",
+      "also": [
+        "15",
+        "51",
+        "59",
+        "156",
+        "166",
+        "172"
+      ]
+    },
+    "complete_as_of": {
+      "sec": "70",
+      "title": "Closed-world declarations",
+      "doc": "Только после валидной closure policy отсутствие записи может породить explicit negative assertion. Closure scope ДОЛЖЕН быть конечным и точно определённым.",
+      "also": [
+        "72"
+      ]
+    },
+    "completeness_policy": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "`achieve F during W;` задаёт цель достижения `F` в окне `W`, а\n`maintain F during W;` — цель поддержания `F` в этом окне. Эти краткие\nформы в `duty` эквивалентны полным блокам `goal achievement` и\n`goal maintenance` с полями `condition F; window W;` (DECISION-0185).",
+      "also": [
+        "279.2.3"
+      ]
+    },
+    "compose_explicitly": {
+      "sec": "15",
+      "title": "Ключевые слова",
+      "doc": "Lexer различает **hard keywords** и **contextual keywords**.",
+      "also": [
+        "155"
+      ]
+    },
+    "concept": {
+      "sec": "44",
+      "title": "Concept sugar",
+      "doc": "десугаризуется в unary relation с `kind institutional`, если автор явно не указал другой kind.",
+      "also": [
+        "15",
+        "144",
+        "180",
+        "216",
+        "218"
+      ]
+    },
+    "condition": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "**Составное условие цели (errata E-0218).** `condition` цели `achievement`,\n`maintenance` и внутренней цели `recurring` вычисляется как пара опор §62,\nа статус позиции есть проекция этой пары по §134–§138. Правило одно для\nатома и для составной формулы. Лист условия — литерал: `P` или `not P` (§63\nзеркалит стороны). …",
+      "also": [
+        "47",
+        "53",
+        "77",
+        "123",
+        "129",
+        "135"
+      ]
+    },
+    "conflicted": {
+      "sec": "65",
+      "title": "Status tests",
+      "doc": "`monotone(P)` (errata E-0018) вычислительно тождествен `supported(P)` — истинен при любой положительной опоре. Различие не в тесте, а в заявленном намерении и слоевой принадлежности: `monotone(P)` — ребро монотонной рекурсии §103, принадлежит слою L0; `supported(P)` — потребление конфликта, остаётся в L3. …",
+      "also": [
+        "15",
+        "56",
+        "110",
+        "127"
+      ]
+    },
+    "const": {
+      "sec": "54",
+      "title": "Const",
+      "doc": "Const является immutable compile-time или snapshot value. Изменяемые юридические факты не моделируются `const`.",
+      "also": [
+        "15",
+        "36",
+        "43",
+        "53",
+        "79",
+        "93.1"
+      ]
+    },
+    "constraint": {
+      "sec": "93.2",
+      "title": "Constraint identity и result",
+      "doc": "Ground constraint application получает stable runtime ID из canonical constraint ID, substitution и manifest hash. Result содержит antecedent/requirement support, source anchors, missing inputs и proof. Несколько failures агрегируются query policy (`all`, `first`, `count`, severity threshold), но не скрываются.",
+      "also": [
+        "15",
+        "92",
+        "93.1",
+        "93.4",
+        "151",
+        "179"
+      ]
+    },
+    "contains": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "Пятая и шестая строки — ТЕРМЫ, а не предикаты: `before`/`after`/`during`/`overlaps`/`contains` возвращают Boolean и ничего не строят, тогда как эти девять порождают значения (`Date` у шагов и границ, `Integer` у измерений и дня недели). …"
+    },
+    "content_hash": {
+      "sec": "28",
+      "title": "Fragment",
+      "doc": "`content_hash` фрагмента отвечает на ДРУГОЙ вопрос — не «откуда взят текст», а «менялся ли он с момента закрепления», — и одно другого не заменяет: вхождение §194 проверяется подпоследовательностью, поэтому усечённый текст остаётся вхождением, а хэш такое усечение ловит. …",
+      "also": [
+        "15",
+        "27",
+        "74",
+        "85",
+        "168",
+        "194"
+      ]
+    },
+    "context": {
+      "sec": "89",
+      "title": "Evaluation Context",
+      "doc": "*Описательная схема, а не объявление поверхности 0.1 (`Option<…>`, запись `A | B` в типе поля и поле с именем hard keyword `calendar`): блок не компилируется намеренно и остаётся `text`; см. errata E-0130.*",
+      "also": [
+        "6",
+        "15",
+        "47",
+        "55",
+        "76",
+        "83"
+      ]
+    },
+    "cost": {
+      "sec": "186",
+      "title": "Counterfactual",
+      "doc": "Без cost function понятие «минимальное изменение» неопределённо.",
+      "also": [
+        "267"
+      ]
+    },
+    "count": {
+      "sec": "37",
+      "title": "Value records",
+      "doc": "Records сравниваются структурно и являются immutable values.",
+      "also": [
+        "59",
+        "86",
+        "93.2",
+        "111",
+        "133",
+        "186"
+      ]
+    },
+    "counterfactual": {
+      "sec": "186",
+      "title": "Counterfactual",
+      "doc": "Без cost function понятие «минимальное изменение» неопределённо.",
+      "also": [
+        "15"
+      ]
+    },
+    "court": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "- `vocabulary` — id словаря; `court` — имя суда; `decided` — дата решения\n  (обязательна: без неё holding не имел бы окна действия, 276.6);\n- `plaintiff`, `defendant` — факторные множества X_π, X_δ, найденные судом:\n  подмножества соответствующих списков словаря;\n- `outcome` — литерал с полярностью над переменными сигнатуры: исход за\n  сторону π при положительной полярности и за δ при отрицательно …"
+    },
+    "courts": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "- `signature` — упорядоченный кортеж связывателей `(имя, тип)`; фактор —\n  объявленное `relation`, чьи параметры суть ПОДПОСЛЕДОВАТЕЛЬНОСТЬ сигнатуры\n  (фактор над одной сущностью кортежа допустим): каждый параметр берёт\n  ближайший ещё не занятый связыватель того же типа в порядке сигнатуры;\n- `domain` — один или более established-литералов над переменными\n  сигнатуры, связывающих ВСЕ её переменн …"
+    },
+    "create": {
+      "sec": "15",
+      "title": "Ключевые слова",
+      "doc": "Lexer различает **hard keywords** и **contextual keywords**.",
+      "also": [
+        "127",
+        "134"
+      ]
+    },
+    "deadline": {
+      "sec": "86",
+      "title": "Deadline policy",
+      "doc": "*Описательная схема, а не объявление поверхности 0.1 (запись `A | B` в типе поля): блок не компилируется намеренно и остаётся `text`; см. errata E-0130.*",
+      "also": [
+        "89",
+        "135",
+        "138",
+        "168",
+        "223"
+      ]
+    },
+    "decided": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "- `vocabulary` — id словаря; `court` — имя суда; `decided` — дата решения\n  (обязательна: без неё holding не имел бы окна действия, 276.6);\n- `plaintiff`, `defendant` — факторные множества X_π, X_δ, найденные судом:\n  подмножества соответствующих списков словаря;\n- `outcome` — литерал с полярностью над переменными сигнатуры: исход за\n  сторону π при положительной полярности и за δ при отрицательно …"
+    },
+    "decision": {
+      "sec": "165",
+      "title": "Decision declaration",
+      "doc": "Decision является named pure query over evaluated legal state. Он понижается в тот же\n`FunctionDecl`, что и `pure function`, и не создаёт норму или эффект. В теле\nдопускаются metadata в любом месте и ровно одна из двух исполнимых форм:",
+      "also": [
+        "15",
+        "26",
+        "82",
+        "83",
+        "89",
+        "125"
+      ]
+    },
+    "deem": {
+      "sec": "147",
+      "title": "Fiction",
+      "doc": "Fiction выводит institutional fact, а не empirical fact. Compiler предупреждает, если fiction head relation имеет kind `empirical`. Strength после имени (`strict` либо `defeasible`) обязательна; Core не выбирает её по умолчанию."
+    },
+    "default": {
+      "sec": "113",
+      "title": "Default negation",
+      "doc": "не проходит executable validation.",
+      "also": [
+        "15",
+        "56",
+        "66",
+        "86",
+        "110",
+        "149"
+      ]
+    },
+    "defeasible": {
+      "sec": "104",
+      "title": "Defeasible candidate",
+      "doc": "1. rule applicable по source/time/context;\n2. body имеет result `TRUE_ONLY`;\n3. все external dependencies разрешены;\n4. selected interpretation включает rule.",
+      "also": [
+        "15",
+        "25",
+        "33",
+        "77",
+        "86",
+        "87"
+      ]
+    },
+    "defeat": {
+      "sec": "107",
+      "title": "Defeat",
+      "doc": "Candidate `r` для conclusion `q` побеждён, если существует applicable opposing candidate `s` и выполняется одно из условий:",
+      "also": [
+        "15",
+        "47",
+        "94",
+        "95",
+        "105.1",
+        "111"
+      ]
+    },
+    "defeater": {
+      "sec": "47",
+      "title": "Effect/capability classes",
+      "doc": "Носитель канала — ЛЮБАЯ статусная формула, которую программа вычисляет, а не только тело правила (errata E-0100). Отношение суждения, прочитанное из `valid_when` полномочия §127, из `condition` цели обязанности §123 либо из условия дефитера — клаузы `unless` §149 либо правила `defeater` §95.3 (отсылка поправлена 03.09.2026 при исполнении E-0100: прежний адрес §113 — default negation, условия дефит …",
+      "also": [
+        "15",
+        "95",
+        "96",
+        "98",
+        "148",
+        "216"
+      ]
+    },
+    "defendant": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "- `signature` — упорядоченный кортеж связывателей `(имя, тип)`; фактор —\n  объявленное `relation`, чьи параметры суть ПОДПОСЛЕДОВАТЕЛЬНОСТЬ сигнатуры\n  (фактор над одной сущностью кортежа допустим): каждый параметр берёт\n  ближайший ещё не занятый связыватель того же типа в порядке сигнатуры;\n- `domain` — один или более established-литералов над переменными\n  сигнатуры, связывающих ВСЕ её переменн …"
+    },
+    "definition": {
+      "sec": "144",
+      "title": "Definition",
+      "doc": "`definition` не применяет contraposition. Reverse direction становится derivational rule только когда author пишет отдельное правило с literal head. Если квалификация имеет обычные исключения или презумптивный характер, автор использует `classification ... defeasible` либо отдельные defeasible rules; скрытой strength у definition нет.",
+      "also": [
+        "9",
+        "15",
+        "96",
+        "200",
+        "202",
+        "216"
+      ]
+    },
+    "derive_explicit_negative": {
+      "sec": "70",
+      "title": "Closed-world declarations",
+      "doc": "Только после валидной closure policy отсутствие записи может породить explicit negative assertion. Closure scope ДОЛЖЕН быть конечным и точно определённым.",
+      "also": [
+        "69"
+      ]
+    },
+    "derived": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "Единицы §49.2 — атомы с точным рациональным масштабом и вектором семи\nбазовых SI. `unit atm = 101325 * Pa;` — сахар явного объявления\n`unit atm dimension Mass / (Length * Time * Time) scale 101325 / 1;`\n(DECISION-0157, errata E-0150).",
+      "also": [
+        "45",
+        "73"
+      ]
+    },
+    "dimension": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "Правая часть сахара — произведение и частное точных целых/десятичных\nчисел и объявленных единиц со скобками. Арифметика рациональная, без\nокругления. Ссылка на атом использует его масштаб и размерность, но\nрезультат становится НОВЫМ атомом. …"
+    },
+    "discharge_policy": {
+      "sec": "279.2.3",
+      "title": "Деонтическая голова emit",
+      "doc": "**Состав головы.** Модальность — `duty` либо `prohibition` (DECISION-0209\nР6; `liberty`, `power`, `immunity` — вне профиля 0.2, `LDC-E1335`). Путь\nшаблона — `generated_ref` вида `<путь правила>/norm` (§279.2.4). …",
+      "also": [
+        "123"
+      ]
+    },
+    "distinct": {
+      "sec": "59",
+      "title": "Aggregates",
+      "doc": "DECISION-0187: `sum all a: Money for o: Order where F` — краткая запись\n`sum(collect all a: Money, o: Order where F)`. Поддержаны sum/count/min/max;\nобязательный distinct раскрывается в прежний collect без all. Проекция,\nсвязыватели и страты прежние. `where` поглощает полную формулу; в сравнении\nрезультат отделяется скобками. Пустой count даёт 0, пустые sum/min/max\nсохраняют EMPTY_AGGREGATE. …"
+    },
+    "document_hash": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации."
+    },
+    "domain": {
+      "sec": "70",
+      "title": "Closed-world declarations",
+      "doc": "Только после валидной closure policy отсутствие записи может породить explicit negative assertion. Closure scope ДОЛЖЕН быть конечным и точно определённым.",
+      "also": [
+        "90",
+        "93",
+        "234",
+        "240",
+        "276"
+      ]
+    },
+    "due": {
+      "sec": "86",
+      "title": "Deadline policy",
+      "doc": "*Описательная схема, а не объявление поверхности 0.1 (запись `A | B` в типе поля): блок не компилируется намеренно и остаётся `text`; см. errata E-0130.*",
+      "also": [
+        "55",
+        "124"
+      ]
+    },
+    "during": {
+      "sec": "279.2.3",
+      "title": "Деонтическая голова emit",
+      "doc": "**Состав головы.** Модальность — `duty` либо `prohibition` (DECISION-0209\nР6; `liberty`, `power`, `immunity` — вне профиля 0.2, `LDC-E1335`). Путь\nшаблона — `generated_ref` вида `<путь правила>/norm` (§279.2.4). …",
+      "also": [
+        "43",
+        "124",
+        "258"
+      ]
+    },
+    "duty": {
+      "sec": "123",
+      "title": "Duty",
+      "doc": "Для нескольких bearers автор обязан указать allocation policy; коллективная обязанность не разворачивается автоматически в индивидуальные обязанности каждого участника.",
+      "also": [
+        "15",
+        "77",
+        "78.2",
+        "105",
+        "122",
+        "124"
+      ]
+    },
+    "each": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:"
+    },
+    "edition": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "`edition` несёт `materializationStatus` — насколько байты редакции действительно закреплены (errata E-0013, PATCH-0.1.1 §9 в узкой форме):",
+      "also": [
+        "6",
+        "14",
+        "15",
+        "92",
+        "198",
+        "230"
+      ]
+    },
+    "effect": {
+      "sec": "47",
+      "title": "Effect/capability classes",
+      "doc": "Детерминированная локальная функция без внешних зависимостей.",
+      "also": [
+        "32",
+        "32.1",
+        "53",
+        "86",
+        "87",
+        "94"
+      ]
+    },
+    "effective": {
+      "sec": "32.1",
+      "title": "Операции поправки",
+      "doc": "`effective` — атрибут ОПЕРАЦИИ, а не ребра: акт может вводиться поэтапно, и разные его пункты вступают в силу с разных дат. Порядок применения:",
+      "also": [
+        "15",
+        "32",
+        "32.3",
+        "70",
+        "82",
+        "86"
+      ]
+    },
+    "else": {
+      "sec": "56",
+      "title": "Conditional expression",
+      "doc": "В canonical `IfTerm` condition сериализуется как Formula после lifting Boolean. `TRUE_ONLY` выбирает `then`, `FALSE_ONLY` — `else`; `BOTH` даёт `CONFLICTED_CONDITION`, а `NEITHER` сохраняет missing/external issues и не выбирает ветвь. Голый proposition в data conditional является static error с code action, предлагающим `established`, `supported`, `conflicted` или другой явный status-test.",
+      "also": [
+        "15",
+        "46",
+        "271",
+        "280.2"
+      ]
+    },
+    "emit": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:",
+      "also": [
+        "165",
+        "210",
+        "213",
+        "279.1.4",
+        "279.1.9",
+        "279.2.3"
+      ]
+    },
+    "empirical": {
+      "sec": "69",
+      "title": "Missing data",
+      "doc": "Держатель негатива (DECISION-0353 §2, errata E-0235). Голый отрицательный\nлитерал тела — `when not p(x)`, по §66 он же `established(not p(x))` — требует\nот `p(x)` статуса `FALSE_ONLY`, и получить его можно ТОЛЬКО от явного\nнегатива: отрицательной головы правила §99, отрицательного assertion §71,\nпринятой `refutes`-опоры §78.2.2 либо замыкания §70 с\n`derive_explicit_negative`. …",
+      "also": [
+        "45",
+        "147",
+        "271"
+      ]
+    },
+    "entity": {
+      "sec": "36",
+      "title": "Nominal entity types",
+      "doc": "Два nominal types несовместимы, даже если имеют одинаковое внутреннее представление ID.",
+      "also": [
+        "15",
+        "24",
+        "42",
+        "89",
+        "203",
+        "230"
+      ]
+    },
+    "entity_ref": {
+      "sec": "36",
+      "title": "Nominal entity types",
+      "doc": "`entity_ref(id)` contextually получает ожидаемый nominal entity type. Identity является парой `(nominal_type, stable_id)`; одинаковая строка в `Person` и `Company` не делает values равными. В `core-production` entity ID должен быть absolute IRI/URN либо разрешённым package/case-scoped StableId. Anonymous/mutable entity objects отсутствуют.",
+      "also": [
+        "23",
+        "27",
+        "43",
+        "47",
+        "54",
+        "79"
+      ]
+    },
+    "entrenchment": {
+      "sec": "32.3",
+      "title": "Entrenchment",
+      "doc": "`source` называет `source_work` §27; `locator` защищает ровно это положение и его потомков по сегментам `/` (поэтому `article/2` защищает `article/2/paragraph/7`, но не `article/20`). `window` задаёт legal-time интервал: начало включительно или исключительно в точности как записано, конец `)` не входит. …",
+      "also": [
+        "46"
+      ]
+    },
+    "enum": {
+      "sec": "38",
+      "title": "Enums",
+      "doc": "Enum variant имеет stable qualified identity. Она и есть его значение:\nравенство членов §57 сравнивает идентичность, порядок над перечислением не\nопределён, а universe перечисления — его объявленные члены целиком (§70,\n§A3.3.1). StableId члена — `{namespace}#{Член}` (§24, errata E-0065);\nисполнимость члена как значения — errata E-0067.",
+      "also": [
+        "15",
+        "218",
+        "281"
+      ]
+    },
+    "established": {
+      "sec": "65",
+      "title": "Status tests",
+      "doc": "`established(P)` возвращает Boolean data value. В rule body голый `P` является сокращением для требования `P == TRUE_ONLY`. В Core 0.1 operand status-test является ground/groundable **literal**, а не произвольной составной formula; составной статус выражается Boolean-комбинацией status-tests. Это сохраняет однозначный producer barrier и closure key.",
+      "also": [
+        "15",
+        "34",
+        "47",
+        "52.1",
+        "56",
+        "66"
+      ]
+    },
+    "establishes": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации.",
+      "also": [
+        "75",
+        "168"
+      ]
+    },
+    "evaluate": {
+      "sec": "267",
+      "title": "Test syntax",
+      "doc": "`evaluate` называет стандартный запрос §172 над пропозицией либо терм, чьё значение запрашивается (`DATA` §174.1). Тест допускает ровно один запрос: `expect` адресует поля ОДНОГО результата.",
+      "also": [
+        "47",
+        "78.2",
+        "92",
+        "134",
+        "172",
+        "210"
+      ]
+    },
+    "evaluative": {
+      "sec": "45",
+      "title": "Relations",
+      "doc": "Kind является metadata для analysis и policies. Сам по себе он не меняет truth semantics."
+    },
+    "event": {
+      "sec": "79",
+      "title": "Event declaration",
+      "doc": "`event E` десугаризуется в immutable nominal entity subtype `Event` с inherited `id: StableId` и typed intrinsic fields/accessors. Для executable temporal use event declaration СЛЕДУЕТ иметь ровно один canonical `time: Interval<Instant>` либо явную mapping policy к нему.",
+      "also": [
+        "15",
+        "52.1",
+        "55",
+        "81",
+        "82",
+        "89"
+      ]
+    },
+    "every": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "**Границы и якорь — клауза `over`.** Расписание отсчитывается от НАЧАЛА\nинтервала `over` шагом `every`; вхождение `k` (нумерация с нуля) занимает\nполуинтервал `[start + k·P, start + (k+1)·P)`, обрезанный концом `over`. Шаг\n`P` — `CalendarPeriod` либо `Duration` §84; календарный шаг строится\n`add_calendar_period` §84.2 и календаря §85 не читает.",
+      "also": [
+        "280.2"
+      ]
+    },
+    "evidence": {
+      "sec": "74",
+      "title": "Evidence declaration",
+      "doc": "Evidence schema определяется типом evidence, но все evidence items должны иметь stable ID и provenance.",
+      "also": [
+        "15",
+        "71",
+        "72",
+        "76",
+        "78.2",
+        "89"
+      ]
+    },
+    "exact": {
+      "sec": "144",
+      "title": "Definition",
+      "doc": "`exact` не создаёт contraposition. Если требуется explicit negative classification, она задаётся отдельным rule. Identifier definition должен разрешаться в relation/concept с той же сигнатурой. Authoring compiler МОЖЕТ синтезировать relation только при одновременной декларации `concept`; неявное создание публичного predicate одной опечаткой запрещено.",
+      "also": [
+        "33",
+        "94",
+        "155",
+        "198",
+        "267"
+      ]
+    },
+    "exactly_one": {
+      "sec": "153",
+      "title": "Nested authoring",
+      "doc": "Межправиловые проверки — цикл §110, поздний производитель §111, приоритеты §116, цель дефитера §149 — рассуждают о правилах, которые могут быть активны ОДНОВРЕМЕННО, и потому считаются с учётом членства §104.4: по каждому максимальному согласованному выбору прочтений (одна альтернатива из каждой группы `exactly_one` §155 плюс все прочтения вне таких групп). …",
+      "also": [
+        "15",
+        "155",
+        "156",
+        "168"
+      ]
+    },
+    "except_when": {
+      "sec": "150",
+      "title": "Exception from exception",
+      "doc": "нормализуется в три rules и chain priority. Surface syntax допустима только если generated priority graph acyclic.",
+      "also": [
+        "15",
+        "110",
+        "146",
+        "206"
+      ]
+    },
+    "exclude": {
+      "sec": "157",
+      "title": "Extends",
+      "doc": "Ссылка в `extends` — того же рода, что в `alternatives`, и может быть квалифицированной (`extends pkg::Baseline`, §23/§24). `exclude` при этом остаётся локальным по причине §152: он снимает ту же экспансию, что вносит `include`.",
+      "also": [
+        "24",
+        "152"
+      ]
+    },
+    "exclusive": {
+      "sec": "279.2.3",
+      "title": "Деонтическая голова emit",
+      "doc": "**Состав головы.** Модальность — `duty` либо `prohibition` (DECISION-0209\nР6; `liberty`, `power`, `immunity` — вне профиля 0.2, `LDC-E1335`). Путь\nшаблона — `generated_ref` вида `<путь правила>/norm` (§279.2.4). …"
+    },
+    "exercise": {
+      "sec": "127",
+      "title": "Power",
+      "doc": "Power описывает способность создать legal effect при valid exercise.",
+      "also": [
+        "53"
+      ]
+    },
+    "exists": {
+      "sec": "52.1",
+      "title": "Finite relation comprehensions",
+      "doc": "`collect all value: T, binder: U where F` допускает дополнительные\nexistential-local binder-ы generator-а. В коллекцию входит только `value`;\n`binder` различает решения с одинаковым value и не свободен снаружи. Это\nнужно, например, когда две разные позиции владения несут одну и ту же долю.",
+      "also": [
+        "15",
+        "65",
+        "280.2"
+      ]
+    },
+    "expand": {
+      "sec": "279.1.3",
+      "title": "Экземпляр",
+      "doc": "`expand <ссылка> <Имя> { … }`. Ссылка разрешается в определение ровно одним\nиз двух способов: (а) локальное определение `expansion <ссылка>` того же\nпакета; (б) алиас закреплённого пакета определения по §279.1.8. Оба способа\nразом — ошибка неоднозначности; ни одного — `LDC-E1336`. `<Имя>` — обычный\nидентификатор экземпляра; `self` — его StableId (§279.1.4).",
+      "also": [
+        "210",
+        "213",
+        "225",
+        "279.1.1"
+      ]
+    },
+    "expansion": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:",
+      "also": [
+        "210",
+        "213",
+        "279.1",
+        "279.1.1",
+        "279.1.8",
+        "279.1.9"
+      ]
+    },
+    "expect": {
+      "sec": "267",
+      "title": "Test syntax",
+      "doc": "`expect` адресует поля документа-результата §174, а не факты программы. Словарь полей ЗАКРЫТ и расширяется аддитивно:\n\nОператоры — `==` и `!=`. Порядковые сравнения не определены: ни один из перечней не упорядочен, и `truth_status > NEITHER` не имеет смысла ни в одном из них.",
+      "also": [
+        "134",
+        "269",
+        "270"
+      ]
+    },
+    "expired": {
+      "sec": "92",
+      "title": "Edition applicability",
+      "doc": "Условие 3 `evaluate` применяет ко всякому нормативному узлу с якорями (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): узел, ВСЕ датирующие якоря которого ведут на редакции, неприменимые на legal time по машине lifecycle §31 (`closed` | `suspended` | `not_yet`), в evaluation не участвует — так же, как правило вне `effective` §87 (условие 4). …",
+      "also": [
+        "31",
+        "38",
+        "134"
+      ]
+    },
+    "exports": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "`exports` (необязательная, единственная секция) перечисляет **роли** —\nимена, под которыми порождённые узлы адресуемы извне (§279.1.6). Путь роли не\nсодержит `key(c)`.",
+      "also": [
+        "24",
+        "213",
+        "279.1.6"
+      ]
+    },
+    "extends": {
+      "sec": "157",
+      "title": "Extends",
+      "doc": "`extends` создаёт set composition, а не mutation. `exclude` должен быть explicit и видимым в provenance.",
+      "also": [
+        "24",
+        "89",
+        "152"
+      ]
+    },
+    "external": {
+      "sec": "60",
+      "title": "External data access",
+      "doc": "В исходном языке нет оператора HTTP/SQL/file read. Доступ выполняется через declared capability и snapshot binding. Это обеспечивает sandboxing, auditability и воспроизводимость.",
+      "also": [
+        "15",
+        "45",
+        "47",
+        "73",
+        "89",
+        "170"
+      ]
+    },
+    "factors": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "**Идентичность — сам мультимножитель, канон — только его запись (errata\nE-0151).** Тождество единицы в §58.1 сравнивает множители, а не строки\nканона. После E-0150 простая единица может носить любое имя, в том числе\nчитающееся как канон произведения: атом `ft2` (Length²) и `ft * ft` печатаются\nодной строкой `ft2` при разных множителях и масштабах, и сравнение строк\nотождествляло их молча — сложени …",
+      "also": [
+        "259",
+        "276"
+      ]
+    },
+    "facts": {
+      "sec": "23",
+      "title": "Import",
+      "doc": "Алиас `as` и селекция `::{…}` зарезервированы для 0.2 и отвергаются `LDC-E0206` (errata E-0070, вектор T117): в 0.1 пакет адресуется своим именем, а его `pub`-символы — квалификацией `kz.sources::Symbol`.",
+      "also": [
+        "6",
+        "168",
+        "238"
+      ]
+    },
+    "fallback": {
+      "sec": "279.1.4",
+      "title": "Порождаемое: узлы, идентичности, метки, якоря",
+      "doc": "Развёртка экземпляра с `k` фиксированными `emit` и `m` случаями каждого\nобхода порождает ровно `k + Σ k_c·m_c` узлов; размер тел линеен по числу\nэлементов списков и сумме посылок случаев.",
+      "also": [
+        "279.1.2"
+      ]
+    },
+    "false": {
+      "sec": "10",
+      "title": "`law.toml`",
+      "doc": "- `version` — та же ТОЧНАЯ версия, что и у строковой формы: с ней сверяется `import` (`LDC-E1111`, раздел 23) и она же закрепляется lockfile-ом (раздел 11). Строковая форма есть сокращение таблицы с одним `version`; смысл записи от формы не зависит;\n- `registry` — издатель, у которого зависимость взята. …",
+      "also": [
+        "15",
+        "52.1",
+        "58",
+        "64.1",
+        "279.1.9"
+      ]
+    },
+    "fiction": {
+      "sec": "147",
+      "title": "Fiction",
+      "doc": "Fiction выводит institutional fact, а не empirical fact. Compiler предупреждает, если fiction head relation имеет kind `empirical`. Strength после имени (`strict` либо `defeasible`) обязательна; Core не выбирает её по умолчанию.",
+      "also": [
+        "15",
+        "96",
+        "216"
+      ]
+    },
+    "field": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации.",
+      "also": [
+        "22"
+      ]
+    },
+    "finishes": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "Пятая и шестая строки — ТЕРМЫ, а не предикаты: `before`/`after`/`during`/`overlaps`/`contains` возвращают Boolean и ничего не строят, тогда как эти девять порождают значения (`Date` у шагов и границ, `Integer` у измерений и дня недели). …"
+    },
+    "first": {
+      "sec": "166",
+      "title": "Decision tables",
+      "doc": "`first` и `multiple` сохраняют source order. `collect` упорядочивает matching\nrows по canonical row ID; `multiple` сохраняет дубликаты. `unique` обязан\nдоказать попарную непересекаемость. `any` допускает пересечение только при\nканонически одинаковом output; неизвестное доказательство не переносится в\nruntime и даёт `LDC-E8304 UNSUPPORTED_FEEL`. …",
+      "also": [
+        "93.2",
+        "208"
+      ]
+    },
+    "for": {
+      "sec": "33",
+      "title": "Anchor",
+      "doc": "Anchor не доказывает юридическую корректность формализации; он обеспечивает трассировку.",
+      "also": [
+        "15",
+        "43",
+        "52",
+        "52.1",
+        "59",
+        "76"
+      ]
+    },
+    "forall": {
+      "sec": "52",
+      "title": "Finite domains",
+      "doc": "допустим в representation profile, но не executable без domain provider.",
+      "also": [
+        "15",
+        "52.1",
+        "111",
+        "231.1",
+        "270",
+        "271"
+      ]
+    },
+    "forbearance": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "`achieve F during W;` задаёт цель достижения `F` в окне `W`, а\n`maintain F during W;` — цель поддержания `F` в этом окне. Эти краткие\nформы в `duty` эквивалентны полным блокам `goal achievement` и\n`goal maintenance` с полями `condition F; window W;` (DECISION-0185).",
+      "also": [
+        "15",
+        "279.2.3"
+      ]
+    },
+    "format": {
+      "sec": "85",
+      "title": "Calendar snapshot",
+      "doc": "Calendar должен быть immutable и versioned. В authoring syntax `content_hash` означает digest **содержимого календарного dataset**, а не semantic hash CLIR-node. Компилятор отдельно вычисляет `contentHash` самого canonical node.",
+      "also": [
+        "198",
+        "279.1.9",
+        "279.2.6"
+      ]
+    },
+    "fragment": {
+      "sec": "28",
+      "title": "Fragment",
+      "doc": "Fragment ДОЛЖЕН иметь стабильный ID. Номер статьи является locator metadata, но не единственным основанием идентичности.",
+      "also": [
+        "6",
+        "14",
+        "15",
+        "152",
+        "184",
+        "212"
+      ]
+    },
+    "from": {
+      "sec": "86",
+      "title": "Deadline policy",
+      "doc": "`from` встречается ровно один раз и является положительным событийным\nлитералом, использующим единственный binder типа `Date`. `due` встречается\nровно один раз и является положительным вызовом предиката без последнего\nаргумента даты. …",
+      "also": [
+        "47",
+        "78.2",
+        "84",
+        "150",
+        "160",
+        "162"
+      ]
+    },
+    "function": {
+      "sec": "46",
+      "title": "Functions",
+      "doc": "- возвращает data value, не proposition;\n- должна быть чистой в `pure` mode;\n- не может создавать assertions или norms;\n- не читает ambient clock/network;\n- может завершиться `Result<T,E>`, если операция частична.",
+      "also": [
+        "15",
+        "47",
+        "50",
+        "179",
+        "186",
+        "218"
+      ]
+    },
+    "given": {
+      "sec": "267",
+      "title": "Test syntax",
+      "doc": "DECISION-0186: `test \"group\" variants (amount: Money) { \"row-a\" (10 KZT);\n\"row-b\" (20 KZT); } { given { ... } evaluate ...; expect ...; }` задаёт\nчисловые варианты фиксированного полного given. Каждая строка становится\nсамостоятельным тестом с явно указанным заголовком и локальными const.\nОжидания общие и явные; отсутствующие факты, отрицания и BOTH не выводятся\nиз таблицы. …",
+      "also": [
+        "89",
+        "168"
+      ]
+    },
+    "goal": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "`achieve F during W;` задаёт цель достижения `F` в окне `W`, а\n`maintain F during W;` — цель поддержания `F` в этом окне. Эти краткие\nформы в `duty` эквивалентны полным блокам `goal achievement` и\n`goal maintenance` с полями `condition F; window W;` (DECISION-0185).",
+      "also": [
+        "15",
+        "77",
+        "123",
+        "129",
+        "135",
+        "141"
+      ]
+    },
+    "governs": {
+      "sec": "87",
+      "title": "Rule temporal qualifiers",
+      "doc": "`effective` проверяется относительно `context.legal_time`. `governs axis interval` задаёт temporal scope регулируемого факта. Это позволяет выразить ретроактивность без специальной магии.",
+      "also": [
+        "15",
+        "92",
+        "97",
+        "99",
+        "206"
+      ]
+    },
+    "hit": {
+      "sec": "166",
+      "title": "Decision tables",
+      "doc": "`first` и `multiple` сохраняют source order. `collect` упорядочивает matching\nrows по canonical row ID; `multiple` сохраняет дубликаты. `unique` обязан\nдоказать попарную непересекаемость. `any` допускает пересечение только при\nканонически одинаковом output; неизвестное доказательство не переносится в\nruntime и даёт `LDC-E8304 UNSUPPORTED_FEEL`. …"
+    },
+    "holder": {
+      "sec": "125",
+      "title": "Liberty",
+      "doc": "`liberty` является explicit/strong permission. Она может участвовать в priority conflict с prohibition/duty to forbear.",
+      "also": [
+        "15",
+        "53",
+        "127",
+        "128",
+        "129",
+        "270"
+      ]
+    },
+    "id": {
+      "sec": "71",
+      "title": "Assertion",
+      "doc": "DECISION-0187 позволяет вынести строковый StableId §14 в заголовок:\n`assert \"assert-acme-registered\": registered(ACME);`. Это то же поле `id`,\nчто у source-узлов и evidence (ERRATA E-0027); прежняя форма допустима:",
+      "also": [
+        "10",
+        "14",
+        "27",
+        "28",
+        "74",
+        "79"
+      ]
+    },
+    "if": {
+      "sec": "56",
+      "title": "Conditional expression",
+      "doc": "В canonical `IfTerm` condition сериализуется как Formula после lifting Boolean. `TRUE_ONLY` выбирает `then`, `FALSE_ONLY` — `else`; `BOTH` даёт `CONFLICTED_CONDITION`, а `NEITHER` сохраняет missing/external issues и не выбирает ветвь. Голый proposition в data conditional является static error с code action, предлагающим `established`, `supported`, `conflicted` или другой явный status-test.",
+      "also": [
+        "15",
+        "46",
+        "113",
+        "151",
+        "168",
+        "222"
+      ]
+    },
+    "immunity": {
+      "sec": "128",
+      "title": "Immunity",
+      "doc": "Immunity блокирует соответствующую legal transformation, но не обязательно запрещает физическое действие органа. Invalid exercise может всё равно фактически произойти и иметь отдельные последствия.",
+      "also": [
+        "15",
+        "122",
+        "129",
+        "216",
+        "279.2.3",
+        "280.3"
+      ]
+    },
+    "immutable": {
+      "sec": "186",
+      "title": "Counterfactual",
+      "doc": "Без cost function понятие «минимальное изменение» неопределённо."
+    },
+    "import": {
+      "sec": "23",
+      "title": "Import",
+      "doc": "Алиас `as` и селекция `::{…}` зарезервированы для 0.2 и отвергаются `LDC-E0206` (errata E-0070, вектор T117): в 0.1 пакет адресуется своим именем, а его `pub`-символы — квалификацией `kz.sources::Symbol`.",
+      "also": [
+        "10",
+        "11",
+        "15",
+        "168",
+        "225",
+        "271"
+      ]
+    },
+    "in": {
+      "sec": "24",
+      "title": "Visibility",
+      "doc": "По умолчанию declaration является `internal`. Production API и межпакетные references могут обращаться только к `pub` declarations.",
+      "also": [
+        "9",
+        "15",
+        "27",
+        "28",
+        "31",
+        "32.1"
+      ]
+    },
+    "in_force": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "31",
+        "92",
+        "196",
+        "198",
+        "271"
+      ]
+    },
+    "include": {
+      "sec": "152",
+      "title": "Interpretation",
+      "doc": "`include` и `exclude` — позиция ЧЛЕНСТВА, и она остаётся ЛОКАЛЬНОЙ. Квалифицированная ссылка здесь отвергается, и причина в самой канонической экспансии, описанной ниже: её вычисляет lowering ИЗ ОБЪЯВЛЕНИЯ, а объявления соседа у него нет — импорт несёт интерфейс, а не узлы (§23). …",
+      "also": [
+        "24",
+        "86",
+        "157",
+        "168",
+        "271"
+      ]
+    },
+    "inclusive": {
+      "sec": "279.2.3",
+      "title": "Деонтическая голова emit",
+      "doc": "**Состав головы.** Модальность — `duty` либо `prohibition` (DECISION-0209\nР6; `liberty`, `power`, `immunity` — вне профиля 0.2, `LDC-E1335`). Путь\nшаблона — `generated_ref` вида `<путь правила>/norm` (§279.2.4). …"
+    },
+    "infinity": {
+      "sec": "20",
+      "title": "Интервалы",
+      "doc": "Границы могут быть открытыми или закрытыми. `infinity` допустимо только там, где тип имеет упорядоченное бесконечное расширение.",
+      "also": [
+        "15",
+        "27",
+        "32.3",
+        "71",
+        "74",
+        "86"
+      ]
+    },
+    "initial": {
+      "sec": "201.1",
+      "title": "Узел `procedure` (DECISION-0156)",
+      "doc": "DECISION-0013 §2.1 гордился тем, что профиль §159–§164 не порождает ни одного\nнового вида узла: состояния и переходы становились константами, а автомат —\nтремя видами правил. Свёртка §161.1 этого не выдерживает, и не по объёму\nработы. …",
+      "also": [
+        "160",
+        "162"
+      ]
+    },
+    "input": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации.",
+      "also": [
+        "166",
+        "270",
+        "280.4"
+      ]
+    },
+    "institutional": {
+      "sec": "45",
+      "title": "Relations",
+      "doc": "Kind является metadata для analysis и policies. Сам по себе он не меняет truth semantics.",
+      "also": [
+        "271"
+      ]
+    },
+    "integer": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:",
+      "also": [
+        "279.1.5"
+      ]
+    },
+    "internal": {
+      "sec": "24",
+      "title": "Visibility",
+      "doc": "По умолчанию declaration является `internal`. Production API и межпакетные references могут обращаться только к `pub` declarations.",
+      "also": [
+        "15"
+      ]
+    },
+    "interpretation": {
+      "sec": "152",
+      "title": "Interpretation",
+      "doc": "- rules;\n- priorities;\n- definitions;\n- anchors;\n- metadata;\n- lifecycle.",
+      "also": [
+        "9",
+        "15",
+        "89",
+        "93.4",
+        "115",
+        "153"
+      ]
+    },
+    "interpretation_group": {
+      "sec": "155",
+      "title": "Interpretation group",
+      "doc": "`alternatives` принимает и квалифицированную ссылку на `pub interpretation` чужого пакета (§23/§24, DECISION-0152) — тогда группа собирается в пакете-потребителе над прочтениями, каждое из которых объявлено рядом со СВОИМ закреплённым первоисточником. …",
+      "also": [
+        "15"
+      ]
+    },
+    "invalidated": {
+      "sec": "92",
+      "title": "Edition applicability",
+      "doc": "Условие 3 `evaluate` применяет ко всякому нормативному узлу с якорями (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): узел, ВСЕ датирующие якоря которого ведут на редакции, неприменимые на legal time по машине lifecycle §31 (`closed` | `suspended` | `not_yet`), в evaluation не участвует — так же, как правило вне `effective` §87 (условие 4). …",
+      "also": [
+        "31"
+      ]
+    },
+    "join": {
+      "sec": "162",
+      "title": "Concurrency",
+      "doc": "Parallel branches имеют explicit tokens/regions. Отсутствие branch state не означает failure. Join policy должна быть явной:",
+      "also": [
+        "180.2",
+        "185.1",
+        "201.1",
+        "267"
+      ]
+    },
+    "judgment": {
+      "sec": "98",
+      "title": "Body",
+      "doc": "`judgment` relation в body делает evaluation potentially `REQUIRES_JUDGMENT`. Сила правила здесь НЕ различается: `strict`, `defeasible` и `defeater` называют судью одинаково. Обратное прочтение — что канал §47.3 виден только сквозь строгое тело — обе реализации держали до 31.08.2026, и дело за поражаемым правилом отвечало `NEITHER` с evaluation status `COMPUTED`, то есть молчанием, неотличимым от  …",
+      "also": [
+        "8",
+        "15",
+        "47",
+        "52.1",
+        "69",
+        "73"
+      ]
+    },
+    "jurisdiction": {
+      "sec": "194",
+      "title": "Source/provenance checks",
+      "doc": "`jurisdiction`, `authority`, `issuer` работы и редакции источника — идентификаторы института (StableId), не термы (errata E-0117): объявления §54 не требуют, к проверке §188 не относятся, сверяются равенством.",
+      "also": [
+        "27",
+        "53",
+        "54",
+        "89",
+        "90",
+        "94"
+      ]
+    },
+    "key": {
+      "sec": "279.1.4",
+      "title": "Порождаемое: узлы, идентичности, метки, якоря",
+      "doc": "**Идентичности.** `self` = `<ns>#<Имя>` экземпляра либо значение `@id`\nэкземпляра. Дочерние сегменты структурны: `self/elements`,\n`self/exemption/VoluntaryReport/excludes` (`key(c)` — имя случая). В id не\nвходят порядковый номер случая, координаты, версия определения и digest\nпакета определения; добавление случая не переименовывает существующие узлы.\nВсе порождаемые id резервируются вместе с id об …",
+      "also": [
+        "45",
+        "271",
+        "279.1.2",
+        "279.1.3",
+        "280.2"
+      ]
+    },
+    "kind": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "`kind` является URI-addressable symbol из jurisdiction profile, а не hard-coded enum Core.",
+      "also": [
+        "28",
+        "45",
+        "47",
+        "49",
+        "64.2",
+        "170"
+      ]
+    },
+    "label": {
+      "sec": "16",
+      "title": "Комментарии",
+      "doc": "Комментарии не участвуют в семантике, но doc comments сохраняются в High-level IR.",
+      "also": [
+        "14",
+        "22",
+        "27",
+        "47",
+        "86",
+        "202"
+      ]
+    },
+    "labels": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:",
+      "also": [
+        "201",
+        "202",
+        "209",
+        "218",
+        "270",
+        "279.2.3"
+      ]
+    },
+    "language": {
+      "sec": "22",
+      "title": "Заголовок файла",
+      "doc": "Версия в `language \"law.core\" version \"<v>\"` сверяется с реестром языка `spec/feature-registry.json` ТОЧНО (errata E-0156): `0.1.0` не есть `0.1`, версия вне реестра — `LDC-E1401` (§266.1). Ревизия семантики, которую конверт CLIR и хэши §209 несут для этой версии, — `semanticsId` реестра.",
+      "also": [
+        "10",
+        "15",
+        "27",
+        "32.1",
+        "168",
+        "170"
+      ]
+    },
+    "let": {
+      "sec": "55",
+      "title": "Let",
+      "doc": "`let` имеет lexical scope и не создаёт assertion. Последовательность authoring `let` нормализуется в nested canonical terms:",
+      "also": [
+        "15",
+        "34",
+        "46",
+        "53",
+        "86",
+        "97"
+      ]
+    },
+    "liberty": {
+      "sec": "125",
+      "title": "Liberty",
+      "doc": "`liberty` является explicit/strong permission. Она может участвовать в priority conflict с prohibition/duty to forbear.",
+      "also": [
+        "15",
+        "122",
+        "216",
+        "222",
+        "279.2.3"
+      ]
+    },
+    "list": {
+      "sec": "166",
+      "title": "Decision tables",
+      "doc": "`first` и `multiple` сохраняют source order. `collect` упорядочивает matching\nrows по canonical row ID; `multiple` сохраняет дубликаты. `unique` обязан\nдоказать попарную непересекаемость. `any` допускает пересечение только при\nканонически одинаковом output; неизвестное доказательство не переносится в\nruntime и даёт `LDC-E8304 UNSUPPORTED_FEEL`. …",
+      "also": [
+        "279.1.2"
+      ]
+    },
+    "locator": {
+      "sec": "28",
+      "title": "Fragment",
+      "doc": "Fragment ДОЛЖЕН иметь стабильный ID. Номер статьи является locator metadata, но не единственным основанием идентичности.",
+      "also": [
+        "30",
+        "32.1",
+        "32.3",
+        "271"
+      ]
+    },
+    "maintain": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "`achieve F during W;` задаёт цель достижения `F` в окне `W`, а\n`maintain F during W;` — цель поддержания `F` в этом окне. Эти краткие\nформы в `duty` эквивалентны полным блокам `goal achievement` и\n`goal maintenance` с полями `condition F; window W;` (DECISION-0185)."
+    },
+    "maintenance": {
+      "sec": "137",
+      "title": "Maintenance satisfaction",
+      "doc": "Maintenance duty `violated`, если существует accepted counterexample в window.",
+      "also": [
+        "15",
+        "124",
+        "271",
+        "279.2.3"
+      ]
+    },
+    "map": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "`LanguageTag` 0.1 использует переносимый BCP-47-compatible subset `[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*`; это поддерживает, в частности, `kk-KZ`, `ru-KZ` и region subtags вроде `es-419`. Resolver канонизирует casing для сравнения, но сохраняет исходное написание как source trivia. Grandfathered/private-use tags требуют feature profile и нормализуются в явный canonical value.",
+      "also": [
+        "46",
+        "279.1.9",
+        "279.2.6"
+      ]
+    },
+    "match": {
+      "sec": "55",
+      "title": "Let",
+      "doc": "`let` имеет lexical scope и не создаёт assertion. Последовательность authoring `let` нормализуется в nested canonical terms:",
+      "also": [
+        "15",
+        "39",
+        "46",
+        "268",
+        "280.3"
+      ]
+    },
+    "materialization_status": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation."
+    },
+    "max": {
+      "sec": "51",
+      "title": "Collections",
+      "doc": "- `List<T>` — упорядоченная коллекция с дубликатами;\n- `Set<T>` — неупорядоченная коллекция без дубликатов;\n- `Map<K,V>` — неупорядоченное отображение;\n- итерация, влияющая на результат, ДОЛЖНА иметь детерминированный порядок;\n- `sum` над Decimal/Money/Quantity определяется точно;\n- `average` требует explicit rounding/precision, если результат не точен.",
+      "also": [
+        "57",
+        "58",
+        "59",
+        "111",
+        "238"
+      ]
+    },
+    "measures": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации.",
+      "also": [
+        "75",
+        "168"
+      ]
+    },
+    "media_type": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation."
+    },
+    "message": {
+      "sec": "93.3",
+      "title": "Исполнение и место результата (errata E-0086)",
+      "doc": "**Issues.** `VIOLATED` даёт issue `CONSTRAINT_VIOLATED`, `CONFLICTED` —\n`CONSTRAINT_CONFLICTED`; `severity` — объявленная у constraint-а, причём\n`critical` записывается как `error` с `details.severity = \"critical\"`\n(`fatal` схемы зарезервирован за остановкой вычисления §238); `message` —\n`constraint <id> <вердикт>: <message constraint-а>` (без `message` — `требование\nне выполнено (§93.1)` / `antec …",
+      "also": [
+        "198"
+      ]
+    },
+    "min": {
+      "sec": "51",
+      "title": "Collections",
+      "doc": "- `List<T>` — упорядоченная коллекция с дубликатами;\n- `Set<T>` — неупорядоченная коллекция без дубликатов;\n- `Map<K,V>` — неупорядоченное отображение;\n- итерация, влияющая на результат, ДОЛЖНА иметь детерминированный порядок;\n- `sum` над Decimal/Money/Quantity определяется точно;\n- `average` требует explicit rounding/precision, если результат не точен.",
+      "also": [
+        "57",
+        "58",
+        "59",
+        "111",
+        "279.1.2",
+        "279.1.3"
+      ]
+    },
+    "mod": {
+      "sec": "58",
+      "title": "Arithmetic",
+      "doc": "`mod` на ноль — evaluation error с source span, как деление на ноль.",
+      "also": [
+        "89",
+        "168",
+        "212",
+        "272"
+      ]
+    },
+    "modify": {
+      "sec": "15",
+      "title": "Ключевые слова",
+      "doc": "Lexer различает **hard keywords** и **contextual keywords**."
+    },
+    "monotone": {
+      "sec": "65",
+      "title": "Status tests",
+      "doc": "`monotone(P)` (errata E-0018) вычислительно тождествен `supported(P)` — истинен при любой положительной опоре. Различие не в тесте, а в заявленном намерении и слоевой принадлежности: `monotone(P)` — ребро монотонной рекурсии §103, принадлежит слою L0; `supported(P)` — потребление конфликта, остаётся в L3. …",
+      "also": [
+        "47",
+        "52.1",
+        "56",
+        "70",
+        "98",
+        "110"
+      ]
+    },
+    "multiple": {
+      "sec": "166",
+      "title": "Decision tables",
+      "doc": "`first` и `multiple` сохраняют source order. `collect` упорядочивает matching\nrows по canonical row ID; `multiple` сохраняет дубликаты. `unique` обязан\nдоказать попарную непересекаемость. `any` допускает пересечение только при\nканонически одинаковом output; неизвестное доказательство не переносится в\nruntime и даёт `LDC-E8304 UNSUPPORTED_FEEL`. …"
+    },
+    "mutable": {
+      "sec": "186",
+      "title": "Counterfactual",
+      "doc": "Без cost function понятие «минимальное изменение» неопределённо."
+    },
+    "namespace": {
+      "sec": "22",
+      "title": "Заголовок файла",
+      "doc": "Версия в `language \"law.core\" version \"<v>\"` сверяется с реестром языка `spec/feature-registry.json` ТОЧНО (errata E-0156): `0.1.0` не есть `0.1`, версия вне реестра — `LDC-E1401` (§266.1). Ревизия семантики, которую конверт CLIR и хэши §209 несут для этой версии, — `semanticsId` реестра.",
+      "also": [
+        "10",
+        "15",
+        "25",
+        "43",
+        "168",
+        "202"
+      ]
+    },
+    "necessary": {
+      "sec": "151",
+      "title": "Necessary/sufficient conditions",
+      "doc": "десугаризуется в non-derivational constraint `when X; require Y;`. Если `Y` является literal и автор действительно хочет derive его, он пишет явный rule; `only_if` никогда не делает это автоматически.",
+      "also": [
+        "144"
+      ]
+    },
+    "next": {
+      "sec": "32",
+      "title": "Revision graph",
+      "doc": "Revision graph ДОЛЖЕН быть immutable. Consolidated edition является новым edition с provenance chain.",
+      "also": [
+        "32.1",
+        "32.2"
+      ]
+    },
+    "no_evidence": {
+      "sec": "68",
+      "title": "`no_evidence`",
+      "doc": "- `P` derived без непосредственного evidence;\n- evidence для `P` есть, но оно inadmissible;\n- evidence отсутствует, но `P` установлено binding adjudication.",
+      "also": [
+        "15"
+      ]
+    },
+    "none": {
+      "sec": "174",
+      "title": "EvaluationResult",
+      "doc": "Неприменимая dimension отсутствует (`none`/omitted), а не заполняется фиктивным `NEITHER` или `UNDETERMINED`. Query declaration компилируется с result contract; несовпадающий runtime result является conformance error.",
+      "also": [
+        "15",
+        "279.1.2",
+        "279.1.3"
+      ]
+    },
+    "normative_auxiliary": {
+      "sec": "45",
+      "title": "Relations",
+      "doc": "Kind является metadata для analysis и policies. Сам по себе он не меняет truth semantics."
+    },
+    "not": {
+      "sec": "61",
+      "title": "Literal",
+      "doc": "Они хранятся независимо.",
+      "also": [
+        "15",
+        "52.1",
+        "63.1",
+        "67",
+        "71",
+        "98"
+      ]
+    },
+    "not_known": {
+      "sec": "67",
+      "title": "`not_known`",
+      "doc": "`not_known(P)`:\n\n- не выводит `not P`;\n- допустимо только в rule bodies;\n- является non-monotonic/status-sensitive dependency;\n- требует stratification;\n- не должно использоваться как замена explicit closed-world declaration.",
+      "also": [
+        "15",
+        "47",
+        "52.1",
+        "56",
+        "77",
+        "93.3"
+      ]
+    },
+    "number": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "271"
+      ]
+    },
+    "observed": {
+      "sec": "71",
+      "title": "Assertion",
+      "doc": "DECISION-0187 позволяет вынести строковый StableId §14 в заголовок:\n`assert \"assert-acme-registered\": registered(ACME);`. Это то же поле `id`,\nчто у source-узлов и evidence (ERRATA E-0027); прежняя форма допустима:",
+      "also": [
+        "72",
+        "74",
+        "78.2"
+      ]
+    },
+    "of": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "77",
+        "152",
+        "153",
+        "154",
+        "156",
+        "158"
+      ]
+    },
+    "official": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "16",
+        "22",
+        "28",
+        "47",
+        "86",
+        "154"
+      ]
+    },
+    "officiality": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "271"
+      ]
+    },
+    "on": {
+      "sec": "51",
+      "title": "Collections",
+      "doc": "- `List<T>` — упорядоченная коллекция с дубликатами;\n- `Set<T>` — неупорядоченная коллекция без дубликатов;\n- `Map<K,V>` — неупорядоченное отображение;\n- итерация, влияющая на результат, ДОЛЖНА иметь детерминированный порядок;\n- `sum` над Decimal/Money/Quantity определяется точно;\n- `average` требует explicit rounding/precision, если результат не точен.",
+      "also": [
+        "160",
+        "161",
+        "162",
+        "164",
+        "180.2",
+        "185.1"
+      ]
+    },
+    "op": {
+      "sec": "32.1",
+      "title": "Операции поправки",
+      "doc": "Ребро revision МОЖЕТ нести операции — формализованную дельту изменяющего акта. Ребро без операций остаётся аннотацией связи; ребро с операциями ДОЛЖНО удовлетворять инварианту консолидации (§32.2).",
+      "also": [
+        "65"
+      ]
+    },
+    "opaque": {
+      "sec": "8",
+      "title": "Conformance-профили",
+      "doc": "Поддерживает все representational элементы, включая `judgment` и `opaque`, но не обязана их исполнять.",
+      "also": [
+        "15",
+        "47",
+        "52.1",
+        "122"
+      ]
+    },
+    "opposed": {
+      "sec": "65",
+      "title": "Status tests",
+      "doc": "`monotone(P)` (errata E-0018) вычислительно тождествен `supported(P)` — истинен при любой положительной опоре. Различие не в тесте, а в заявленном намерении и слоевой принадлежности: `monotone(P)` — ребро монотонной рекурсии §103, принадлежит слою L0; `supported(P)` — потребление конфликта, остаётся в L3. …",
+      "also": [
+        "15",
+        "127"
+      ]
+    },
+    "option": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:",
+      "also": [
+        "279.1.3"
+      ]
+    },
+    "or": {
+      "sec": "52.1",
+      "title": "Finite relation comprehensions",
+      "doc": "`or` под `not` и внутри operand status test §65 этим правилом не\nзатрагивается. Generator, у которого после развёртки остаётся конструкция вне\nисполнимого подмножества, выводит правило, в чьём теле, голове или `scope`\nстоит comprehension, из исполнения с `NON_EXECUTABLE_RULE` и причиной — он не\nроняет evaluation целиком. …",
+      "also": [
+        "15",
+        "64",
+        "65",
+        "71",
+        "127",
+        "198"
+      ]
+    },
+    "order": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "28",
+        "271"
+      ]
+    },
+    "origin": {
+      "sec": "73",
+      "title": "Origin",
+      "doc": "`assumed_for_simulation` не должен попадать в regulatory result без явного режима simulation.",
+      "also": [
+        "71",
+        "78.2",
+        "168",
+        "207.1",
+        "276"
+      ]
+    },
+    "otherwise": {
+      "sec": "166",
+      "title": "Decision tables",
+      "doc": "`priority` пишется только как `table hit priority order high, medium, low`:\nкаждый output строки, включая final `otherwise`, обязан присутствовать в\nявном order list. Он выбирает первый matching output по этому списку, а не по\nпорядку строк. `collect` всегда пишет `aggregate list|count|sum|min|max`."
+    },
+    "outcome": {
+      "sec": "180.2",
+      "title": "Proof-узлы свёртки процедур (DECISION-0156)",
+      "doc": "При `outcome: invalid` у попытки узел называет ПРИЧИНУ полем `reason`, и\nсловарь причин закрыт ПЯТЬЮ значениями: четыре условия валидности §161.1 —\n`from`, `on`, `guard`, `requires` — и пятое, `join`: политика соединения\n§162.2 не удовлетворена. …",
+      "also": [
+        "181.2",
+        "276"
+      ]
+    },
+    "over": {
+      "sec": "85",
+      "title": "Calendar snapshot",
+      "doc": "Calendar должен быть immutable и versioned. В authoring syntax `content_hash` означает digest **содержимого календарного dataset**, а не semantic hash CLIR-node. Компилятор отдельно вычисляет `contentHash` самого canonical node.",
+      "also": [
+        "15",
+        "53",
+        "82",
+        "116",
+        "117",
+        "118"
+      ]
+    },
+    "overlaps": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "Пятая и шестая строки — ТЕРМЫ, а не предикаты: `before`/`after`/`during`/`overlaps`/`contains` возвращают Boolean и ничего не строят, тогда как эти девять порождают значения (`Date` у шагов и границ, `Integer` у измерений и дня недели). …"
+    },
+    "overruled": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "- `vocabulary` — id словаря; `court` — имя суда; `decided` — дата решения\n  (обязательна: без неё holding не имел бы окна действия, 276.6);\n- `plaintiff`, `defendant` — факторные множества X_π, X_δ, найденные судом:\n  подмножества соответствующих списков словаря;\n- `outcome` — литерал с полярностью над переменными сигнатуры: исход за\n  сторону π при положительной полярности и за δ при отрицательно …"
+    },
+    "package": {
+      "sec": "22",
+      "title": "Заголовок файла",
+      "doc": "Версия в `language \"law.core\" version \"<v>\"` сверяется с реестром языка `spec/feature-registry.json` ТОЧНО (errata E-0156): `0.1.0` не есть `0.1`, версия вне реестра — `LDC-E1401` (§266.1). Ревизия семантики, которую конверт CLIR и хэши §209 несут для этой версии, — `semanticsId` реестра.",
+      "also": [
+        "10",
+        "15",
+        "78.2",
+        "86",
+        "168",
+        "170"
+      ]
+    },
+    "parallel": {
+      "sec": "161",
+      "title": "Event-sourced semantics",
+      "doc": "**Совместность допустима только в попарно НЕЗАВИСИМЫХ активных областях\n§162.1.** Два перехода шага независимы, когда лежат в РАЗНЫХ областях одного\n`parallel`-состояния, ни одна из этих областей не является предком другой\n(вложенное составное состояние — предок своих областей), и области записи их\nэффектов не пересекаются: каждый двигает СВОЙ токен. …",
+      "also": [
+        "162",
+        "164"
+      ]
+    },
+    "params": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:"
+    },
+    "parent": {
+      "sec": "28",
+      "title": "Fragment",
+      "doc": "Fragment ДОЛЖЕН иметь стабильный ID. Номер статьи является locator metadata, но не единственным основанием идентичности.",
+      "also": [
+        "27"
+      ]
+    },
+    "percent": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`convert` (errata E-0072) — единственная конверсия величин v1: перевод\n`Quantity` в другую единицу явной формой с точным фактором парой целых\n(семантика — §49). Валютную конверсию держит §50 (`currency_convert`,\nexchange-snapshot), и `Money` терм отвергает поимённо.",
+      "also": [
+        "21",
+        "50.1",
+        "54",
+        "166"
+      ]
+    },
+    "period": {
+      "sec": "85",
+      "title": "Calendar snapshot",
+      "doc": "Calendar должен быть immutable и versioned. В authoring syntax `content_hash` означает digest **содержимого календарного dataset**, а не semantic hash CLIR-node. Компилятор отдельно вычисляет `contentHash` самого canonical node.",
+      "also": [
+        "123"
+      ]
+    },
+    "plaintiff": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "- `signature` — упорядоченный кортеж связывателей `(имя, тип)`; фактор —\n  объявленное `relation`, чьи параметры суть ПОДПОСЛЕДОВАТЕЛЬНОСТЬ сигнатуры\n  (фактор над одной сущностью кортежа допустим): каждый параметр берёт\n  ближайший ещё не занятый связыватель того же типа в порядке сигнатуры;\n- `domain` — один или более established-литералов над переменными\n  сигнатуры, связывающих ВСЕ её переменн …"
+    },
+    "policy": {
+      "sec": "30",
+      "title": "Reference",
+      "doc": "В surface-аннотации этому соответствуют три намеренно разные формы\n`@source(...)`: bare local fragment (`@source(BVR_125_3_RU)`) разрешается в\nStableId текущего пакета; строка (`@source(\"archive:…\")`) остаётся непрозрачным\nвнешним адресом для совместимости; `@source(pkg.name::FRAGMENT)` —\nмежпакетная ссылка. …",
+      "also": [
+        "68",
+        "75",
+        "78.2",
+        "86",
+        "112",
+        "118"
+      ]
+    },
+    "power": {
+      "sec": "127",
+      "title": "Power",
+      "doc": "Power описывает способность создать legal effect при valid exercise.",
+      "also": [
+        "15",
+        "111",
+        "122",
+        "129",
+        "161",
+        "172"
+      ]
+    },
+    "precedent": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "Cases, holdings и distinguishing представимы через sources, interpretations, rules и priorities. Специализированная similarity/precedent модель остаётся profile."
+    },
+    "predicate": {
+      "sec": "70",
+      "title": "Closed-world declarations",
+      "doc": "Только после валидной closure policy отсутствие записи может породить explicit negative assertion. Closure scope ДОЛЖЕН быть конечным и точно определённым.",
+      "also": [
+        "23",
+        "162",
+        "172",
+        "203",
+        "204",
+        "212"
+      ]
+    },
+    "prefer": {
+      "sec": "116",
+      "title": "Direct priority",
+      "doc": "DECISION-0187 допускает краткую форму `priority P: A > B reason R;` для\nодного безусловного ребра. Имя и основание обязательны; развёртка совпадает\nс полным блоком. Условие и дополнительные поля требуют полной записи.\nПриоритет не разрешает спора голов ОДНОЙ полярности ни при каких аргументах:\nпо §105 две applications противоположны, только если их heads — complements,\nи два вывода одного отношени …",
+      "also": [
+        "15",
+        "117",
+        "118",
+        "279.1.2"
+      ]
+    },
+    "prefix": {
+      "sec": "279.1.4",
+      "title": "Порождаемое: узлы, идентичности, метки, якоря",
+      "doc": "Развёртка экземпляра с `k` фиксированными `emit` и `m` случаями каждого\nобхода порождает ровно `k + Σ k_c·m_c` узлов; размер тел линеен по числу\nэлементов списков и сумме посылок случаев.",
+      "also": [
+        "279.1.2"
+      ]
+    },
+    "presume": {
+      "sec": "146",
+      "title": "Presumption",
+      "doc": "1. defeasible rule `accused(p) => innocent(p)`;\n2. defeater либо contrary rule для exception;\n3. priority exception over presumption."
+    },
+    "presumption": {
+      "sec": "146",
+      "title": "Presumption",
+      "doc": "1. defeasible rule `accused(p) => innocent(p)`;\n2. defeater либо contrary rule для exception;\n3. priority exception over presumption.",
+      "also": [
+        "15",
+        "96",
+        "200",
+        "216",
+        "223",
+        "279.1.11"
+      ]
+    },
+    "previous": {
+      "sec": "32",
+      "title": "Revision graph",
+      "doc": "Revision graph ДОЛЖЕН быть immutable. Consolidated edition является новым edition с provenance chain.",
+      "also": [
+        "32.1",
+        "32.2",
+        "32.3"
+      ]
+    },
+    "priority": {
+      "sec": "106",
+      "title": "Priority relation",
+      "doc": "`A ≻ B` означает, что application A сильнее application B в данном Context.",
+      "also": [
+        "14",
+        "15",
+        "102",
+        "110",
+        "114",
+        "115"
+      ]
+    },
+    "procedure": {
+      "sec": "160",
+      "title": "Procedure declaration",
+      "doc": "Процедура объявляет **instance-параметр** — то, что её проходит. Он является\nединственной свободной переменной, видимой гардам всех переходов, и\nсвязывается предикатом `procedure_instance` при lowering (ERRATA E-0017,\nDECISION-0013).",
+      "also": [
+        "15",
+        "159",
+        "162",
+        "163",
+        "164",
+        "180.2"
+      ]
+    },
+    "profile": {
+      "sec": "10",
+      "title": "`law.toml`",
+      "doc": "`law.toml` является authoring manifest. Нормативное значение имеет разрешённый `law.lock`.",
+      "also": [
+        "33.1",
+        "78.2",
+        "89",
+        "159",
+        "168",
+        "198"
+      ]
+    },
+    "prohibition": {
+      "sec": "130",
+      "title": "Prohibition sugar",
+      "doc": "десугаризуется в duty с forbearance goal.",
+      "also": [
+        "15",
+        "200",
+        "216",
+        "222",
+        "279.2.3",
+        "279.2.7"
+      ]
+    },
+    "property": {
+      "sec": "270",
+      "title": "Property-based tests",
+      "doc": "Generator domain должен быть конечным/seeded, а seed фиксироваться в test manifest.",
+      "also": [
+        "15",
+        "267"
+      ]
+    },
+    "protected_effect": {
+      "sec": "128",
+      "title": "Immunity",
+      "doc": "Immunity блокирует соответствующую legal transformation, но не обязательно запрещает физическое действие органа. Invalid exercise может всё равно фактически произойти и иметь отдельные последствия.",
+      "also": [
+        "47"
+      ]
+    },
+    "protects": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации."
+    },
+    "pub": {
+      "sec": "16",
+      "title": "Комментарии",
+      "doc": "Комментарии не участвуют в семантике, но doc comments сохраняются в High-level IR.",
+      "also": [
+        "15",
+        "23",
+        "24",
+        "27",
+        "28",
+        "31"
+      ]
+    },
+    "publication": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "6",
+        "15",
+        "209",
+        "248"
+      ]
+    },
+    "published": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "31",
+        "271"
+      ]
+    },
+    "pure": {
+      "sec": "15",
+      "title": "Ключевые слова",
+      "doc": "Lexer различает **hard keywords** и **contextual keywords**.",
+      "also": [
+        "46",
+        "47",
+        "271"
+      ]
+    },
+    "quantity": {
+      "sec": "279.2.2",
+      "title": "Новые типы параметров и датовый терм",
+      "doc": "Тип `window` §279.1.2 остаётся типом посылки-агрегата §279.1.5 и в\nдеонтической голове НЕ употребляется: у агрегата окно — генератор\n`collect`, у позиции — payload нормы; форма записи и место в CLIR разные.",
+      "also": [
+        "279.2.1",
+        "279.2.6",
+        "279.2.7",
+        "279.2.8"
+      ]
+    },
+    "query": {
+      "sec": "173",
+      "title": "Query declaration",
+      "doc": "Query не добавляет support в legal state.",
+      "also": [
+        "15",
+        "93.3",
+        "168",
+        "172",
+        "179",
+        "202"
+      ]
+    },
+    "quorum": {
+      "sec": "162",
+      "title": "Concurrency",
+      "doc": "Parallel branches имеют explicit tokens/regions. Отсутствие branch state не означает failure. Join policy должна быть явной:",
+      "also": [
+        "201.1"
+      ]
+    },
+    "ratio": {
+      "sec": "276",
+      "title": "Precedent reasoning",
+      "doc": "- `vocabulary` — id словаря; `court` — имя суда; `decided` — дата решения\n  (обязательна: без неё holding не имел бы окна действия, 276.6);\n- `plaintiff`, `defendant` — факторные множества X_π, X_δ, найденные судом:\n  подмножества соответствующих списков словаря;\n- `outcome` — литерал с полярностью над переменными сигнатуры: исход за\n  сторону π при положительной полярности и за δ при отрицательно …"
+    },
+    "reason": {
+      "sec": "116",
+      "title": "Direct priority",
+      "doc": "DECISION-0187 допускает краткую форму `priority P: A > B reason R;` для\nодного безусловного ребра. Имя и основание обязательны; развёртка совпадает\nс полным блоком. Условие и дополнительные поля требуют полной записи.\nПриоритет не разрешает спора голов ОДНОЙ полярности ни при каких аргументах:\nпо §105 две applications противоположны, только если их heads — complements,\nи два вывода одного отношени …",
+      "also": [
+        "117",
+        "118",
+        "162",
+        "180.2",
+        "185.1",
+        "279.1.2"
+      ]
+    },
+    "record": {
+      "sec": "37",
+      "title": "Value records",
+      "doc": "Records сравниваются структурно и являются immutable values.",
+      "also": [
+        "15",
+        "41",
+        "50",
+        "71",
+        "82",
+        "86"
+      ]
+    },
+    "recorded": {
+      "sec": "71",
+      "title": "Assertion",
+      "doc": "DECISION-0187 позволяет вынести строковый StableId §14 в заголовок:\n`assert \"assert-acme-registered\": registered(ACME);`. Это то же поле `id`,\nчто у source-узлов и evidence (ERRATA E-0027); прежняя форма допустима:",
+      "also": [
+        "72",
+        "78.2",
+        "82",
+        "230"
+      ]
+    },
+    "recurring": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "`achieve F during W;` задаёт цель достижения `F` в окне `W`, а\n`maintain F during W;` — цель поддержания `F` в этом окне. Эти краткие\nформы в `duty` эквивалентны полным блокам `goal achievement` и\n`goal maintenance` с полями `condition F; window W;` (DECISION-0185).",
+      "also": [
+        "15",
+        "135",
+        "238"
+      ]
+    },
+    "reference": {
+      "sec": "30",
+      "title": "Reference",
+      "doc": "В surface-аннотации этому соответствуют три намеренно разные формы\n`@source(...)`: bare local fragment (`@source(BVR_125_3_RU)`) разрешается в\nStableId текущего пакета; строка (`@source(\"archive:…\")`) остаётся непрозрачным\nвнешним адресом для совместимости; `@source(pkg.name::FRAGMENT)` —\nмежпакетная ссылка. …",
+      "also": [
+        "15",
+        "170",
+        "198",
+        "203.1"
+      ]
+    },
+    "refuted": {
+      "sec": "127",
+      "title": "Power",
+      "doc": "**Форма `valid_when` (errata E-0190).** `valid_when` — формула; исполнимое подмножество 0.1 — литерал (в том числе под статусной обёрткой §65) либо конъюнкция таких литералов, вложенные `and` читаются одним плоским списком в порядке записи. …",
+      "also": [
+        "15",
+        "47",
+        "65",
+        "93.3",
+        "111"
+      ]
+    },
+    "refutes": {
+      "sec": "69",
+      "title": "Missing data",
+      "doc": "Держатель негатива (DECISION-0353 §2, errata E-0235). Голый отрицательный\nлитерал тела — `when not p(x)`, по §66 он же `established(not p(x))` — требует\nот `p(x)` статуса `FALSE_ONLY`, и получить его можно ТОЛЬКО от явного\nнегатива: отрицательной головы правила §99, отрицательного assertion §71,\nпринятой `refutes`-опоры §78.2.2 либо замыкания §70 с\n`derive_explicit_negative`. …",
+      "also": [
+        "75",
+        "78.2",
+        "168"
+      ]
+    },
+    "region": {
+      "sec": "93",
+      "title": "Material и personal scope",
+      "doc": "являются sugar над `scope` predicates, определёнными jurisdiction/domain packages.",
+      "also": [
+        "37",
+        "162",
+        "201.1"
+      ]
+    },
+    "relation": {
+      "sec": "45",
+      "title": "Relations",
+      "doc": "Kind является metadata для analysis и policies. Сам по себе он не меняет truth semantics.",
+      "also": [
+        "15",
+        "24",
+        "29",
+        "32",
+        "32.1",
+        "33"
+      ]
+    },
+    "repealed": {
+      "sec": "92",
+      "title": "Edition applicability",
+      "doc": "Условие 3 `evaluate` применяет ко всякому нормативному узлу с якорями (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): узел, ВСЕ датирующие якоря которого ведут на редакции, неприменимые на legal time по машине lifecycle §31 (`closed` | `suspended` | `not_yet`), в evaluation не участвует — так же, как правило вне `effective` §87 (условие 4). …",
+      "also": [
+        "31"
+      ]
+    },
+    "reports": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации.",
+      "also": [
+        "75",
+        "168",
+        "280.4"
+      ]
+    },
+    "request_schema": {
+      "sec": "47",
+      "title": "Effect/capability classes",
+      "doc": "Детерминированная локальная функция без внешних зависимостей.",
+      "also": [
+        "73"
+      ]
+    },
+    "require": {
+      "sec": "93.1",
+      "title": "Назначение",
+      "doc": "DECISION-0187 разрешает `constraint C(x: T) { … }` вместо `for x: T;`\nв теле. Доступны те же группы типов, что у rule. Заголовок и `for` тела\nвзаимоисключающие; семантика ограничения и порядок связывателей сохраняются.",
+      "also": [
+        "15",
+        "93.3",
+        "163",
+        "178",
+        "181.2",
+        "201.1"
+      ]
+    },
+    "requires": {
+      "sec": "163",
+      "title": "Dependencies",
+      "doc": "десугаризуется в body predicate.",
+      "also": [
+        "160",
+        "161",
+        "162",
+        "180.2",
+        "185.1",
+        "201.1"
+      ]
+    },
+    "resolve_at": {
+      "sec": "30",
+      "title": "Reference",
+      "doc": "В surface-аннотации этому соответствуют три намеренно разные формы\n`@source(...)`: bare local fragment (`@source(BVR_125_3_RU)`) разрешается в\nStableId текущего пакета; строка (`@source(\"archive:…\")`) остаётся непрозрачным\nвнешним адресом для совместимости; `@source(pkg.name::FRAGMENT)` —\nмежпакетная ссылка. …"
+    },
+    "resource": {
+      "sec": "238",
+      "title": "Resource limits",
+      "doc": "Manifest/runtime policy задаёт **семантические лимиты** — детерминированные счётчики, одинаковые для любых conforming-реализаций:",
+      "also": [
+        "9",
+        "85",
+        "170",
+        "266.3"
+      ]
+    },
+    "restored": {
+      "sec": "92",
+      "title": "Edition applicability",
+      "doc": "Условие 3 `evaluate` применяет ко всякому нормативному узлу с якорями (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): узел, ВСЕ датирующие якоря которого ведут на редакции, неприменимые на legal time по машине lifecycle §31 (`closed` | `suspended` | `not_yet`), в evaluation не участвует — так же, как правило вне `effective` §87 (условие 4). …",
+      "also": [
+        "31"
+      ]
+    },
+    "retrieved_at": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation."
+    },
+    "return": {
+      "sec": "173",
+      "title": "Query declaration",
+      "doc": "Query не добавляет support в legal state.",
+      "also": [
+        "15",
+        "46",
+        "165",
+        "271"
+      ]
+    },
+    "reviewer": {
+      "sec": "29",
+      "title": "Alignment мультиязычных фрагментов",
+      "doc": "Alignment не создаёт логическую эквивалентность формализаций."
+    },
+    "revision": {
+      "sec": "32",
+      "title": "Revision graph",
+      "doc": "Revision graph ДОЛЖЕН быть immutable. Consolidated edition является новым edition с provenance chain.",
+      "also": [
+        "15",
+        "32.1",
+        "32.3",
+        "248"
+      ]
+    },
+    "role": {
+      "sec": "43",
+      "title": "Role sugar",
+      "doc": "`role` порождает **ровно одну** package-константу `Taxpayer: LegalRole` со\nзначением собственного StableId. Это не создаёт ни membership-assertion, ни\nновую relation: `has_role` — единый standard relation `urn:law:std#has_role`.\nЕсли второй аргумент `has_role` является известной role-константой, compiler\nдополнительно проверяет, что первый аргумент совместим с её `for TypeRef`.",
+      "also": [
+        "15",
+        "216",
+        "218"
+      ]
+    },
+    "rule": {
+      "sec": "94",
+      "title": "Общая форма",
+      "doc": "Условие вывода записывается конъюнктом `when` (errata E-0070: форма `then … if …` снята из грамматики — парсер её не разбирал никогда). Canonical rule имеет одну body formula и одну head.",
+      "also": [
+        "9",
+        "14",
+        "15",
+        "16",
+        "25",
+        "33"
+      ]
+    },
+    "satisfies": {
+      "sec": "15",
+      "title": "Ключевые слова",
+      "doc": "Lexer различает **hard keywords** и **contextual keywords**.",
+      "also": [
+        "52",
+        "52.1",
+        "271",
+        "280.2"
+      ]
+    },
+    "scale": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "Единицы §49.2 — атомы с точным рациональным масштабом и вектором семи\nбазовых SI. `unit atm = 101325 * Pa;` — сахар явного объявления\n`unit atm dimension Mass / (Length * Time * Time) scale 101325 / 1;`\n(DECISION-0157, errata E-0150)."
+    },
+    "scope": {
+      "sec": "90",
+      "title": "Scope formula",
+      "doc": "`scope` семантически объединяется с `when`, но сохраняется отдельно в IR для indexing, analysis и объяснений.",
+      "also": [
+        "15",
+        "52.1",
+        "56",
+        "93",
+        "93.3",
+        "93.4"
+      ]
+    },
+    "selection": {
+      "sec": "155",
+      "title": "Interpretation group",
+      "doc": "`alternatives` принимает и квалифицированную ссылку на `pub interpretation` чужого пакета (§23/§24, DECISION-0152) — тогда группа собирается в пакете-потребителе над прочтениями, каждое из которых объявлено рядом со СВОИМ закреплённым первоисточником. …"
+    },
+    "self": {
+      "sec": "279.1.4",
+      "title": "Порождаемое: узлы, идентичности, метки, якоря",
+      "doc": "**Идентичности.** `self` = `<ns>#<Имя>` экземпляра либо значение `@id`\nэкземпляра. Дочерние сегменты структурны: `self/elements`,\n`self/exemption/VoluntaryReport/excludes` (`key(c)` — имя случая). В id не\nвходят порядковый номер случая, координаты, версия определения и digest\nпакета определения; добавление случая не переименовывает существующие узлы.\nВсе порождаемые id резервируются вместе с id об …",
+      "also": [
+        "41",
+        "279.1.2",
+        "279.1.3",
+        "279.2.3"
+      ]
+    },
+    "set": {
+      "sec": "79",
+      "title": "Event declaration",
+      "doc": "`event E` десугаризуется в immutable nominal entity subtype `Event` с inherited `id: StableId` и typed intrinsic fields/accessors. Для executable temporal use event declaration СЛЕДУЕТ иметь ровно один canonical `time: Interval<Instant>` либо явную mapping policy к нему."
+    },
+    "severity": {
+      "sec": "93.1",
+      "title": "Назначение",
+      "doc": "DECISION-0187 разрешает `constraint C(x: T) { … }` вместо `for x: T;`\nв теле. Доступны те же группы типов, что у rule. Заголовок и `for` тела\nвзаимоисключающие; семантика ограничения и порядок связывателей сохраняются.",
+      "also": [
+        "25",
+        "93.3",
+        "198"
+      ]
+    },
+    "snapshot": {
+      "sec": "47",
+      "title": "Effect/capability classes",
+      "doc": "Детерминированная локальная функция без внешних зависимостей.",
+      "also": [
+        "15",
+        "70",
+        "85",
+        "168",
+        "238",
+        "272"
+      ]
+    },
+    "snapshot_from": {
+      "sec": "47",
+      "title": "Effect/capability classes",
+      "doc": "Детерминированная локальная функция без внешних зависимостей."
+    },
+    "some": {
+      "sec": "79",
+      "title": "Event declaration",
+      "doc": "Instance syntax — форма record-конструктора (§53); её исполнимое определение — §79.1 (errata E-0141). *Блок остаётся `text` до исполнения S3 DECISION-0156: сегодняшний парсер `lawc` отвергает конструктор в позиции значения `const`, а `some(…)` — RESERVED 0.2 (errata E-0130); живая форма 0.1 — ниже.*",
+      "also": [
+        "15",
+        "279.1.2",
+        "279.1.3"
+      ]
+    },
+    "source": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "6",
+        "9",
+        "14",
+        "15",
+        "16",
+        "30"
+      ]
+    },
+    "source_anchor": {
+      "sec": "30",
+      "title": "Reference",
+      "doc": "В surface-аннотации этому соответствуют три намеренно разные формы\n`@source(...)`: bare local fragment (`@source(BVR_125_3_RU)`) разрешается в\nStableId текущего пакета; строка (`@source(\"archive:…\")`) остаётся непрозрачным\nвнешним адресом для совместимости; `@source(pkg.name::FRAGMENT)` —\nмежпакетная ссылка. …",
+      "also": [
+        "15",
+        "115",
+        "116",
+        "152",
+        "180"
+      ]
+    },
+    "stage": {
+      "sec": "210",
+      "title": "Stages",
+      "doc": "Конвейер тотален по декларациям: каждая грамматически допустимая декларация\n(`grammar.ebnf`, продукция `declaration`) ДОЛЖНА быть **названа** результатом\nкомпиляции — либо породить узел CLIR, либо получить диагностику, называющую вид\nконструкции. Молчаливый пропуск запрещён.",
+      "also": [
+        "111",
+        "266.4"
+      ]
+    },
+    "starts": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "Пятая и шестая строки — ТЕРМЫ, а не предикаты: `before`/`after`/`during`/`overlaps`/`contains` возвращают Boolean и ничего не строят, тогда как эти девять порождают значения (`Date` у шагов и границ, `Integer` у измерений и дня недели). …"
+    },
+    "state": {
+      "sec": "160",
+      "title": "Procedure declaration",
+      "doc": "Процедура объявляет **instance-параметр** — то, что её проходит. Он является\nединственной свободной переменной, видимой гардам всех переходов, и\nсвязывается предикатом `procedure_instance` при lowering (ERRATA E-0017,\nDECISION-0013).",
+      "also": [
+        "162",
+        "201.1"
+      ]
+    },
+    "status": {
+      "sec": "65",
+      "title": "Status tests",
+      "doc": "`monotone(P)` (errata E-0018) вычислительно тождествен `supported(P)` — истинен при любой положительной опоре. Различие не в тесте, а в заявленном намерении и слоевой принадлежности: `monotone(P)` — ребро монотонной рекурсии §103, принадлежит слою L0; `supported(P)` — потребление конфликта, остаётся в L3. …",
+      "also": [
+        "15",
+        "29",
+        "36",
+        "56",
+        "74",
+        "78.2"
+      ]
+    },
+    "strict": {
+      "sec": "103",
+      "title": "Strict closure",
+      "doc": "Strict closure вычисляется как наименьшая неподвижная точка strict rules над accepted prerequisites. Positive recursion strict rules разрешена. Цикл без base fact ничего не выводит.",
+      "also": [
+        "15",
+        "16",
+        "76",
+        "78.2",
+        "95",
+        "96"
+      ]
+    },
+    "sufficient": {
+      "sec": "144",
+      "title": "Definition",
+      "doc": "- `sufficient`: strict rule `condition -> concept` — режим депрекирован (errata E-0071): узел правила совпадает с рукописным `rule` байтово модуло id, и в отличие от `exact`/`necessary` режим не добавляет necessary-половины; реализация отвечает предупреждением `LDC-E1328`, в 0.2 запись станет ошибкой;\n- `necessary`: constraint `concept requires condition`;\n- `exact`: sufficient strict rule + neces …",
+      "also": [
+        "151",
+        "206"
+      ]
+    },
+    "sum": {
+      "sec": "189",
+      "title": "Type checks",
+      "doc": "Вид значения `empty`, не совпадающий с видом элемента коллекции, — ошибка\n`LDC-E2119` на `check` и `lower` (errata E-0195); на рукописном CLIR тот же\nразлад ловит исполнение (`TYPE_ERROR`, §59). Имя аргумента агрегата вне\nперечня `empty`/`precision`/`rounding`, `empty` у `count`, `precision`/\n`rounding` не у `average` — включая молчавшую прежде позиционную тройку\n`sum(xs, 2, \"HALF_UP\")` — и значен …",
+      "also": [
+        "51",
+        "59",
+        "111"
+      ]
+    },
+    "support": {
+      "sec": "62",
+      "title": "Support pair",
+      "doc": "- `t = 1`, если имеется accepted positive support;\n- `f = 1`, если имеется accepted negative support.",
+      "also": [
+        "15",
+        "65",
+        "75",
+        "91",
+        "108",
+        "109"
+      ]
+    },
+    "supported": {
+      "sec": "65",
+      "title": "Status tests",
+      "doc": "`monotone(P)` (errata E-0018) вычислительно тождествен `supported(P)` — истинен при любой положительной опоре. Различие не в тесте, а в заявленном намерении и слоевой принадлежности: `monotone(P)` — ребро монотонной рекурсии §103, принадлежит слою L0; `supported(P)` — потребление конфликта, остаётся в L3. …",
+      "also": [
+        "15",
+        "47",
+        "52.1",
+        "56",
+        "66",
+        "70"
+      ]
+    },
+    "supports": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "- принятая опора `supports` даёт положительную поддержку литерала `to`;\n- принятая опора `refutes` даёт отрицательную поддержку литерала `to`;\n- непринятая опора не даёт поддержки НИ В ОДНО множество, и в частности **не\n  является доказательством отрицания** `to`;\n- отсутствие сведений о допустимости есть «недостаточно данных», а не\n  доказанная недопустимость.",
+      "also": [
+        "75",
+        "280.2"
+      ]
+    },
+    "suspended": {
+      "sec": "92",
+      "title": "Edition applicability",
+      "doc": "Условие 3 `evaluate` применяет ко всякому нормативному узлу с якорями (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): узел, ВСЕ датирующие якоря которого ведут на редакции, неприменимые на legal time по машине lifecycle §31 (`closed` | `suspended` | `not_yet`), в evaluation не участвует — так же, как правило вне `effective` §87 (условие 4). …",
+      "also": [
+        "31",
+        "134"
+      ]
+    },
+    "table": {
+      "sec": "166",
+      "title": "Decision tables",
+      "doc": "`first` и `multiple` сохраняют source order. `collect` упорядочивает matching\nrows по canonical row ID; `multiple` сохраняет дубликаты. `unique` обязан\nдоказать попарную непересекаемость. `any` допускает пересечение только при\nканонически одинаковом output; неизвестное доказательство не переносится в\nruntime и даёт `LDC-E8304 UNSUPPORTED_FEEL`. …"
+    },
+    "target": {
+      "sec": "186",
+      "title": "Counterfactual",
+      "doc": "Без cost function понятие «минимальное изменение» неопределённо.",
+      "also": [
+        "93.3",
+        "178",
+        "273"
+      ]
+    },
+    "temporal_resolution_policy": {
+      "sec": "82",
+      "title": "Temporal axes",
+      "doc": "Jurisdiction profile МОЖЕТ добавлять axes, но не менять значения стандартных.",
+      "also": [
+        "83",
+        "89",
+        "168",
+        "170",
+        "272"
+      ]
+    },
+    "term": {
+      "sec": "86",
+      "title": "Deadline policy",
+      "doc": "`term` — контекстное ключевое слово authoring-поверхности 0.2. Конструкция\nзаписывает один юридический срок вместе с общим правилом и именованными\nособыми случаями:",
+      "also": [
+        "134",
+        "201.1",
+        "266.4",
+        "279.1.1",
+        "279.2.3"
+      ]
+    },
+    "terminal": {
+      "sec": "201.1",
+      "title": "Узел `procedure` (DECISION-0156)",
+      "doc": "1. **`schemaVersion` сдвигается** — узел новый, и документ с ним не читается\n   реализацией прежней версии. Сдвиг производится тем изменением, которое\n   впервые ЭМИТИРУЕТ узел (стадия S3 DECISION-0156), а не объявлением схемы.\n2. …",
+      "also": [
+        "160",
+        "162"
+      ]
+    },
+    "terminate": {
+      "sec": "134",
+      "title": "PositionInstance statuses",
+      "doc": "и получают обычные `TRUE_ONLY / FALSE_ONLY / BOTH / NEITHER` support states.",
+      "also": [
+        "15"
+      ]
+    },
+    "termination": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "Первая запись эквивалентна `goal achievement { condition F; window W; }`,\nвторая — `goal maintenance { condition F; window W; }`. `F` — полная формула,\n`W` — терм окна с прежними проверками типов; `during` и завершающая `;`\nобязательны. Эти слова контекстные и не запрещают одноимённые идентификаторы\nв других позициях. На верхнем уровне условия `during` завершает формулу,\nв том числе после числа. …",
+      "also": [
+        "139"
+      ]
+    },
+    "test": {
+      "sec": "267",
+      "title": "Test syntax",
+      "doc": "DECISION-0186: `test \"group\" variants (amount: Money) { \"row-a\" (10 KZT);\n\"row-b\" (20 KZT); } { given { ... } evaluate ...; expect ...; }` задаёт\nчисловые варианты фиксированного полного given. Каждая строка становится\nсамостоятельным тестом с явно указанным заголовком и локальными const.\nОжидания общие и явные; отсутствующие факты, отрицания и BOTH не выводятся\nиз таблицы. …",
+      "also": [
+        "9",
+        "15",
+        "225"
+      ]
+    },
+    "text": {
+      "sec": "28",
+      "title": "Fragment",
+      "doc": "Fragment ДОЛЖЕН иметь стабильный ID. Номер статьи является locator metadata, но не единственным основанием идентичности.",
+      "also": [
+        "32.1",
+        "50",
+        "79",
+        "86",
+        "89",
+        "135"
+      ]
+    },
+    "then": {
+      "sec": "99",
+      "title": "Head",
+      "doc": "1. positive literal;\n2. explicit negative literal;\n3. reference на norm template.",
+      "also": [
+        "15",
+        "46",
+        "56",
+        "76",
+        "77",
+        "88"
+      ]
+    },
+    "timezone": {
+      "sec": "82",
+      "title": "Temporal axes",
+      "doc": "Jurisdiction profile МОЖЕТ добавлять axes, но не менять значения стандартных.",
+      "also": [
+        "83",
+        "85",
+        "89",
+        "168",
+        "170",
+        "272"
+      ]
+    },
+    "timezone_db": {
+      "sec": "85",
+      "title": "Calendar snapshot",
+      "doc": "Calendar должен быть immutable и versioned. В authoring syntax `content_hash` означает digest **содержимого календарного dataset**, а не semantic hash CLIR-node. Компилятор отдельно вычисляет `contentHash` самого canonical node.",
+      "also": [
+        "89",
+        "170"
+      ]
+    },
+    "to": {
+      "sec": "161",
+      "title": "Event-sourced semantics",
+      "doc": "Тогда публикуются `valid_transition(x, T, e_k)`, `left_state(x, from(T), e_k)`,\n`entered_state(x, to(T), e_k)`, и текущее состояние становится `to(T)` — а при\nшаге из нескольких независимых переходов состоянием после `e_k` служит\nрезультат ОДНОВРЕМЕННОГО применения всех валидных переходов шага, каждый в\nсвоей области. Иначе попытка остаётся попыткой §164, состояние не меняется, и\nэто не дефект.",
+      "also": [
+        "47",
+        "78.2",
+        "84",
+        "129",
+        "160",
+        "162"
+      ]
+    },
+    "transition": {
+      "sec": "88",
+      "title": "Transition rules",
+      "doc": "Переходные положения являются обычными rules с приоритетом над общими resolver policies.",
+      "also": [
+        "160",
+        "162",
+        "163",
+        "180.2",
+        "201.1"
+      ]
+    },
+    "translation": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "218"
+      ]
+    },
+    "true": {
+      "sec": "15",
+      "title": "Ключевые слова",
+      "doc": "Lexer различает **hard keywords** и **contextual keywords**.",
+      "also": [
+        "10",
+        "52.1",
+        "64.1",
+        "70",
+        "86",
+        "126"
+      ]
+    },
+    "type": {
+      "sec": "40",
+      "title": "Type aliases",
+      "doc": "Alias не создаёт nominal separation. Для юридически значимого различия следует использовать entity или newtype profile.",
+      "also": [
+        "15",
+        "39",
+        "49",
+        "90",
+        "189",
+        "204"
+      ]
+    },
+    "unique": {
+      "sec": "166",
+      "title": "Decision tables",
+      "doc": "`first` и `multiple` сохраняют source order. `collect` упорядочивает matching\nrows по canonical row ID; `multiple` сохраняет дубликаты. `unique` обязан\nдоказать попарную непересекаемость. `any` допускает пересечение только при\nканонически одинаковом output; неизвестное доказательство не переносится в\nruntime и даёт `LDC-E8304 UNSUPPORTED_FEEL`. …"
+    },
+    "unit": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "`unit` объявляет ПРОСТУЮ единицу — атом алгебры: неделимый носитель\nточного положительного рационального масштаба и вектора размерности по\nсеми базовым SI. Число участвующих баз не ограничивается одной; показатели\nцелые, включая отрицательные. …",
+      "also": [
+        "259"
+      ]
+    },
+    "unknown": {
+      "sec": "127",
+      "title": "Power",
+      "doc": "**Форма `valid_when` (errata E-0190).** `valid_when` — формула; исполнимое подмножество 0.1 — литерал (в том числе под статусной обёрткой §65) либо конъюнкция таких литералов, вложенные `and` читаются одним плоским списком в порядке записи. …",
+      "also": [
+        "15",
+        "47",
+        "56",
+        "65",
+        "93.3",
+        "110"
+      ]
+    },
+    "unless": {
+      "sec": "149",
+      "title": "`unless`",
+      "doc": "`unless` на raw strict rule является static error: автор должен либо сделать legal rule defeasible, либо вынести точное условие применимости в strict body так, чтобы exception не требовало defeat.",
+      "also": [
+        "15",
+        "47",
+        "77",
+        "97",
+        "98",
+        "99"
+      ]
+    },
+    "unofficial": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "218"
+      ]
+    },
+    "uri": {
+      "sec": "27",
+      "title": "Три уровня идентичности источника",
+      "doc": "1. `source` — абстрактный правовой или документарный Work;\n2. `edition` — конкретное содержание, язык и редакция Expression;\n3. `publication` — конкретный файл или опубликованное представление Manifestation.",
+      "also": [
+        "74",
+        "168",
+        "194"
+      ]
+    },
+    "use": {
+      "sec": "78",
+      "title": "Provenance",
+      "doc": "Canonical IR может сериализовать эти отношения собственным compact representation и экспортировать их в W3C PROV-compatible form.",
+      "also": [
+        "168"
+      ]
+    },
+    "valid": {
+      "sec": "71",
+      "title": "Assertion",
+      "doc": "DECISION-0187 позволяет вынести строковый StableId §14 в заголовок:\n`assert \"assert-acme-registered\": registered(ACME);`. Это то же поле `id`,\nчто у source-узлов и evidence (ERRATA E-0027); прежняя форма допустима:",
+      "also": [
+        "49",
+        "72",
+        "74",
+        "78.2",
+        "85",
+        "87"
+      ]
+    },
+    "valid_when": {
+      "sec": "127",
+      "title": "Power",
+      "doc": "`valid_when`, читающий отношение суждения §47.3, не решается вычислением: до\nпоступления adjudicated assertion он остаётся неопределённым ПО ПРИЧИНЕ, а не\nпо нехватке фактов. Эффект в этом случае не материализуется по общему правилу\nвыше, но документ обязан назвать причину — evaluation status\n`REQUIRES_JUDGMENT` и типизированный `JudgmentRequest` (errata E-0100, §47.3).",
+      "also": [
+        "15",
+        "47",
+        "124",
+        "210"
+      ]
+    },
+    "value": {
+      "sec": "37",
+      "title": "Value records",
+      "doc": "Records сравниваются структурно и являются immutable values.",
+      "also": [
+        "39",
+        "41",
+        "47",
+        "49",
+        "50",
+        "52.1"
+      ]
+    },
+    "variants": {
+      "sec": "39",
+      "title": "Variants",
+      "doc": "Compiler ДОЛЖЕН проверять исчерпывающий `match` в executable profile.",
+      "also": [
+        "267"
+      ]
+    },
+    "verification": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "§78.1 описывает acceptance-фазу как обязанность реализации, но не задаёт ни\nносителя политики, ни её входов, ни формы решения. Настоящий раздел задаёт\n**один** исполнимый профиль. Профиль — машинерия ядра; сама политика есть\nданные пакета (правила CLIR), и ни одно правило конкретной политики не живёт\nв реализации."
+    },
+    "verifier": {
+      "sec": "78.2",
+      "title": "Исполнимый профиль EvidencePolicy `law.core.evidence-policy/0.1`",
+      "doc": "`recordedAt` записи ОБЯЗАТЕЛЕН (`InstantString`; неявного `Date → Instant`\nнет — §48). Результат проверки подлинности есть такое же сведение о мире, как\nсам документ, и подчиняется тому же срезу знания §72: исторический расчёт не\nвправе опираться на проверку, которой на момент знания ещё не существовало.\nСовпадения хэша для этого недостаточно — хэш отвечает «о том ли документе\nзапись», а не «была  …"
+    },
+    "version": {
+      "sec": "10",
+      "title": "`law.toml`",
+      "doc": "- `version` — та же ТОЧНАЯ версия, что и у строковой формы: с ней сверяется `import` (`LDC-E1111`, раздел 23) и она же закрепляется lockfile-ом (раздел 11). Строковая форма есть сокращение таблицы с одним `version`; смысл записи от формы не зависит;\n- `registry` — издатель, у которого зависимость взята. …",
+      "also": [
+        "22",
+        "23",
+        "168",
+        "170",
+        "202",
+        "271"
+      ]
+    },
+    "violation_policy": {
+      "sec": "279.2.3",
+      "title": "Деонтическая голова emit",
+      "doc": "**Состав головы.** Модальность — `duty` либо `prohibition` (DECISION-0209\nР6; `liberty`, `power`, `immunity` — вне профиля 0.2, `LDC-E1335`). Путь\nшаблона — `generated_ref` вида `<путь правила>/norm` (§279.2.4). …",
+      "also": [
+        "123"
+      ]
+    },
+    "when": {
+      "sec": "98",
+      "title": "Body",
+      "doc": "- proposition literals;\n- status tests;\n- pure Boolean comparisons;\n- finite quantifiers;\n- temporal predicates;\n- evidence predicates;\n- calls pure/snapshot functions.",
+      "also": [
+        "15",
+        "47",
+        "66",
+        "76",
+        "77",
+        "86"
+      ]
+    },
+    "where": {
+      "sec": "52.1",
+      "title": "Finite relation comprehensions",
+      "doc": "`collect all value: T, binder: U where F` допускает дополнительные\nexistential-local binder-ы generator-а. В коллекцию входит только `value`;\n`binder` различает решения с одинаковым value и не свободен снаружи. Это\nнужно, например, когда две разные позиции владения несут одну и ту же долю.",
+      "also": [
+        "15",
+        "41",
+        "59",
+        "191",
+        "270",
+        "271"
+      ]
+    },
+    "window": {
+      "sec": "279.1.2",
+      "title": "Определение",
+      "doc": "**Параметры.** Секция `params` обязательна и единственна; имена параметров\nуникальны. Типы параметров — закрытый перечень:",
+      "also": [
+        "15",
+        "32.3",
+        "77",
+        "82",
+        "123",
+        "124"
+      ]
+    },
+    "with": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "Единицы §49.2 — атомы с точным рациональным масштабом и вектором семи\nбазовых SI. `unit atm = 101325 * Pa;` — сахар явного объявления\n`unit atm dimension Mass / (Length * Time * Time) scale 101325 / 1;`\n(DECISION-0157, errata E-0150).",
+      "also": [
+        "29",
+        "198",
+        "223"
+      ]
+    },
+    "within": {
+      "sec": "279.1.5",
+      "title": "Посылка-агрегат (квантор с порогом)",
+      "doc": "`<ev>` и `<day>` — связыватели экземпляра (сущность события и её `Date`),\n`<events>` — параметр `relation(subject, ev, day)` (порядок и число\nаргументов — по объявлению параметра), `<window>` — параметр `window`,\n`<threshold>` — параметр `integer`; посылка-агрегат — не более одной на\nправило (вторая — `LDC-E1335`). Порождается ровно то, что написал бы\nавтор в теле правила §52.1/§59:"
+    },
+    "Action": {
+      "sec": "80",
+      "title": "Action declaration",
+      "doc": "Action является event с выделенным actor/agent. Декларация action не создаёт permission или duty.",
+      "also": [
+        "48",
+        "263"
+      ]
+    },
+    "Actor": {
+      "sec": "48",
+      "title": "Отсутствие implicit conversions",
+      "doc": "**Сущность против сущности (§42, errata E-0121).** Аргумент сущностного типа совместим с параметром, если его тип есть сам ожидаемый либо его потомок по цепи `base`, и цепь ведётся ЧЕРЕЗ ГРАНИЦУ ПАКЕТА: звеном может быть публичная сущность зависимости, чей надтип предъявил resolve-контекст §23 (`exportBases`, считает резолвер по CLIR зависимости, цепь алиасов §40 пройдена до цели). …",
+      "also": [
+        "42",
+        "43",
+        "79",
+        "123",
+        "220",
+        "261"
+      ]
+    },
+    "Amount": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "Семь базовых размерностей названы именами std: `Length`, `Mass`, `Time`,\n`Current`, `Temperature`, `Amount`, `Luminosity`. Носитель в CLIR — узел\n`unit_decl`; экспорт через границу пакета — `pub`, как у всякого символа §23.",
+      "also": [
+        "259"
+      ]
+    },
+    "Boolean": {
+      "sec": "34",
+      "title": "Разделение data values и propositions",
+      "doc": "`Boolean` является двухзначным data type. Результат relation не является `Boolean`; это proposition, оцениваемое как `TRUE_ONLY`, `FALSE_ONLY`, `BOTH` или `NEITHER`.",
+      "also": [
+        "35",
+        "58",
+        "64.1",
+        "86",
+        "201.1",
+        "257"
+      ]
+    },
+    "Bounds": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`Bounds` — замкнутый рациональный отрезок вместе с ДЕРИВАЦИЕЙ, которая его\nпородила. Записью §37 оно не строится — `record` в позиции `Bounds` есть\n`TYPE_ERROR`; его собственный литерал читается, но НЕ НА ВЕРУ: при чтении\nграницы ПЕРЕСЧИТЫВАЮТСЯ по деривации и сверяются с объявленными, и\nрасхождение отвергается кодом `BOUNDS_CERTIFICATE_INVALID`. …",
+      "also": [
+        "64.2",
+        "189",
+        "208"
+      ]
+    },
+    "BusinessPeriod": {
+      "sec": "84",
+      "title": "Duration types",
+      "doc": "Физическая продолжительность в секундах/наносекундах.",
+      "also": [
+        "35",
+        "258"
+      ]
+    },
+    "Calendar": {
+      "sec": "85",
+      "title": "Calendar snapshot",
+      "doc": "Calendar должен быть immutable и versioned. В authoring syntax `content_hash` означает digest **содержимого календарного dataset**, а не semantic hash CLIR-node. Компилятор отдельно вычисляет `contentHash` самого canonical node.",
+      "also": [
+        "35",
+        "201",
+        "258"
+      ]
+    },
+    "CalendarPeriod": {
+      "sec": "84",
+      "title": "Duration types",
+      "doc": "v1 возвращает **счёт дней** (`Integer`), а не `CalendarPeriod` с единицей:\nноситель единицы требует алгебры обратных единиц (`1/день` у дневной ставки),\nкоторой в v1 нет (§49: умножение только на скаляр). Единица остаётся видимой\nв имени функции. …",
+      "also": [
+        "35",
+        "124",
+        "258"
+      ]
+    },
+    "CardinalityError": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "`Rational` (errata E-0005) — точное рациональное значение: тип результата точного деления (§58) и допустимая внутренняя арифметика (§18); в canonical serialization представляется несократимой дробью. **Носитель не ограничен по разрядности** (errata E-0159) — ни в значении, ни в промежуточных вычислениях; защита от неограниченного расхода — счётчики §238, а не ширина отдельного значения, и её превы …",
+      "also": [
+        "51",
+        "257"
+      ]
+    },
+    "Collective": {
+      "sec": "275",
+      "title": "Collective и diffuse rights",
+      "doc": "Core допускает `Collective` beneficiary, но подробная модель неопределённого круга лиц требует standard profile.",
+      "also": [
+        "123",
+        "261"
+      ]
+    },
+    "CountryCode": {
+      "sec": "257",
+      "title": "`law.std.data`",
+      "doc": "`Jurisdiction` (errata E-0039) — тип юрисдикционной привязки: §54 печатает `const KZ: Jurisdiction = Jurisdiction { code: \"KZ\" };` каноническим примером `const`, §89 объявляет им первое поле `EvaluationContext`, а `spec/examples/kz/social-code-art175.law` пишет его параметром institutional relation. …",
+      "also": [
+        "35",
+        "37"
+      ]
+    },
+    "Court": {
+      "sec": "156",
+      "title": "Evaluation of alternatives",
+      "doc": "Если context не выбирает ровно одну alternative при `exactly_one`, evaluator возвращает `INTERPRETATION_REQUIRED`.",
+      "also": [
+        "42",
+        "47",
+        "261"
+      ]
+    },
+    "Current": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`convert` (errata E-0072) — единственная конверсия величин v1: перевод\n`Quantity` в другую единицу явной формой с точным фактором парой целых\n(семантика — §49). Валютную конверсию держит §50 (`currency_convert`,\nexchange-snapshot), и `Money` терм отвергает поимённо.",
+      "also": [
+        "49"
+      ]
+    },
+    "Date": {
+      "sec": "79",
+      "title": "Event declaration",
+      "doc": "`Date` без политики §82.1 — fatal `TEMPORAL_RESOLUTION_POLICY_MISSING`, а не\nмолчаливый UTC: выбор пояса меняет и порядок событий, и попадание в окно §138,\nто есть исход дела.",
+      "also": [
+        "35",
+        "47",
+        "48",
+        "72",
+        "82",
+        "84"
+      ]
+    },
+    "DeadlinePolicy": {
+      "sec": "89",
+      "title": "Evaluation Context",
+      "doc": "Для `DeadlinePolicy` это отношение закрыто в 0.2: именованная декларация §86\nпонижается в узел CLIR, а `DeadlinePolicyRef` есть его StableId. Ссылка должна\nразрешиться в том же закреплённом пакете при lowering дела или профиля;\nнеобъявленное имя — `LDC-E1332`, не поздний `MISSING_POLICY`. `CalendarRef`\nпо-прежнему адресует закреплённый `CalendarSnapshot` §85.",
+      "also": [
+        "86",
+        "201",
+        "258",
+        "266.4"
+      ]
+    },
+    "Decimal": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "`value` — только `Quantity` (`Money` отвергается поимённо: конверсия валют — территория §50 с exchange rate и snapshot; у безразмерных видов единицы нет). `num`/`den` — точный фактор парой СТРОГО ПОЛОЖИТЕЛЬНЫХ `Integer`: фактор точен и вечен (`18/5` — определение, не курс), поэтому реестра факторов и снапшота нет — пара живёт аргументами при норме-владельце. …",
+      "also": [
+        "35",
+        "47",
+        "50",
+        "58",
+        "107",
+        "208"
+      ]
+    },
+    "Dimension": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "**Параметрические std-имена перечислены здесь же, и перечень закрыт (errata E-0194).** Параметр законен ровно у семи: `Option<T>`, `Result<T, E>`, `List<T>`, `Set<T>`, `Map<K, V>`, `Interval<T>` и `Money<C>`. …",
+      "also": [
+        "259"
+      ]
+    },
+    "Duration": {
+      "sec": "84",
+      "title": "Duration types",
+      "doc": "Физическая продолжительность в секундах/наносекундах.",
+      "also": [
+        "35",
+        "124",
+        "258"
+      ]
+    },
+    "Duty": {
+      "sec": "123",
+      "title": "Duty",
+      "doc": "Для нескольких bearers автор обязан указать allocation policy; коллективная обязанность не разворачивается автоматически в индивидуальные обязанности каждого участника.",
+      "also": [
+        "264"
+      ]
+    },
+    "EvaluationResult": {
+      "sec": "174",
+      "title": "EvaluationResult",
+      "doc": "*Описательная схема, а не объявление поверхности 0.1 (параметр generic `<T>` и `Option<…>`): блок не компилируется намеренно и остаётся `text`; см. errata E-0130.*",
+      "also": [
+        "201",
+        "266"
+      ]
+    },
+    "EvaluationStatus": {
+      "sec": "175",
+      "title": "EvaluationStatus",
+      "doc": "**Ошибка терма правила-кандидата доезжает до результата (errata E-0105).** Результат `truth` или `why_not` с `truth_status = NEITHER`, за которым стоит не отсутствие факта, а ошибка вычисления терма §58 у правила, которое могло бы вывести цель, — это «право не посчитано», и `evaluation_status` обязан это сказать: `MISSING_POLICY` (политика §86 не задана либо непригодна — `DEADLINE_POLICY_INVALID`) …",
+      "also": [
+        "174",
+        "266"
+      ]
+    },
+    "Event": {
+      "sec": "79",
+      "title": "Event declaration",
+      "doc": "`event E` десугаризуется в immutable nominal entity subtype `Event` с inherited `id: StableId` и typed intrinsic fields/accessors. Для executable temporal use event declaration СЛЕДУЕТ иметь ровно один canonical `time: Interval<Instant>` либо явную mapping policy к нему.",
+      "also": [
+        "48",
+        "81",
+        "161",
+        "263"
+      ]
+    },
+    "EvidenceItem": {
+      "sec": "251",
+      "title": "PROV adapter",
+      "doc": "`EvidenceItem`, `SupportEdge`, build/evaluation activities и agents могут экспортироваться в W3C PROV-DM/PROV-O compatible graph.",
+      "also": [
+        "201",
+        "265"
+      ]
+    },
+    "Fragment": {
+      "sec": "28",
+      "title": "Fragment",
+      "doc": "Fragment ДОЛЖЕН иметь стабильный ID. Номер статьи является locator metadata, но не единственным основанием идентичности.",
+      "also": [
+        "201",
+        "262"
+      ]
+    },
+    "Immunity": {
+      "sec": "128",
+      "title": "Immunity",
+      "doc": "Immunity блокирует соответствующую legal transformation, но не обязательно запрещает физическое действие органа. Invalid exercise может всё равно фактически произойти и иметь отдельные последствия.",
+      "also": [
+        "47",
+        "264"
+      ]
+    },
+    "Instant": {
+      "sec": "57",
+      "title": "Equality",
+      "doc": "`Instant` есть точка на временной оси, и написанное смещение — её\nпредставление, а не часть тождества: `@1945-05-08T23:01:00+01:00` и\n`@1945-05-08T22:01:00Z` суть одно значение, а из двух записей раньше та, чей\nмомент раньше, независимо от показаний настенных часов и от гражданской даты.\nЭто не отдельное правило, а то же самое, что §84.1 уже говорит об измерении:\nразность двух мгновений — физическ …",
+      "also": [
+        "35",
+        "43",
+        "48",
+        "70",
+        "72",
+        "79"
+      ]
+    },
+    "Integer": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "`Rational` (errata E-0005) — точное рациональное значение: тип результата точного деления (§58) и допустимая внутренняя арифметика (§18); в canonical serialization представляется несократимой дробью. **Носитель не ограничен по разрядности** (errata E-0159) — ни в значении, ни в промежуточных вычислениях; защита от неограниченного расхода — счётчики §238, а не ширина отдельного значения, и её превы …",
+      "also": [
+        "48",
+        "49",
+        "50",
+        "58",
+        "59",
+        "64.2"
+      ]
+    },
+    "Jurisdiction": {
+      "sec": "257",
+      "title": "`law.std.data`",
+      "doc": "`Jurisdiction` (errata E-0039) — тип юрисдикционной привязки: §54 печатает `const KZ: Jurisdiction = Jurisdiction { code: \"KZ\" };` каноническим примером `const`, §89 объявляет им первое поле `EvaluationContext`, а `spec/examples/kz/social-code-art175.law` пишет его параметром institutional relation. …",
+      "also": [
+        "35",
+        "54",
+        "89"
+      ]
+    },
+    "LanguageTag": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "`LanguageTag` 0.1 использует переносимый BCP-47-compatible subset `[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*`; это поддерживает, в частности, `kk-KZ`, `ru-KZ` и region subtags вроде `es-419`. Resolver канонизирует casing для сравнения, но сохраняет исходное написание как source trivia. Grandfathered/private-use tags требуют feature profile и нормализуются в явный canonical value.",
+      "also": [
+        "257"
+      ]
+    },
+    "LegalContext": {
+      "sec": "48",
+      "title": "Отсутствие implicit conversions",
+      "doc": "**Сущность против сущности (§42, errata E-0121).** Аргумент сущностного типа совместим с параметром, если его тип есть сам ожидаемый либо его потомок по цепи `base`, и цепь ведётся ЧЕРЕЗ ГРАНИЦУ ПАКЕТА: звеном может быть публичная сущность зависимости, чей надтип предъявил resolve-контекст §23 (`exportBases`, считает резолвер по CLIR зависимости, цепь алиасов §40 пройдена до цели). …",
+      "also": [
+        "43",
+        "261"
+      ]
+    },
+    "Length": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "**Параметрические std-имена перечислены здесь же, и перечень закрыт (errata E-0194).** Параметр законен ровно у семи: `Option<T>`, `Result<T, E>`, `List<T>`, `Set<T>`, `Map<K, V>`, `Interval<T>` и `Money<C>`. …",
+      "also": [
+        "49",
+        "259"
+      ]
+    },
+    "Liberty": {
+      "sec": "125",
+      "title": "Liberty",
+      "doc": "`liberty` является explicit/strong permission. Она может участвовать в priority conflict с prohibition/duty to forbear.",
+      "also": [
+        "264"
+      ]
+    },
+    "List": {
+      "sec": "51",
+      "title": "Collections",
+      "doc": "- `List<T>` — упорядоченная коллекция с дубликатами;\n- `Set<T>` — неупорядоченная коллекция без дубликатов;\n- `Map<K,V>` — неупорядоченное отображение;\n- итерация, влияющая на результат, ДОЛЖНА иметь детерминированный порядок;\n- `sum` над Decimal/Money/Quantity определяется точно;\n- `average` требует explicit rounding/precision, если результат не точен.",
+      "also": [
+        "35",
+        "52.1",
+        "59",
+        "174",
+        "178",
+        "201.1"
+      ]
+    },
+    "Luminosity": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "Семь базовых размерностей названы именами std: `Length`, `Mass`, `Time`,\n`Current`, `Temperature`, `Amount`, `Luminosity`. Носитель в CLIR — узел\n`unit_decl`; экспорт через границу пакета — `pub`, как у всякого символа §23.",
+      "also": [
+        "259"
+      ]
+    },
+    "Magnitude": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`Magnitude` — размерная величина с алгеброй (§49.1); `Dimension`, `Unit` и\n`Velocity` остаются ОБЪЯВЛЕННОЙ поверхностью 0.1 и в словарь типов компилятора\nне вносятся: имя `Unit` занято тремя пакетами корпуса, и внесение сменило бы\nсмысл их параметров молча (E-0039, ворота `check_std_shadowing`). …",
+      "also": [
+        "35",
+        "48",
+        "49",
+        "58",
+        "189",
+        "208"
+      ]
+    },
+    "Mass": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`convert` (errata E-0072) — единственная конверсия величин v1: перевод\n`Quantity` в другую единицу явной формой с точным фактором парой целых\n(семантика — §49). Валютную конверсию держит §50 (`currency_convert`,\nexchange-snapshot), и `Money` терм отвергает поимённо.",
+      "also": [
+        "35",
+        "49"
+      ]
+    },
+    "Money": {
+      "sec": "50",
+      "title": "Money",
+      "doc": "*Описательная схема, а не объявление поверхности 0.1 (параметр generic `<C: Currency>` у записи): блок не компилируется намеренно и остаётся `text`; см. errata E-0130.*",
+      "also": [
+        "35",
+        "41",
+        "48",
+        "49",
+        "52.1",
+        "58"
+      ]
+    },
+    "Natural": {
+      "sec": "40",
+      "title": "Type aliases",
+      "doc": "Прозрачность алиаса действует на обеих стадиях, а не только в статике: сверка типа аргумента против сигнатуры §189 (дело — errata E-0046, выведенная голова — E-0077) сравнивает имена ЗА цепочкой алиасов, и `relation r(n: N)` при `type N = Natural;` принимает значение `Natural` — иначе `check` принимал бы файл, который исполнение отвергает `TYPE_ERROR` (errata E-0098). …",
+      "also": [
+        "35",
+        "166",
+        "257"
+      ]
+    },
+    "NormativeStatus": {
+      "sec": "134",
+      "title": "PositionInstance statuses",
+      "doc": "Значения `AVAILABLE`, `EXERCISED`, `VALIDLY_EXERCISED`, `INVALIDLY_EXERCISED`\nперечня `NormativeStatus` (схема `evaluation.schema.json`) этой правкой не\nудалены — они остаются ЗАРЕЗЕРВИРОВАНЫ синтаксисом (`position(T, S)` §267.4\nих принимает), но ни одна реализация 0.2 их не производит: положительное\nожидание такого статуса в тесте проходит вакуумно, а не «держится» (§267.4).",
+      "also": [
+        "174",
+        "264",
+        "270"
+      ]
+    },
+    "OffsetDateTime": {
+      "sec": "57",
+      "title": "Equality",
+      "doc": "`Instant` есть точка на временной оси, и написанное смещение — её\nпредставление, а не часть тождества: `@1945-05-08T23:01:00+01:00` и\n`@1945-05-08T22:01:00Z` суть одно значение, а из двух записей раньше та, чей\nмомент раньше, независимо от показаний настенных часов и от гражданской даты.\nЭто не отдельное правило, а то же самое, что §84.1 уже говорит об измерении:\nразность двух мгновений — физическ …",
+      "also": [
+        "35",
+        "208",
+        "258"
+      ]
+    },
+    "Option": {
+      "sec": "257",
+      "title": "`law.std.data`",
+      "doc": "`Jurisdiction` (errata E-0039) — тип юрисдикционной привязки: §54 печатает `const KZ: Jurisdiction = Jurisdiction { code: \"KZ\" };` каноническим примером `const`, §89 объявляет им первое поле `EvaluationContext`, а `spec/examples/kz/social-code-art175.law` пишет его параметром institutional relation. …",
+      "also": [
+        "35",
+        "37",
+        "47",
+        "51",
+        "79",
+        "86"
+      ]
+    },
+    "PositionInstance": {
+      "sec": "134",
+      "title": "PositionInstance statuses",
+      "doc": "и получают обычные `TRUE_ONLY / FALSE_ONLY / BOTH / NEITHER` support states.",
+      "also": [
+        "93.1",
+        "201",
+        "206",
+        "264"
+      ]
+    },
+    "Power": {
+      "sec": "127",
+      "title": "Power",
+      "doc": "Power описывает способность создать legal effect при valid exercise.",
+      "also": [
+        "264"
+      ]
+    },
+    "ProofRef": {
+      "sec": "266",
+      "title": "`law.std.results`",
+      "doc": "Standard library packages версионируются РЕВИЗИЕЙ СЕМАНТИКИ языка и приходят прелюдией §23 (errata E-0154, DECISION-0166 §4.3/§4.5): в `law.lock` они не пишутся, в реестре не ищутся, явный `import law.std.<pkg> version` лишь подтверждает встроенный пин. …",
+      "also": [
+        "174"
+      ]
+    },
+    "Publication": {
+      "sec": "209",
+      "title": "Theory hash и artifact hash",
+      "doc": "`Publication` исключены как слой манифестации (errata E-0013). §27.3 определяет publication как конкретный файл: identity публикации зависит от bytes, и один edition может иметь их несколько (XML, PDF, HTML). …",
+      "also": [
+        "201",
+        "262"
+      ]
+    },
+    "Quantity": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`convert` (errata E-0072) — единственная конверсия величин v1: перевод\n`Quantity` в другую единицу явной формой с точным фактором парой целых\n(семантика — §49). Валютную конверсию держит §50 (`currency_convert`,\nexchange-snapshot), и `Money` терм отвергает поимённо.",
+      "also": [
+        "35",
+        "45",
+        "46",
+        "48",
+        "49",
+        "50"
+      ]
+    },
+    "Rational": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "`Rational` (errata E-0005) — точное рациональное значение: тип результата точного деления (§58) и допустимая внутренняя арифметика (§18); в canonical serialization представляется несократимой дробью. **Носитель не ограничен по разрядности** (errata E-0159) — ни в значении, ни в промежуточных вычислениях; защита от неограниченного расхода — счётчики §238, а не ширина отдельного значения, и её превы …",
+      "also": [
+        "49",
+        "50",
+        "58",
+        "79",
+        "107",
+        "168"
+      ]
+    },
+    "Result": {
+      "sec": "273",
+      "title": "Result",
+      "doc": "В этом case explicit measurement `280 m < 320 m` является counterexample и достаточен для `VIOLATED`; completeness certificate для отрицательного результата не нужен. Если все имеющиеся measurements удовлетворяют порогу, но coverage всего operation window не доказана, корректный результат для `SATISFIED` должен быть:",
+      "also": [
+        "6",
+        "35",
+        "51",
+        "58",
+        "257"
+      ]
+    },
+    "Set": {
+      "sec": "51",
+      "title": "Collections",
+      "doc": "- `List<T>` — упорядоченная коллекция с дубликатами;\n- `Set<T>` — неупорядоченная коллекция без дубликатов;\n- `Map<K,V>` — неупорядоченное отображение;\n- итерация, влияющая на результат, ДОЛЖНА иметь детерминированный порядок;\n- `sum` над Decimal/Money/Quantity определяется точно;\n- `average` требует explicit rounding/precision, если результат не точен.",
+      "also": [
+        "35",
+        "52.1",
+        "59",
+        "79",
+        "257"
+      ]
+    },
+    "SourceEdition": {
+      "sec": "209",
+      "title": "Theory hash и artifact hash",
+      "doc": "`artifactHash` включает точный нормализованный CLIR, в том числе `anchors`,\n`provenance`, `sourceSpan`, annotations, metadata и publication-узлы. Из его\npreimage исключаются только производные поля хэшей (`contentHash`,\n`semanticHash`, `theoryHash`, `artifactHash`) и рекурсивные `labels`:\npresentation-перевод не создаёт новый юридический или provenance-артефакт.\n`SourceEdition.documentHash` входит …",
+      "also": [
+        "201",
+        "262"
+      ]
+    },
+    "SupportEdge": {
+      "sec": "251",
+      "title": "PROV adapter",
+      "doc": "`EvidenceItem`, `SupportEdge`, build/evaluation activities и agents могут экспортироваться в W3C PROV-DM/PROV-O compatible graph.",
+      "also": [
+        "201",
+        "265"
+      ]
+    },
+    "Temperature": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "Семь базовых размерностей названы именами std: `Length`, `Mass`, `Time`,\n`Current`, `Temperature`, `Amount`, `Luminosity`. Носитель в CLIR — узел\n`unit_decl`; экспорт через границу пакета — `pub`, как у всякого символа §23.",
+      "also": [
+        "259"
+      ]
+    },
+    "Text": {
+      "sec": "49",
+      "title": "Dimensional checking",
+      "doc": "`value` — только `Quantity` (`Money` отвергается поимённо: конверсия валют — территория §50 с exchange rate и snapshot; у безразмерных видов единицы нет). `num`/`den` — точный фактор парой СТРОГО ПОЛОЖИТЕЛЬНЫХ `Integer`: фактор точен и вечен (`18/5` — определение, не курс), поэтому реестра факторов и снапшота нет — пара живёт аргументами при норме-владельце. …",
+      "also": [
+        "35",
+        "37",
+        "39",
+        "40",
+        "48",
+        "57"
+      ]
+    },
+    "Time": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "`LanguageTag` 0.1 использует переносимый BCP-47-compatible subset `[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*`; это поддерживает, в частности, `kk-KZ`, `ru-KZ` и region subtags вроде `es-419`. Resolver канонизирует casing для сравнения, но сохраняет исходное написание как source trivia. Grandfathered/private-use tags требуют feature profile и нормализуются в явный canonical value.",
+      "also": [
+        "49",
+        "259"
+      ]
+    },
+    "Timezone": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "`Timezone` 0.1 несёт имя зоны IANA tzdb в переносимом подмножестве `[A-Za-z][A-Za-z0-9_+-]*(/[A-Za-z0-9_+-]+){0,2}`: `UTC`, `Asia/Qyzylorda`, `Etc/GMT+5`, трёхсегментные имена вроде `America/Argentina/Buenos_Aires`. Значение вне этого подмножества именем зоны не является и отвергается до вычисления, как и всякое значение вне своего вида. …",
+      "also": [
+        "89",
+        "258"
+      ]
+    },
+    "TruthStatus": {
+      "sec": "266",
+      "title": "`law.std.results`",
+      "doc": "Standard library packages версионируются РЕВИЗИЕЙ СЕМАНТИКИ языка и приходят прелюдией §23 (errata E-0154, DECISION-0166 §4.3/§4.5): в `law.lock` они не пишутся, в реестре не ищутся, явный `import law.std.<pkg> version` лишь подтверждает встроенный пин. …",
+      "also": [
+        "64.2",
+        "69",
+        "174"
+      ]
+    },
+    "Unit": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`Magnitude` — размерная величина с алгеброй (§49.1); `Dimension`, `Unit` и\n`Velocity` остаются ОБЪЯВЛЕННОЙ поверхностью 0.1 и в словарь типов компилятора\nне вносятся: имя `Unit` занято тремя пакетами корпуса, и внесение сменило бы\nсмысл их параметров молча (E-0039, ворота `check_std_shadowing`). …"
+    },
+    "Velocity": {
+      "sec": "35",
+      "title": "Встроенные типы данных",
+      "doc": "**Параметрические std-имена перечислены здесь же, и перечень закрыт (errata E-0194).** Параметр законен ровно у семи: `Option<T>`, `Result<T, E>`, `List<T>`, `Set<T>`, `Map<K, V>`, `Interval<T>` и `Money<C>`. …",
+      "also": [
+        "259"
+      ]
+    },
+    "add_business_days": {
+      "sec": "124",
+      "title": "Goal types",
+      "doc": "`achieve F during W;` задаёт цель достижения `F` в окне `W`, а\n`maintain F during W;` — цель поддержания `F` в этом окне. Эти краткие\nформы в `duty` эквивалентны полным блокам `goal achievement` и\n`goal maintenance` с полями `condition F; window W;` (DECISION-0185).",
+      "also": [
+        "55",
+        "84",
+        "86",
+        "135",
+        "258",
+        "266"
+      ]
+    },
+    "add_legal_term": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "`add_legal_term` (errata 0.2-11) — шаг юридического срока, выбирающий операцию по единице второго аргумента ВО ВРЕМЯ ИСПОЛНЕНИЯ: `business_day` и `calendar_day` исполняются по правилам `add_business_days`, а `calendar_week`, `calendar_month` и `calendar_year` — по правилам `add_calendar_period` (семантика — §86.1). …",
+      "also": [
+        "279.2.2"
+      ]
+    },
+    "bounds_add": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**Композиция.** `bounds_add(a, b)` — `[a.lo + b.lo, a.hi + b.hi]`;\n`bounds_sub(a, b)` — `[a.lo - b.hi, a.hi - b.lo]`; `bounds_scale(b, num, den)`\n— `[b.lo·f, b.hi·f]` при `f = num/den > 0` и `[b.hi·f, b.lo·f]` при `f < 0`\n(знак меняет концы местами; `den = 0` — `DIVISION_BY_ZERO`, `f = 0` даёт\nвырожденный `[0, 0]`). `num` и `den` — точные безразмерные числа: `Integer`,\n`Decimal` либо `Rational`. …"
+    },
+    "bounds_const": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**Композиция.** `bounds_add(a, b)` — `[a.lo + b.lo, a.hi + b.hi]`;\n`bounds_sub(a, b)` — `[a.lo - b.hi, a.hi - b.lo]`; `bounds_scale(b, num, den)`\n— `[b.lo·f, b.hi·f]` при `f = num/den > 0` и `[b.hi·f, b.lo·f]` при `f < 0`\n(знак меняет концы местами; `den = 0` — `DIVISION_BY_ZERO`, `f = 0` даёт\nвырожденный `[0, 0]`). `num` и `den` — точные безразмерные числа: `Integer`,\n`Decimal` либо `Rational`. …"
+    },
+    "bounds_div": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**`bounds_div(a, b)`** — композиция делением: при `b.lo <= 0 <= b.hi` отказ\n`DIVISION_BY_ZERO`, называющий отрезок делителя (деление на отрезок,\nсодержащий ноль, не имеет ни значения, ни «границ пошире»); иначе\n`mul(a, [1/b.hi, 1/b.lo])`; деривация — `div(<A>,<B>)`. Десятичный логарифм\nотсюда композиция, а не терм: `log₁₀ x = div(ln(x), ln(10))`."
+    },
+    "bounds_mul": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**`bounds_mul(a, b)`** — композиция умножением: концы `[min p, max p]` по\nчетырём произведениям концов `p = {a.lo·b.lo, a.lo·b.hi, a.hi·b.lo,\na.hi·b.hi}`; деривация — `mul(<A>,<B>)`."
+    },
+    "bounds_scale": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**Композиция.** `bounds_add(a, b)` — `[a.lo + b.lo, a.hi + b.hi]`;\n`bounds_sub(a, b)` — `[a.lo - b.hi, a.hi - b.lo]`; `bounds_scale(b, num, den)`\n— `[b.lo·f, b.hi·f]` при `f = num/den > 0` и `[b.hi·f, b.lo·f]` при `f < 0`\n(знак меняет концы местами; `den = 0` — `DIVISION_BY_ZERO`, `f = 0` даёт\nвырожденный `[0, 0]`). `num` и `den` — точные безразмерные числа: `Integer`,\n`Decimal` либо `Rational`. …"
+    },
+    "bounds_sub": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**Композиция.** `bounds_add(a, b)` — `[a.lo + b.lo, a.hi + b.hi]`;\n`bounds_sub(a, b)` — `[a.lo - b.hi, a.hi - b.lo]`; `bounds_scale(b, num, den)`\n— `[b.lo·f, b.hi·f]` при `f = num/den > 0` и `[b.hi·f, b.lo·f]` при `f < 0`\n(знак меняет концы местами; `den = 0` — `DIVISION_BY_ZERO`, `f = 0` даёт\nвырожденный `[0, 0]`). `num` и `den` — точные безразмерные числа: `Integer`,\n`Decimal` либо `Rational`. …"
+    },
+    "convert": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`convert` (errata E-0072) — единственная конверсия величин v1: перевод\n`Quantity` в другую единицу явной формой с точным фактором парой целых\n(семантика — §49). Валютную конверсию держит §50 (`currency_convert`,\nexchange-snapshot), и `Money` терм отвергает поимённо.",
+      "also": [
+        "49"
+      ]
+    },
+    "cos_bounds": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`convert` (errata E-0072) — единственная конверсия величин v1: перевод\n`Quantity` в другую единицу явной формой с точным фактором парой целых\n(семантика — §49). Валютную конверсию держит §50 (`currency_convert`,\nexchange-snapshot), и `Money` терм отвергает поимённо."
+    },
+    "currency_convert": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`convert` (errata E-0072) — единственная конверсия величин v1: перевод\n`Quantity` в другую единицу явной формой с точным фактором парой целых\n(семантика — §49). Валютную конверсию держит §50 (`currency_convert`,\nexchange-snapshot), и `Money` терм отвергает поимённо.",
+      "also": [
+        "260",
+        "266"
+      ]
+    },
+    "days_between": {
+      "sec": "84",
+      "title": "Duration types",
+      "doc": "`days_between(from, to)` возвращает число календарных дней от `from` до `to`\n(отрицательное, если `to` раньше). Введено erratой E-0015: §84.1–§84.3\nобъявляют три типа длительности, но ни один терм ядра их не порождал —\nдлительность можно было только объявить фактом дела, то есть посчитать вне\nCLIR. Нормы вида «пеня за каждый день просрочки» этим не выражались.",
+      "also": [
+        "258",
+        "266"
+      ]
+    },
+    "div_round": {
+      "sec": "50",
+      "title": "Money",
+      "doc": "`div_round` над парой `Money / Money` (errata E-0170) — ДОЛЯ, а не деньги: частное двух сумм одной валюты безразмерно (§58, E-0083), и политика этого не меняет. Она снимает другое — зависимость ВИДА от значения: у оператора `/` та же пара даёт `Decimal` при 10-гладком знаменателе и точный `Rational` иначе, а под политикой округление применяется всегда, поэтому `div_round(Money, Money, precision, m …",
+      "also": [
+        "58",
+        "189",
+        "260",
+        "266"
+      ]
+    },
+    "exp_bounds": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**`exp_bounds(x, profile)`** при любом знаке `x`:\n\n1. наименьшее целое `j >= 0` с `|x| / 2^j <= 1/2`; `u = x / 2^j`;\n2. наименьшее `n >= 1`, при котором нижняя граница СТРОГО положительна и\n   ширина ИТОГОВОГО интервала не превосходит `10^-P`, где частичная сумма\n   `S = Σ_{i=0}^{n-1} u^i/i!`, остаток `R = |u|^n/n! · 2`, промежуточный\n   интервал `[S - R, S + R]`, итоговый — `[(S-R)^(2^j), (S+R)^( …"
+    },
+    "has_role": {
+      "sec": "43",
+      "title": "Role sugar",
+      "doc": "`role` порождает **ровно одну** package-константу `Taxpayer: LegalRole` со\nзначением собственного StableId. Это не создаёт ни membership-assertion, ни\nновую relation: `has_role` — единый standard relation `urn:law:std#has_role`.\nЕсли второй аргумент `has_role` является известной role-константой, compiler\nдополнительно проверяет, что первый аргумент совместим с её `for TypeRef`.",
+      "also": [
+        "261"
+      ]
+    },
+    "hours_between": {
+      "sec": "84",
+      "title": "Duration types",
+      "doc": "`hours_between(from, to)` возвращает число ПОЛНЫХ часов между двумя\nмгновениями (`Instant`), отрицательное при обратном порядке. Введено erratой\nE-0027 по той же причине, по которой E-0015 ввела `days_between`: §84.1\nобъявлял тип и не давал терма, и норма «не ранее чем через сорок восемь\nчасов» не выражалась.",
+      "also": [
+        "258"
+      ]
+    },
+    "ln_bounds": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**`ln_bounds(x, profile)`** при `x > 0`. Аргумент безразмерный (`Integer`,\n`Decimal`, `Rational`); `Quantity`, `Money` и `Magnitude` отвергаются\nпоимённо — смена единицы перед логарифмом меняет формулу, и норма обязана\nназвать единицу до входа в логарифм, а не после. `x <= 0` — `DOMAIN_ERROR`."
+    },
+    "magnitude": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`magnitude(q)` — ПЕРЕХОД `Quantity` → `Magnitude`. Тег `q` разрешается в\nреестре определений §49.2 (простая единица, производная или алиас);\nкоэффициент — точная дробь десятичного значения. Незнакомый тег —\n`UNIT_UNKNOWN`: непрозрачные теги права (`mrp`, `business_day`, «щелчок») в\nалгебру не переходят по построению, и это рамка 2 DECISION-0068, а не\nнедоделка. …"
+    },
+    "minutes_between": {
+      "sec": "84",
+      "title": "Duration types",
+      "doc": "`minutes_between(from, to)` возвращает число ПОЛНЫХ минут между теми же\nдвумя мгновениями, с тем же знаком и тем же отбрасыванием дробной части.\nВведено erratой E-0058: часа оказалось мало. Отбрасывание к нулю делает\n`hours_between` слепым ко всякому порогу КОРОЧЕ часа — «не позднее чем за\n45 минут до опубликованного времени вылета» (ст. 3 п. …",
+      "also": [
+        "258"
+      ]
+    },
+    "month_end_of": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "`month_start_of`/`month_end_of` (errata E-0084) — границы месяца даты: первое и последнее число месяца, в котором лежит аргумент; календарь §85 и политика §86 не читаются (семантика — §84.2)."
+    },
+    "month_start_of": {
+      "sec": "258",
+      "title": "`law.std.time`",
+      "doc": "`month_start_of`/`month_end_of` (errata E-0084) — границы месяца даты: первое и последнее число месяца, в котором лежит аргумент; календарь §85 и политика §86 не читаются (семантика — §84.2)."
+    },
+    "pi_bounds": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**`pi_bounds(profile)`** — число π по тождеству Мэчина\n`π = 16·arctg(1/5) − 4·arctg(1/239)`:\n\n1. `arctg(z)` при `0 < z < 1` и цели `t` — знакопеременный ряд\n   `Σ (−1)^k z^(2k+1)/(2k+1)`: наименьшее `n >= 1`, при котором\n   `z^(2n+1)/(2n+1) <= t`; частичная сумма `S = Σ_{k=0}^{n-1}`, первый\n   отброшенный член `r = (−1)^n z^(2n+1)/(2n+1)`; отрезок — концы `S` и\n   `S + r` по возрастанию (остаток з …"
+    },
+    "quantity_of": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`quantity_of(m, unit)` — ОБРАТНЫЙ ХОД алгебры: величина снова становится\n`Quantity` названной единицы. Он ПРОВЕРЯЕМЫЙ, а не перетегировка:\nмультимножитель величины обязан СОВПАСТЬ с раскрытием названной единицы, иначе\n`UNIT_MISMATCH`, называющий обе. `6 N · 50 m` даёт `{kg:1, m:2, s:-2}`, и `J`\nраскрывается в тот же набор — заявление принято; напиши автор `m`, и набор\n`{m:1}` не совпадёт. …"
+    },
+    "round": {
+      "sec": "50",
+      "title": "Money",
+      "doc": "`round` округляет уже вычисленное значение. `div_round` (errata E-0036) — единственный способ РАЗДЕЛИТЬ под политикой: он округляет ТОЧНОЕ частное, а не результат `/`, и потому применим там, где `/` отказывает раньше, чем `round` получил бы что округлять (§58).",
+      "also": [
+        "58",
+        "64.2",
+        "259",
+        "260",
+        "266"
+      ]
+    },
+    "round_bounds": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**`round_bounds(bounds, precision, mode)`** — округление ОТРЕЗКА до ОДНОГО\nзначения. Отношение §64.2 отвечает на вопрос «эта ли ячейка», а норме нужен и\nответ «какая»: без него предписанное актом число нечем ВЫВЕСТИ — переменная\nрезультата не связана ни одним позитивным конъюнктом, и правило отвергается\nrange restriction §190. …"
+    },
+    "scalar_of": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`scalar_of(m)` — величина НУЛЕВОЙ размерности в точный `Rational`:\nкоэффициент, умноженный на масштаб мультимножителя. Ненулевая размерность —\n`UNIT_DIMENSION_MISMATCH`. Это единственный выход из алгебры в числа, и он\nявный: тихого «забывания единицы» у величины нет.",
+      "also": [
+        "49"
+      ]
+    },
+    "sin_bounds": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**`sin_bounds(x, profile)` и `cos_bounds(x, profile)`** считаются ОДНИМ\nалгоритмом — удвоение угла требует обеих функций, — и возвращают\nзапрошенную половину:"
+    },
+    "sqrt_bounds": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "**`sqrt_bounds(x, profile)`** при `x >= 0`; `x < 0` — `DOMAIN_ERROR`. Пусть\n`G = 10^(2P)` — знаменатель сетки профиля:\n\n1. `N = ⌊x · G²⌋`; если разрядность `N` в битах превосходит\n   `BOUNDS_SIZE_LIMIT` — `RESOURCE_LIMIT` ДО извлечения корня;\n2. `s = ⌊√N⌋` — целочисленный корень;\n3. если `x · G²` — целое и `s² = x · G²`, отрезок вырожден: `[s/G, s/G]`;\n4. иначе `[s/G, (s + 1)/G]`."
+    },
+    "text_length": {
+      "sec": "257",
+      "title": "`law.std.data`",
+      "doc": "`text_length(t)` — число кодовых точек (Unicode scalar values) текста `t`\nпосле NFC §13; результат — `Integer` ≥ 0, у пустой строки 0. Единица —\nкодовая точка, не байт и не графемный кластер: «кириллица» — 9, `q` с\nкомбинирующей тильдой U+0303 (прекомпозиции нет, NFC оставляет две точки) —\n2, «й» в NFC — 1. …"
+    },
+    "text_matches": {
+      "sec": "257",
+      "title": "`law.std.data`",
+      "doc": "`text_matches(t, pattern)` — конъюнкт формулы (тела правила, `require`\nconstraint §93, `unless`, условия `if` §56): истинен ровно тогда, когда\nВЕСЬ текст `t` — от первой кодовой точки до последней — совпадает с\nобразцом `pattern` по грамматике §257.1; якоря начала и конца\nподразумеваются, частичного совпадения нет. …",
+      "also": [
+        "189"
+      ]
+    },
+    "unit_convert": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`unit_convert(m, unit)` — ЯВНАЯ конверсия внутри размерности. Цель\nразрешается в том же реестре; размерности источника и цели обязаны совпасть\n(иначе `UNIT_DIMENSION_MISMATCH`); коэффициент умножается на отношение\nмасштабов. Реестра факторов с датой здесь нет и не нужно: масштаб единицы\nточен и вечен, как фактор `convert` E-0072.",
+      "also": [
+        "49",
+        "58"
+      ]
+    },
+    "unit_exponent": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`unit_exponent(m, unit)` (errata E-0139) — показатель ПРОСТОЙ единицы в\nмультимножителе величины, точный `Integer`. Имя разрешается в реестре §49.2:\nпростая единица читается как есть, алиас — через свою цель, производная\nОТВЕРГАЕТСЯ `UNIT_MISMATCH` (у неё нет одного показателя — раскрой её\nмножители), незнакомое имя — `UNIT_UNKNOWN`. …"
+    },
+    "weekday_of": {
+      "sec": "84",
+      "title": "Duration types",
+      "doc": "**День недели — термом (errata E-0091).** `weekday_of(d)` возвращает день\nнедели даты `d` целым от 1 (понедельник) до 7 (воскресенье) — нумерация\nISO 8601, та же, что у шкалы `Date` §2.15; аргумент — только `Date`, результат\n— `Integer`. …",
+      "also": [
+        "257",
+        "258"
+      ]
+    },
+    "with_unit": {
+      "sec": "259",
+      "title": "`law.std.units`",
+      "doc": "`with_unit` (errata E-0074) — пришивка «число → величина» явной формой:\nбезразмерное число становится `Quantity` названного тега (семантика — §49).\nВеличина с единицей отвергается поимённо (перетег — только `convert`),\n`Money` — к §50, неточная дробь — к явной политике §50/§18.",
+      "also": [
+        "49"
+      ]
+    }
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "$id": "urn:law-dsl:vectors:vector-meta:0.1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Метаданные одного conformance-вектора (WP-02). Артефакты (source/lock/case/expected) наполняются в WP-38; до этого artifacts = null и status = pending|xfail.",
+  "properties": {
+    "artifacts": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "mode": {
+                    "const": "ask"
+                  }
+                },
+                "required": [
+                  "mode"
+                ]
+              },
+              "then": {
+                "description": "§168.4 (DECISION-0165 §5): контейнер режима `ask` несёт шаги прогона (`ask` — ask.json: корень пакета-дела, дело, форма вопроса, queryId) и ожидания каждого шага из prose (`expectations`); замороженный `golden` необязателен и появляется после зелёного оракула.",
+                "properties": {
+                  "files": {
+                    "required": [
+                      "ask",
+                      "expectations"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "mode": {
+                    "const": "evaluate"
+                  }
+                },
+                "required": [
+                  "mode"
+                ]
+              },
+              "then": {
+                "description": "§269: evaluate-вектор обязан УТВЕРЖДАТЬ — либо замороженным голденом `expected`, либо ожиданиями `expectations` из prose. Пара допустима: `expectations` проверяются первыми, голден вторым. Вектор без обоих исполнялся бы и не проверял ничего.",
+                "properties": {
+                  "files": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "expected"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "expectations"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "properties": {
+            "expectedSha256": {
+              "additionalProperties": {
+                "pattern": "^[0-9a-f]{64}$",
+                "type": "string"
+              },
+              "minProperties": 1,
+              "type": "object"
+            },
+            "files": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "minProperties": 1,
+              "type": "object"
+            },
+            "mode": {
+              "enum": [
+                "artifact-hash",
+                "a3",
+                "consolidate",
+                "calendar-lock",
+                "package-cli",
+                "evaluate",
+                "hash-compare",
+                "lower-equal",
+                "lock",
+                "expansion-map",
+                "lower-shape",
+                "property",
+                "resolve",
+                "static",
+                "verbalize",
+                "world",
+                "ask"
+              ]
+            }
+          },
+          "required": [
+            "mode",
+            "files"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "family": {
+      "enum": [
+        "t",
+        "lay",
+        "ver",
+        "par",
+        "tbl",
+        "prop-0.1.1",
+        "errata",
+        "smoke",
+        "units",
+        "scaled_units",
+        "cases"
+      ]
+    },
+    "id": {
+      "pattern": "^[A-Z][A-Z0-9-]{2,40}$",
+      "type": "string"
+    },
+    "layer": {
+      "enum": [
+        "L0",
+        "L1",
+        "L2",
+        "L3"
+      ]
+    },
+    "semanticVersion": {
+      "enum": [
+        "0.1.0",
+        "0.2",
+        "0.3"
+      ]
+    },
+    "layerRefinement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "note": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "origin": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "requirement": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "requiresFeature": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.-]+/[0-9A-Za-z._+-]+$"
+    },
+    "specRefs": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "pending",
+        "xfail",
+        "runnable"
+      ]
+    },
+    "xfailReason": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "family",
+    "origin",
+    "requirement",
+    "layer",
+    "status",
+    "specRefs",
+    "artifacts"
+  ],
+  "type": "object"
+}

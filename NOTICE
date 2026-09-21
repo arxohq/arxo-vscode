@@ -1,0 +1,14 @@
+Arxo Law — VS Code / Cursor extension
+Copyright 2026 Arxo (https://arxo.io)
+
+Code is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The following files are derived from the Law DSL specification under spec/,
+which is licensed under the Creative Commons Attribution 4.0 International
+License (see spec/LICENSE in the source tree):
+
+- data/hover.json — generated from spec/SPEC.ru/
+- snippets/law.code-snippets — generated from spec/SPEC.ru/ examples
+- schemas/*.schema.json — byte copies of the normative schemas under spec/schema/
+
+Specification text © 2026 Arxo, CC BY 4.0.

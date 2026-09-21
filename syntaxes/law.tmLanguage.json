@@ -1,0 +1,145 @@
+{
+  "name": "law",
+  "displayName": "Law DSL",
+  "scopeName": "source.law",
+  "fileTypes": [
+    "law"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#annotations"
+    },
+    {
+      "include": "#temporal"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#types"
+    },
+    {
+      "include": "#operators"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.documentation.law",
+          "match": "///.*$"
+        },
+        {
+          "name": "comment.line.double-slash.law",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.law",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.triple.law",
+          "begin": "\"\"\"",
+          "end": "\"\"\""
+        },
+        {
+          "name": "string.quoted.double.law",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.law",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "annotations": {
+      "patterns": [
+        {
+          "name": "entity.name.function.decorator.law",
+          "match": "@[A-Za-z_][A-Za-z0-9_]*"
+        }
+      ]
+    },
+    "temporal": {
+      "patterns": [
+        {
+          "name": "constant.other.datetime.law",
+          "match": "@\\d{4}-\\d{2}-\\d{2}(?:T[\\d:.]+(?:Z|[+-]\\d{2}:\\d{2})?)?"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.law",
+          "match": "\\b\\d+(?:_\\d+)*(?:\\.\\d+)?(?:[eE][+-]?\\d+)?\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.law",
+          "match": "\\b(?:and|assert|collect|defeat|else|except_when|exists|for|forall|if|in|let|match|not|or|require|return|satisfies|then|unless|when|where)\\b"
+        },
+        {
+          "name": "constant.language.law",
+          "match": "\\b(?:false|infinity|none|some|true)\\b"
+        },
+        {
+          "name": "keyword.control.status.law",
+          "match": "\\b(?:conflicted|established|monotone|no_evidence|not_known|opposed|refuted|supported|unknown)\\b(?=\\s*\\()"
+        },
+        {
+          "name": "support.constant.status.law",
+          "match": "\\b(?:conflicted|established|monotone|no_evidence|not_known|opposed|refuted|supported|unknown)\\b"
+        },
+        {
+          "name": "storage.modifier.law",
+          "match": "\\b(?:default|defeasible|internal|judgment|opaque|pub|pure|snapshot|strict)\\b"
+        },
+        {
+          "name": "keyword.declaration.law",
+          "match": "\\b(?:_|accepts|achieve|achievement|action|activation|add_calendar_period|adopted|after|against|aggregate|alias|align|all|alternatives|any|any_of|arg|as|authenticates|authority|basis|bearer|before|beneficiary|between|bind|binder|by|calendar|capability|case|cases|caused_by|claim|classification|closure|complete_as_of|completeness_policy|compose_explicitly|concept|condition|const|constraint|contains|content_hash|context|cost|count|counterfactual|court|courts|create|deadline|decided|decision|deem|defeater|defendant|definition|derive_explicit_negative|derived|dimension|discharge_policy|distinct|document_hash|domain|due|during|duty|each|edition|effect|effective|emit|empirical|entity|entity_ref|entrenchment|enum|establishes|evaluate|evaluative|event|every|evidence|exact|exactly_one|exclude|exclusive|exercise|expand|expansion|expect|expired|exports|extends|external|factors|facts|fallback|fiction|field|finishes|first|forbearance|format|fragment|from|function|given|goal|governs|hit|holder|id|immunity|immutable|import|in_force|include|inclusive|initial|input|institutional|integer|interpretation|interpretation_group|invalidated|join|jurisdiction|key|kind|label|labels|language|liberty|list|locator|maintain|maintenance|map|materialization_status|max|measures|media_type|message|min|mod|modify|multiple|mutable|namespace|necessary|next|normative_auxiliary|number|observed|of|official|officiality|on|op|option|order|origin|otherwise|outcome|over|overlaps|overruled|package|parallel|params|parent|percent|period|plaintiff|policy|power|precedent|predicate|prefer|prefix|presume|presumption|previous|priority|procedure|profile|prohibition|property|protected_effect|protects|publication|published|quantity|query|quorum|ratio|reason|record|recorded|recurring|reference|refutes|region|relation|repealed|reports|request_schema|requires|resolve_at|resource|restored|retrieved_at|reviewer|revision|role|rule|scale|scope|selection|self|set|severity|snapshot_from|source|source_anchor|stage|starts|state|status|sufficient|sum|support|supports|suspended|table|target|temporal_resolution_policy|term|terminal|terminate|termination|test|text|timezone|timezone_db|to|transition|translation|type|unique|unit|unofficial|uri|use|valid|valid_when|value|variants|verification|verifier|version|violation_policy|window|with|within)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "entity.name.type.law",
+          "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+        },
+        {
+          "name": "entity.name.namespace.law",
+          "match": "\\b[a-z][a-z0-9_]*(?:::[a-z][a-z0-9_]*)+\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.law",
+          "match": "(::|->|=>|<=|>=|==|!=|[=<>+*/%-])"
+        }
+      ]
+    }
+  }
+}

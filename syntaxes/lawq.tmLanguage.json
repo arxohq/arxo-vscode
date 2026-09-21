@@ -1,0 +1,172 @@
+{
+  "information_for_contributors": [
+    "LawQL (.lawq): highlighting for queries against the CLIR corpus. LawQL has no ebnf — the vocabulary",
+    "lives in the oracle: keywords are KEYWORDS in engines/lawref/lawref/query/parser.py,",
+    "functions are the `_call` branches in engines/lawref/lawref/query/engine.py, relations —",
+    "`lawref query --schema`. The apps/site/tools/check-extension.mjs smoke test checks",
+    "both lists against the oracle's source: a word introduced there must appear here.",
+    "The query-over clauses (`for`, `case`) — engines/lawref/lawref/query/inference.py."
+  ],
+  "name": "LawQL",
+  "displayName": "LawQL",
+  "scopeName": "source.lawq",
+  "fileTypes": [
+    "lawq"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#parameters"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#sources"
+    },
+    {
+      "include": "#relations"
+    },
+    {
+      "include": "#fields"
+    },
+    {
+      "include": "#operators"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "comment": "Catalog metadata: `# name: …`, `# description: …`, `# params: pkg`",
+          "match": "^\\s*(#)\\s*([A-Za-z][A-Za-z0-9_-]*)\\s*(:)\\s*(.*)$",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.comment.lawq"
+            },
+            "2": {
+              "name": "keyword.other.metadata.lawq"
+            },
+            "3": {
+              "name": "punctuation.separator.key-value.lawq"
+            },
+            "4": {
+              "name": "string.unquoted.metadata.lawq"
+            }
+          }
+        },
+        {
+          "name": "comment.line.number-sign.lawq",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.lawq",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.lawq",
+              "match": "\\\\."
+            },
+            {
+              "include": "#parameters"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.lawq",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.lawq",
+              "match": "\\\\."
+            },
+            {
+              "include": "#parameters"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "name": "constant.numeric.lawq",
+      "match": "(?<![A-Za-z0-9_])-?[0-9]+(?:\\.[0-9]+)?\\b"
+    },
+    "parameters": {
+      "comment": "Parameter of a named catalog query, filled in by `--pkg`",
+      "name": "variable.parameter.lawq",
+      "match": "\\$\\{[A-Za-z_][A-Za-z0-9_]*\\}"
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.lawq",
+          "match": "\\b(?i:from|in|where|select|as|let|query|over|for|case)\\b"
+        },
+        {
+          "name": "keyword.operator.logical.lawq",
+          "match": "\\b(?i:and|or|not|exists)\\b"
+        },
+        {
+          "name": "keyword.other.materialization.lawq",
+          "match": "\\b(?i:eval)\\b(?=\\s*\\()"
+        }
+      ]
+    },
+    "constants": {
+      "name": "constant.language.lawq",
+      "match": "\\b(?i:true|false|null)\\b"
+    },
+    "functions": {
+      "name": "support.function.lawq",
+      "match": "\\b(?:anchor|labels|short|contains|overlaps|starts_with|ends_with|position|derivation)\\b(?=\\s*\\()"
+    },
+    "sources": {
+      "comment": "Binding source: corpus(glob) / package(name) before `.relation`",
+      "name": "support.function.source.lawq",
+      "match": "\\b(?:corpus|package)\\b(?=\\s*\\()"
+    },
+    "relations": {
+      "name": "support.class.relation.lawq",
+      "match": "\\b(?:anchors|edges|fields|imports|interpretations|labels|literals|nodes|norms|positions|rules|variables|windows)\\b(?!\\s*\\()"
+    },
+    "fields": {
+      "comment": "Access to a row field: `r.head_predicate`, `doc.results`; after a source — a relation: `package(\"x\").rules`",
+      "match": "(\\.)(?:(anchors|edges|fields|imports|interpretations|labels|literals|nodes|norms|positions|rules|variables|windows)(?![A-Za-z0-9_])|([A-Za-z_][A-Za-z0-9_]*))",
+      "captures": {
+        "1": {
+          "name": "punctuation.accessor.lawq"
+        },
+        "2": {
+          "name": "support.class.relation.lawq"
+        },
+        "3": {
+          "name": "variable.other.member.lawq"
+        }
+      }
+    },
+    "operators": {
+      "name": "keyword.operator.comparison.lawq",
+      "match": "==|!=|>=|<=|>|<|="
+    }
+  }
+}

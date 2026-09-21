@@ -1,0 +1,488 @@
+{
+  "name": "law",
+  "displayName": "Arxo Law",
+  "description": "Syntax, diagnostics and compiler-backed hints for Arxo Law in .law, .lawtest, .lawcase and literate .law.md.",
+  "version": "0.1.1",
+  "license": "Apache-2.0",
+  "publisher": "arxo",
+  "icon": "media/icon.png",
+  "pricing": "Free",
+  "homepage": "https://www.arxo.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arxohq/arxo-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arxohq/arxo-vscode/issues"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Formatters",
+    "Snippets"
+  ],
+  "keywords": [
+    "law",
+    "legal-tech",
+    "dsl",
+    "computational-law",
+    "rules-as-code"
+  ],
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "scripts": {
+    "package": "./package.sh",
+    "package:release": "./package-release.sh",
+    "install:cursor": "./install.sh cursor",
+    "install:code": "./install.sh code",
+    "install:all": "./install.sh all"
+  },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:law",
+    "onLanguage:markdown",
+    "onLanguage:lawq",
+    "workspaceContains:**/*.lawtest"
+  ],
+  "contributes": {
+    "configurationDefaults": {
+      "[law]": {
+        "editor.semanticHighlighting.enabled": true,
+        "editor.inlayHints.maximumLength": 0
+      }
+    },
+    "semanticTokenTypes": [
+      {
+        "id": "lawStatus",
+        "superType": "function",
+        "description": "Built-in status checks of Law DSL (§65, §113), e.g. supported and not_known."
+      }
+    ],
+    "semanticTokenScopes": [
+      {
+        "scopes": {
+          "function.defaultLibrary": ["support.function.builtin.law"],
+          "type.defaultLibrary": ["support.type.primitive.law"],
+          "lawStatus": ["keyword.control.status.law"]
+        },
+        "language": "law"
+      },
+      {
+        "scopes": {
+          "function.defaultLibrary": ["support.function.builtin.law"],
+          "type.defaultLibrary": ["support.type.primitive.law"],
+          "lawStatus": ["keyword.control.status.law"]
+        },
+        "language": "markdown"
+      }
+    ],
+    "languages": [
+      {
+        "id": "law",
+        "aliases": [
+          "Arxo Law",
+          "law"
+        ],
+        "extensions": [
+          ".law",
+          ".lawtest",
+          ".lawcase"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "lawq",
+        "aliases": [
+          "LawQL",
+          "lawq"
+        ],
+        "extensions": [
+          ".lawq"
+        ],
+        "configuration": "./lawq-language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "law",
+        "scopeName": "source.law",
+        "path": "./syntaxes/law.tmLanguage.json"
+      },
+      {
+        "scopeName": "markdown.law.codeblock",
+        "path": "./syntaxes/law.markdown-injection.json",
+        "injectTo": [
+          "text.html.markdown"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.law": "law"
+        }
+      },
+      {
+        "language": "lawq",
+        "scopeName": "source.lawq",
+        "path": "./syntaxes/lawq.tmLanguage.json"
+      },
+      {
+        "scopeName": "markdown.lawq.codeblock",
+        "path": "./syntaxes/lawq.markdown-injection.json",
+        "injectTo": [
+          "text.html.markdown"
+        ],
+        "embeddedLanguages": {
+          "meta.embedded.block.lawq": "lawq"
+        }
+      }
+    ],
+    "configuration": {
+      "title": "Arxo Law",
+      "properties": {
+        "law.hover.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the spec § reference on hover over a keyword."
+        },
+        "law.hover.detail": {
+          "type": "string",
+          "enum": [
+            "full",
+            "compact"
+          ],
+          "enumDescriptions": [
+            "Full card: §218 labels, relation kind and key, annotations, a slice of the declaration source, the comment above it, the §28 official source text, and the declaration location.",
+            "Only kind, name, signature, and spec §."
+          ],
+          "default": "full",
+          "description": "Level of detail for the declaration card on hover."
+        },
+        "law.hover.maxLines": {
+          "type": "number",
+          "default": 14,
+          "minimum": 1,
+          "description": "How many lines of the declaration source to show in the hover; the rest collapses into \"... N more lines\"."
+        },
+        "law.lawcPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the compiler binary. Empty — look it up: builds at engines/lawc/target/{release,gate,debug}/law-cli in the workspace, then law-cli from PATH. A relative path is resolved from the workspace root."
+        },
+        "law.check.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show `lawc check` diagnostics in the Problems panel."
+        },
+        "law.query.corpus": {
+          "type": "string",
+          "default": "*",
+          "description": "Glob over package.name for the corpus snapshot (`--corpus`); `*` — the whole corpus/clir. Narrowing speeds up loading and completion."
+        },
+        "law.query.limit": {
+          "type": "number",
+          "default": 0,
+          "description": "Explicit limit on the number of eval() materializations (`--limit`); 0 — no flag (eval() then refuses with LDC-Q3001)."
+        },
+        "law.dependencies": {
+          "type": "string",
+          "enum": ["auto", "source", "off"],
+          "default": "auto",
+          "description": "Where to take declarations behind `pkg::name` (§23–§25) for hints, inlays, and navigation: auto — the dependency's sources from the workspace, otherwise its CLIR from corpus/clir; source — sources only; off — do not resolve."
+        },
+        "law.inlay.labels": {
+          "type": "boolean",
+          "default": true,
+          "description": "Inlays with §218 labels next to relation names in rules and expand instances."
+        },
+        "law.inlay.parameters": {
+          "type": "string",
+          "enum": ["all", "differing", "off"],
+          "enumDescriptions": [
+            "Every call argument gets the parameter name from the declaration.",
+            "Only where the argument name differs from the parameter name.",
+            "No parameter inlays."
+          ],
+          "default": "all",
+          "description": "Parameter inlays for relation call arguments; what exactly is printed is controlled by law.inlay.parameterForm. The full parameter description is in the inlay hover and in the hover on the argument."
+        },
+        "law.inlay.parameterForm": {
+          "type": "string",
+          "enum": ["smart", "name", "type", "both"],
+          "enumDescriptions": [
+            "Type after the argument if its name matches the parameter name (`g: Galaxy`), otherwise the parameter name before it (`atoms: k`).",
+            "Parameter name before the argument: `numerator: n0`.",
+            "Parameter type after the argument: `n0: Integer`.",
+            "Both name before and type after: `numerator: n0: Integer`."
+          ],
+          "default": "smart",
+          "description": "Form of the parameter inlay: parameter name, its type, or both."
+        },
+        "law.inlay.language": {
+          "type": "string",
+          "default": "ru-KZ",
+          "description": "Label language for inlays (exact match, then base language: ru-KZ → ru). A label in another language is not substituted."
+        },
+        "law.inlay.maxLength": {
+          "type": "number",
+          "default": 40,
+          "description": "Maximum inlay text length; longer text is truncated, with the full text in the hover."
+        },
+        "law.lens.scenes": {
+          "type": "boolean",
+          "default": true,
+          "description": "\"Who checks this rule\" lens: the package's .lawtest scenes and corpus scenarios with the rule's heads."
+        },
+        "law.lens.verbalize": {
+          "type": "boolean",
+          "default": true,
+          "description": "\"In plain language\" lens above a rule: the verbalization paragraph for its node (lawref verbalize) as a peek under the declaration; after the first call the paragraph is also visible in the hover."
+        },
+        "law.engine": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "wasm",
+            "cli"
+          ],
+          "default": "auto",
+          "description": "What computes the §225 palette (parse, check, layer, lower, expand): auto — wasm in a worker if the bundle is found, otherwise law-cli; wasm — wasm only (without the bundle — law-cli with a note in the channel); cli — binary only. Operations outside the palette and strict --imports checking always go through law-cli."
+        },
+        "law.enginePath": {
+          "type": "string",
+          "default": "",
+          "description": "Directory with the bindings and module (index.js, worker.js, law_wasm.wasm). Empty — apps/npm/law-engine/dist with wasm from engines/lawc/target/wasm-dist, then the engine/ bundle inside the extension."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "law.refactorSyntax",
+        "title": "Law: transform syntax under cursor — preview",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.check",
+        "title": "Law: check file with the compiler",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.showClir",
+        "title": "Law: show CLIR (lawc lower)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.showExpanded",
+        "title": "Law: show expanded view (lawc expand)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.semanticHash",
+        "title": "Law: semantic hash of file (§209)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.evalVector",
+        "title": "Law: run vector (lawc eval)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.diffVector",
+        "title": "Law: diff vector against expected",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.showProof",
+        "title": "Law: vector proof tree (§235)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.whyNot",
+        "title": "Law: why not (lawc why-not)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.runTest",
+        "title": "Law: run test (lawc test)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.checkStrict",
+        "title": "Law: strict package check (check --imports §23)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.verbalize",
+        "title": "Law: verbalize package (lawref verbalize)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.verbalizeRule",
+        "title": "Law: verbalize rule in plain language (lawref verbalize, node paragraph)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.impact",
+        "title": "Law: what this change affects (lawc impact against the corpus)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.revealProofSource",
+        "title": "Law: open node source",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.query",
+        "title": "Law: run LawQL query (lawref query)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.queryJson",
+        "title": "Law: canonical queryResult (lawref query --json)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.querySchema",
+        "title": "Law: LawQL schema (lawref query --schema)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.queryCatalog",
+        "title": "Law: LawQL lint catalog (lawref query --list)",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.showOutput",
+        "title": "Law: open output channel",
+        "category": "Arxo Law"
+      },
+      {
+        "command": "law.showScenes",
+        "title": "Law: scenes and scenarios that check this rule"
+      },
+      {
+        "command": "law.relockExpansions",
+        "title": "Law: rebuild the expansions section in law.lock (§279.1.8)"
+      },
+      {
+        "command": "law.sceneFromRule",
+        "title": "Law: scene from rule — .lawtest draft from body and head"
+      },
+      {
+        "command": "law.showClirNode",
+        "title": "Law: CLIR node of the declaration under cursor (StableId §209)"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "law",
+        "path": "./snippets/law.code-snippets"
+      },
+      {
+        "language": "lawq",
+        "path": "./snippets/lawq.code-snippets"
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": [
+          "ir.json",
+          "ir_a.json",
+          "ir_b.json",
+          "*.lawir.json"
+        ],
+        "url": "./schemas/legal-ir.schema.json"
+      },
+      {
+        "fileMatch": [
+          "vector.json"
+        ],
+        "url": "./schemas/vector-meta.schema.json"
+      },
+      {
+        "fileMatch": [
+          "calendar.resource.json"
+        ],
+        "url": "./schemas/calendar-dataset.schema.json"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "lawProof",
+          "name": "Law: proof",
+          "when": "lawProofAvailable"
+        },
+        {
+          "id": "lawWhyNot",
+          "name": "Law: why not",
+          "when": "lawWhyNotAvailable"
+        },
+        {
+          "id": "lawPackage",
+          "name": "Law: package",
+          "when": "lawPackageAvailable"
+        }
+      ]
+    },
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "law.revealProofSource",
+          "when": "false"
+        }
+      ],
+      "editor/title/run": [
+        {
+          "command": "law.query",
+          "when": "editorLangId == lawq",
+          "group": "navigation"
+        }
+      ]
+    },
+    "taskDefinitions": [
+      {
+        "type": "law",
+        "required": [
+          "task"
+        ],
+        "properties": {
+          "task": {
+            "type": "string",
+            "description": "Repository gate identifier."
+          }
+        }
+      }
+    ],
+    "problemPatterns": [
+      {
+        "name": "lawc",
+        "regexp": "^(.*):(\\d+):(\\d+): (error|warning) ([A-Z]+-[A-Z0-9]+): (.*)$",
+        "file": 1,
+        "line": 2,
+        "column": 3,
+        "severity": 4,
+        "code": 5,
+        "message": 6
+      }
+    ],
+    "problemMatchers": [
+      {
+        "name": "lawc",
+        "owner": "law",
+        "source": "lawc",
+        "fileLocation": [
+          "autoDetect",
+          "${workspaceFolder}"
+        ],
+        "pattern": "$lawc"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "law.query",
+        "key": "ctrl+enter",
+        "mac": "cmd+enter",
+        "when": "editorLangId == lawq && editorTextFocus"
+      }
+    ]
+  }
+}
