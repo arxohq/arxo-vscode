@@ -1,0 +1,36 @@
+// Card-examples fixture for the construct wave (batch 1 + clause defeat):
+// rule priority and the defeater head. Every region is a card example; the
+// whole file compiles with `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.priority version "0.1.0";
+namespace "urn:law:handbook:card-priority";
+
+entity Vendor;
+relation registered_trader(v: Vendor) kind institutional;
+relation licence_revoked(v: Vendor) kind institutional;
+relation sanitary_violation(v: Vendor) kind empirical;
+relation may_trade(v: Vendor) kind institutional;
+
+rule GeneralTrade defeasible {
+    for v: Vendor;
+    when registered_trader(v);
+    then may_trade(v);
+}
+rule RevocationRefusal defeasible {
+    for v: Vendor;
+    when licence_revoked(v);
+    then not may_trade(v);
+}
+// region: priority-decl
+priority RevocationOverGeneral {
+    prefer RevocationRefusal over GeneralTrade;
+    reason lex_specialis;
+}
+// endregion: priority-decl
+// region: defeat-decl
+rule SanitaryBlock defeater {
+    for v: Vendor;
+    when sanitary_violation(v);
+    defeat may_trade(v);
+}
+// endregion: defeat-decl

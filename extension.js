@@ -18,6 +18,9 @@ require('./lib/package-commands');
 require('./lib/query-host');
 
 const { registerSyntaxPreview } = require('./lib/syntax-preview');
+const lsp = require('./lib/lsp-client');
+const { legacyEditorProviders } = require('./lib/legacy-providers');
+
 
 function activate(context) {
   S.boot(require('vscode'));
@@ -30,6 +33,21 @@ function activate(context) {
   const legend = new vscode.SemanticTokensLegend(S.TOKEN_TYPES, S.TOKEN_MODIFIERS);
   S.status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 100);
   S.status.command = 'law.showOutput';
+  const legacy = legacyEditorProviders(vscode, S, context, legend);
+  const activateLegacy = () => {
+    S.lspStarting = false;
+    S.lspActive = false;
+    context.subscriptions.push(...legacy.restoreProviders());
+    for (const d of vscode.workspace.textDocuments) if (!S.lspHandles(d)) S.scheduleCheck(d, 0);
+  };
+  let lspOwnsDiagnostics = false;
+  const lspDisposable = lsp.start(vscode, context, S.output, {
+    onReady: () => { S.lspStarting = false; S.lspActive = lspOwnsDiagnostics; },
+    onFallback: activateLegacy,
+  });
+  if (lspDisposable) legacy.disposeProviders(lspDisposable.providers);
+  lspOwnsDiagnostics = Boolean(lspDisposable?.diagnostics);
+  S.lspStarting = lspOwnsDiagnostics;
 
   context.subscriptions.push(
     S.output,
@@ -37,28 +55,11 @@ function activate(context) {
     S.strictCollection,
     S.queryCollection,
     S.status,
+    ...(lspDisposable ? [lspDisposable] : []),
     vscode.tasks.registerTaskProvider('law', S.taskProvider()),
     vscode.commands.registerCommand('law.showOutput', () => S.output.show(true)),
     vscode.window.onDidChangeActiveTextEditor(() => S.updateStatus()),
-    vscode.languages.registerHoverProvider(S.LAW, S.hoverProvider(context, false)),
-    vscode.languages.registerHoverProvider(S.LITERATE, S.hoverProvider(context, true)),
-    vscode.languages.registerCodeActionsProvider(S.LAW, S.codeActionProvider(),
-      { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }),
-    vscode.languages.registerCodeActionsProvider(S.LITERATE, S.codeActionProvider(),
-      { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }),
-    vscode.languages.registerDocumentSymbolProvider(S.LAW, S.symbolProvider()),
-    vscode.languages.registerDocumentSymbolProvider(S.LITERATE, S.symbolProvider()),
-    vscode.languages.registerDocumentSemanticTokensProvider(S.LAW, S.semanticTokensProvider(legend), legend),
-    vscode.languages.registerDocumentSemanticTokensProvider(S.LITERATE, S.semanticTokensProvider(legend), legend),
-    vscode.languages.registerDefinitionProvider(S.LAW, S.definitionProvider(false)),
-    vscode.languages.registerDefinitionProvider(S.LITERATE, S.definitionProvider(true)),
-    vscode.languages.registerReferenceProvider(S.LAW, S.referenceProvider(false)),
-    vscode.languages.registerReferenceProvider(S.LITERATE, S.referenceProvider(true)),
-    vscode.languages.registerDocumentHighlightProvider(S.LAW, S.highlightProvider(false)),
-    vscode.languages.registerDocumentHighlightProvider(S.LITERATE, S.highlightProvider(true)),
-    vscode.languages.registerCompletionItemProvider(S.LAW, S.completionProvider(context)),
-    vscode.languages.registerCompletionItemProvider(S.LITERATE, S.completionProvider(context)),
-    vscode.languages.registerDocumentFormattingEditProvider(S.LAW, S.formattingProvider()),
+    ...legacy.subscriptions,
     vscode.commands.registerCommand('law.check', () => {
       const editor = vscode.window.activeTextEditor;
       if (editor) S.scheduleCheck(editor.document, 0);
@@ -88,22 +89,17 @@ function activate(context) {
     vscode.languages.registerCodeLensProvider(S.LAW, S.verbalizeLensProvider()),
     vscode.commands.registerCommand('law.verbalizeRule', (fsPath, name) => S.verbalizeRule(fsPath, name)),
     vscode.workspace.registerTextDocumentContentProvider(S.VERBALIZE_SCHEME, S.verbalizedContentProvider()),
-    vscode.languages.registerInlayHintsProvider(S.LAW, S.inlayHintsProvider()),
-    vscode.languages.registerInlayHintsProvider(S.LITERATE, S.inlayHintsProvider()),
     vscode.commands.registerCommand('law.showScenes', (places, name) => S.showScenes(places, name)),
     vscode.commands.registerCommand('law.relockExpansions', (fsPath) => S.relockExpansions(fsPath)),
     vscode.commands.registerCommand('law.sceneFromRule', (fsPath, name) => S.sceneFromRule(fsPath, name)),
     vscode.commands.registerCommand('law.showClirNode', (fsPath, name) => S.showClirNode(fsPath, name)),
-    vscode.languages.registerRenameProvider(S.LAW, S.renameProvider(context, false)),
-    vscode.languages.registerRenameProvider(S.LITERATE, S.renameProvider(context, true)),
-    vscode.languages.registerWorkspaceSymbolProvider(S.workspaceSymbolProvider()),
     vscode.workspace.registerTextDocumentContentProvider('law-clir', S.clirContentProvider()),
     vscode.languages.registerDefinitionProvider([{ scheme: 'law-clir' }, { language: 'json', pattern: '**/*.json' }], S.clirDefinitionProvider()),
     vscode.window.registerTreeDataProvider('lawPackage', S.packageTree),
     vscode.window.onDidChangeActiveTextEditor((editor) => { if (editor && S.isLaw(editor.document)) S.packageTree.show(editor.document); }),
-    vscode.workspace.onDidOpenTextDocument((d) => S.scheduleCheck(d, 0)),
-    vscode.workspace.onDidSaveTextDocument((d) => S.scheduleCheck(d, 0)),
-    vscode.workspace.onDidChangeTextDocument((e) => S.scheduleCheck(e.document)),
+    vscode.workspace.onDidOpenTextDocument((d) => { if (!S.lspHandles(d)) S.scheduleCheck(d, 0); }),
+    vscode.workspace.onDidSaveTextDocument((d) => { if (!S.lspHandles(d)) S.scheduleCheck(d, 0); }),
+    vscode.workspace.onDidChangeTextDocument((e) => { if (!S.lspHandles(e.document)) S.scheduleCheck(e.document); }),
     vscode.workspace.onDidChangeTextDocument((e) => {
       if (e.document.languageId === 'lawq') S.queryCollection.delete(e.document.uri);
     }),
@@ -131,13 +127,13 @@ function activate(context) {
       if (e.affectsConfiguration('law.lawcPath')) S.resolvedBin = null;
       if (e.affectsConfiguration('law.query.corpus')) S.querySchema = null;
       if (e.affectsConfiguration('law')) {
-        for (const d of vscode.workspace.textDocuments) S.scheduleCheck(d, 0);
+        for (const d of vscode.workspace.textDocuments) if (!S.lspHandles(d)) S.scheduleCheck(d, 0);
       }
     }),
   );
 
   registerSyntaxPreview(vscode, context, S.parseSyntaxSnapshot);
-  for (const d of vscode.workspace.textDocuments) S.scheduleCheck(d, 0);
+  for (const d of vscode.workspace.textDocuments) if (!S.lspHandles(d)) S.scheduleCheck(d, 0);
   S.updateStatus();
 }
 
@@ -151,6 +147,8 @@ function deactivate() {
   S.lastVerdict.clear();
   if (S.tempRoot) fs.rmSync(S.tempRoot, { recursive: true, force: true });
   S.tempRoot = null;
+  S.lspActive = false;
+  S.lspStarting = false;
 }
 
 module.exports = {

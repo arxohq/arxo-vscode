@@ -1,0 +1,149 @@
+language "law.core" version "0.2";
+package handbook.card.types version "0.1.0";
+namespace "urn:law:handbook:card-types";
+
+// Self-contained fixture for the std type cards: every region is the example
+// of one card and shows the type where an author writes it. The whole file is
+// compiled by check_constructs.py; the generator shows the marked region.
+entity Person;
+entity Company;
+relation adult(p: Person) kind derived;
+relation small(c: Company) kind derived;
+relation high_earner(p: Person) kind derived;
+relation remote(c: Company) kind derived;
+relation late(c: Company) kind derived;
+relation flagged(c: Company) kind derived;
+relation capped(c: Company) kind derived;
+
+// region: text
+relation full_name(p: Person, name: Text) kind empirical { key(p); }
+// endregion: text
+
+// region: integer
+relation employee_count(c: Company, n: Integer) kind empirical { key(c); }
+rule Small strict {
+    for c: Company;
+    for n: Integer;
+    when employee_count(c, n) and n <= 100;
+    then small(c);
+}
+// endregion: integer
+
+// region: decimal
+relation rate_applied(c: Company, r: Decimal) kind empirical { key(c); }
+rule Capped strict {
+    for c: Company;
+    for r: Decimal;
+    when rate_applied(c, r) and r <= 0.20;
+    then capped(c);
+}
+// endregion: decimal
+
+// region: rational
+relation ownership_share(p: Person, c: Company, s: Rational) kind empirical;
+// endregion: rational
+
+// region: money
+// KZT is the Currency of the literal; it is never written as a type.
+relation salary(p: Person, amount: Money) kind empirical { key(p); }
+rule HighEarner strict {
+    for p: Person;
+    for a: Money;
+    when salary(p, a) and a >= 1000000 KZT;
+    then high_earner(p);
+}
+// endregion: money
+
+// region: quantity
+relation distance_to_office(c: Company, d: Quantity) kind empirical { key(c); }
+rule Remote strict {
+    for c: Company;
+    for d: Quantity;
+    when distance_to_office(c, d) and d >= 300 km;
+    then remote(c);
+}
+// endregion: quantity
+
+// region: date
+relation born_on(p: Person, d: Date) kind empirical { key(p); }
+rule Adult strict {
+    for p: Person;
+    for d: Date;
+    when born_on(p, d) and d <= @2008-03-01;
+    then adult(p);
+}
+// endregion: date
+
+// region: instant
+relation filed_at(c: Company, t: Instant) kind empirical { key(c); }
+rule Late strict {
+    for c: Company;
+    for t: Instant;
+    when filed_at(c, t) and t > @2026-03-31T18:00:00+05:00;
+    then late(c);
+}
+// endregion: instant
+
+// region: duration
+relation processing_time(c: Company, d: Duration) kind empirical { key(c); }
+// endregion: duration
+
+// region: boolean
+relation audit_passed(c: Company, ok: Boolean) kind empirical { key(c); }
+rule Flagged strict {
+    for c: Company;
+    when audit_passed(c, false);
+    then flagged(c);
+}
+// endregion: boolean
+
+// region: timezone
+relation head_office_zone(c: Company, tz: Timezone) kind institutional { key(c); }
+// endregion: timezone
+
+// region: language-tag
+relation working_language(c: Company, l: LanguageTag) kind institutional;
+// endregion: language-tag
+
+// region: jurisdiction
+const KZ: Jurisdiction = Jurisdiction { code: "KZ" };
+relation governed_by(c: Company, j: Jurisdiction) kind institutional;
+// endregion: jurisdiction
+
+// region: list
+relation filing_history(c: Company, dates: List<Date>) kind empirical { key(c); }
+// endregion: list
+
+// region: set
+relation licence_codes(c: Company, codes: Set<Text>) kind institutional { key(c); }
+// endregion: set
+
+// region: option
+relation liquidated_on(c: Company, d: Option<Date>) kind institutional { key(c); }
+// endregion: option
+
+// region: magnitude
+relation work_done(c: Company, m: Magnitude) kind empirical { key(c); }
+// endregion: magnitude
+
+// region: bounds
+relation growth_estimate(c: Company, b: Bounds) kind empirical { key(c); }
+// endregion: bounds
+
+// region: number
+relation index_value(c: Company, v: Number) kind empirical { key(c); }
+// endregion: number
+
+// region: algebraic
+relation diagonal(c: Company, v: Algebraic) kind derived;
+rule Diagonal strict {
+    for c: Company;
+    for v: Number;
+    when index_value(c, v) and v > 0;
+    then diagonal(c, exact_sqrt(v));
+}
+// endregion: algebraic
+
+// region: real-expr
+relation phase(c: Company, angle: RealExpr) kind empirical { key(c); }
+// endregion: real-expr

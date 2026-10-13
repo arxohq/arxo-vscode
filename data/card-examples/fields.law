@@ -1,0 +1,131 @@
+language "law.core" version "0.2";
+package handbook.card.fields version "0.1.0";
+namespace "urn:law:handbook:card-fields";
+
+// Self-contained fixture for the cards of field keywords: words that are
+// written inside a source, a publication, a fragment, a calendar, an
+// amendment operation or an expansion parameter list. The whole file is
+// compiled by check_constructs.py; the generator shows the marked region.
+
+// region: source-jurisdiction
+source TRADE_RULES {
+    kind municipal_act;
+    jurisdiction VELIKY_USTIN;
+    number "2026-7";
+}
+// endregion: source-jurisdiction
+
+edition TRADE_RULES_RU of TRADE_RULES {
+    language ru;
+    officiality official;
+    adopted @2026-03-01;
+    in_force [@2026-04-01, infinity);
+    materialization_status PINNED_EDITORIAL_RECONSTRUCTION;
+}
+
+edition TRADE_RULES_RU_2027 of TRADE_RULES {
+    language ru;
+    officiality official;
+    adopted @2026-12-01;
+    in_force [@2027-01-01, infinity);
+    materialization_status ABSTRACT_ONLY;
+}
+
+// region: publication-uri
+publication TRADE_RULES_RU_TEXT of TRADE_RULES_RU {
+    media_type "text/plain; charset=utf-8";
+    uri "urn:handbook:trade-rules-2026:ru";
+    retrieved_at @2026-04-02T09:00:00Z;
+    content_hash "sha256:931d2334a6a34b130f16cdad33c4dedf1b52f8347e331a0c911d75882f8167ed";
+    local_path "sources/trade-rules-2026.txt";
+}
+// endregion: publication-uri
+
+// region: fragment-text
+fragment TRADE_RULES_ART3 in TRADE_RULES_RU {
+    kind article;
+    locator "article/3";
+    text ru official "A stall is open from eight to twenty.";
+    content_hash "sha256:22bbd82ee1f2847225948d3473d9ad13ebc717711f667895df154b7beba0f20f";
+}
+// endregion: fragment-text
+
+fragment TRADE_RULES_2027_ART3 in TRADE_RULES_RU_2027 {
+    kind article;
+    locator "article/3";
+    text ru official "A stall is open from nine to twenty-one.";
+}
+
+revision TRADE_RULES_AMENDMENT_2027 {
+    previous TRADE_RULES_RU;
+    next TRADE_RULES_RU_2027;
+    relation amends;
+// region: amendment-text
+    op replace {
+        locator "article/3";
+        language ru;
+        text """A stall is open from nine to twenty-one.""";
+        effective @2027-01-01;
+    }
+// endregion: amendment-text
+}
+
+// region: calendar-timezone
+calendar TRADE_CALENDAR {
+    timezone "Asia/Almaty";
+    timezone_db "iana-tzdb@2026a";
+    period [@2026-01-01, @2027-01-01);
+}
+// endregion: calendar-timezone
+
+expansion notice_term {
+// region: expansion-params
+    params {
+        holder: binder; start: binder;
+        trigger: relation(holder, start); notified: relation(holder);
+        conditions: list<relation(holder)> min 0;
+        excuse: option<relation(holder)>;
+        threshold: integer;
+        term: quantity;
+    }
+// endregion: expansion-params
+    exports { duty = self/duty; }
+    emit rule self/duty strict {
+        for holder; for start;
+        when trigger(holder, start);
+        for each c in conditions { when c(holder); }
+        then duty self/duty/norm {
+            bearer holder;
+            achieve notified(holder)
+                during between start and add_calendar_period(start, term) inclusive;
+        }
+        scope from self; effective from self; labels from self; source from self;
+    }
+}
+
+// region: decision-list
+decision ApplicableSurcharges(staff: Integer) -> List<Decimal> {
+    table hit collect aggregate list {
+        when staff >= 10 => 0.01;
+        when staff >= 100 => 0.02;
+    }
+}
+// endregion: decision-list
+
+// The `set { … }` literal is reserved (errata E-0288): a set is built by a
+// `collect` comprehension, shown here as the working form.
+entity Household;
+entity Member;
+relation registered_household(h: Household) kind institutional;
+relation household_member(h: Household, m: Member) kind empirical;
+relation senior(m: Member) kind empirical;
+relation has_senior(h: Household) kind derived;
+
+// region: set-by-collect
+rule HasSenior strict {
+    for h: Household;
+    when registered_household(h)
+        and exists m in (collect x: Member where household_member(h, x)) where senior(m);
+    then has_senior(h);
+}
+// endregion: set-by-collect

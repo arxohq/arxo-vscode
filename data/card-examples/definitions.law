@@ -1,0 +1,41 @@
+// Card-examples fixture for the construct wave (batch 3): definitions,
+// records, tests and case record selection. Every region is a card example;
+// the whole file compiles with `lawc check`. A `test` is input, not program
+// (E1314 warns); `definition … exact` is the warning-free mode (E1328).
+language "law.core" version "0.2";
+package handbook.card.definitions version "0.1.0";
+namespace "urn:law:handbook:card-definitions";
+
+entity Person;
+relation adult(p: Person) kind institutional;
+
+// region: definition-decl
+definition Adult(p: Person) exact {
+    when adult(p);
+}
+// endregion: definition-decl
+// region: record-decl
+record TaxInput {
+    income: Money;
+}
+// endregion: record-decl
+// region: test-decl
+test "adult is adult" {
+    given {
+        assert adult(entity_ref("urn:x#p1"));
+    }
+    evaluate truth(adult(entity_ref("urn:x#p1")));
+    expect truth_status == TRUE_ONLY;
+}
+// endregion: test-decl
+case UseCase {
+    context {
+        jurisdiction KZ;
+        legal_time @2026-08-25;
+    }
+// region: use-decl
+    use PRIORS {
+        record "urn:x#assert-1";
+    }
+// endregion: use-decl
+}

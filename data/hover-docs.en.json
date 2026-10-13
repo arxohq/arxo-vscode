@@ -1,0 +1,4016 @@
+{
+  "_": "Hand-maintained English translations for the hover dictionary (DECISION-0385: editor hover help is English-only, single locale). Edited by hand; build-hover-docs.mjs pulls two things from here by key: \"doc\" text by word, and \"titles\" (English section title) by SPEC section number, covering every section referenced by any entry's sec or also. Section selection (which § a word maps to) still comes from spec/SPEC.ru/ — only the rendered title/doc text is taken from here. Keep in sync with the generated dictionary (build-hover-docs.mjs --check lists missing/stale keys for both maps). Cards (`cards` + `words`, author-help layer): a migrated word no longer takes `doc` from `docs` — its entry text is generated from the card, so one word never has two hand-maintained descriptions. Card schema: tier, title ≤40 chars, summary ≤140, note ≤240. Example tiers (construct|word|symbol) carry `exampleRef` `card-examples/NAME#<region>`; the form tier `std` carries a one-line `displayForm` ≤100 instead, plus optional `params` [{name, doc ≤120}] naming the arguments of the form in order (signature help prints them). `std` and `type` cards are bound to the std catalogue: a `std` form opens with `name(` and has the catalogued arity; a `type` card has a compiled example that uses the type name. Every card also has spec {sec}, related ≤2 × {sec} (labels come from `titles`). `words[word]` = {default: card, variants?: {role: card}}; every migrated word must have a `words` entry and no `docs` entry. Example bodies live in `card-examples/` fixtures (`// region:` markers); build-hover-docs.mjs resolves every exampleRef and validates the schema.",
+  "docs": {
+    "Actor": "**Entity type vs. entity type (§42, errata E-0121).** An entity-typed argument is compatible with a parameter if its type IS the expected type or a descendant along the `base` chain, and the chain may cross a PACKAGE BOUNDARY: a link can be a dependency's public entity whose supertype its resolve context §23 exposed (`exportBases`, alias chain §40 followed to target).",
+    "Amount": "The seven base dimensions are named with std identifiers: `Length`, `Mass`, `Time`, `Current`, `Temperature`, `Amount`, `Luminosity`. The carrier in CLIR is the `unit_decl` node; export across a package boundary uses `pub`, like any other symbol (§23).",
+    "BusinessPeriod": "Physical duration in seconds/nanoseconds.",
+    "CalendarPeriod": "v1 returns a **day count** (`Integer`), not a `CalendarPeriod` carrying a unit: a unit-bearing carrier would need algebra over inverse units (`1/day` for a daily rate), which v1 lacks (§49: multiplication only by a scalar). The unit stays visible in the function name.",
+    "CardinalityError": "`Rational` (errata E-0005) is an exact rational value: the result type of exact division (§58) and permitted internal arithmetic (§18); canonical serialization represents it as an irreducible fraction. **The carrier has no bit-width limit** (errata E-0159); protection against unbounded consumption is the §238 counters, and exceeding them yields `RESOURCE_LIMIT` with no partial result.",
+    "Collective": "Core allows a `Collective` beneficiary, but a detailed model of an indeterminate class of persons requires the standard profile.",
+    "CountryCode": "`Jurisdiction` (errata E-0039) — the jurisdictional-binding type: §54 prints `const KZ: Jurisdiction = Jurisdiction { code: \"KZ\" };` as the canonical `const` example, §89 declares it as the first field of `EvaluationContext`, and `spec/examples/kz/social-code-art175.law` uses it as an institutional relation parameter.",
+    "Court": "If the context does not select exactly one alternative under `exactly_one`, the evaluator returns `INTERPRETATION_REQUIRED`.",
+    "Current": "`convert` (errata E-0072) is the only v1 quantity conversion: it converts a `Quantity` to another unit via an explicit form with an exact integer-pair factor (semantics — §49). Currency conversion belongs to §50 (`currency_convert`, exchange snapshot); `Money` rejects it by name.",
+    "DeadlinePolicy": "For `DeadlinePolicy` this relation is closed in 0.2: the named declaration (§86) is lowered to a CLIR node, and `DeadlinePolicyRef` is its StableId. The reference must resolve within the same pinned package during lowering of a case or profile; an undeclared name is `LDC-E1332`, not a late `MISSING_POLICY`. `CalendarRef` still addresses a pinned `CalendarSnapshot` (§85).",
+    "Dimension": "**Parametric std names are enumerated here, and the list is closed (errata E-0194).** Exactly seven names may take a parameter: `Option<T>`, `Result<T, E>`, `List<T>`, `Set<T>`, `Map<K, V>`, `Interval<T>`, and `Money<C>`. Any other parameterized std name is a static error.",
+    "Duty": "For multiple bearers, the author must specify an allocation policy; a collective duty does not automatically expand into an individual duty for each participant.",
+    "EvaluationResult": "*A descriptive schema, not a 0.1 surface declaration (generic parameter `<T>` and `Option<…>`): the block is intentionally non-compiling and stays `text`; see errata E-0130.*",
+    "EvaluationStatus": "**A candidate rule's term error propagates to the result (errata E-0105).** A `truth`/`why_not` result of `NEITHER` caused by a term evaluation error (§58), not a missing fact, means \"the law was not computed,\" and `evaluation_status` must say so: `MISSING_POLICY`, `MISSING_INPUT`, `EXTERNAL_UNAVAILABLE`, `TYPE_ERROR`, `NON_EXECUTABLE`, `RESOURCE_LIMIT`, or `RUNTIME_ERROR`.",
+    "EvidenceItem": "`EvidenceItem`, `SupportEdge`, build/evaluation activities and agents can be exported to a W3C PROV-DM/PROV-O compatible graph.",
+    "Immunity": "`Immunity` blocks the corresponding legal transformation but does not necessarily forbid the physical act of the body. An invalid exercise may still occur in fact and carry separate consequences.",
+    "LegalContext": "**Entity vs. entity (§42, errata E-0121).** An entity-typed argument is compatible with a parameter if its type is the expected type or a descendant via the `base` chain, and the chain crosses PACKAGE BOUNDARIES via a dependency's public entity whose supertype a §23 resolve context exposed (`exportBases`). Standard nominal types (`Actor`, `Event`, `Action`, `LegalContext`) are compared by name.",
+    "Length": "**Parametric std names are enumerated here, and the list is closed (errata E-0194).** A parameter is legal for exactly seven names: `Option<T>`, `Result<T, E>`, `List<T>`, `Set<T>`, `Map<K, V>`, `Interval<T>`, and `Money<C>`. Any other std name with a parameter is a static error `LDC-E2118` (§189).",
+    "Liberty": "`liberty` is an explicit/strong permission. It can enter a priority conflict with a prohibition or a duty to forbear.",
+    "Luminosity": "The seven base dimensions carry std names: `Length`, `Mass`, `Time`, `Current`, `Temperature`, `Amount`, `Luminosity`. Their carrier in CLIR is the `unit_decl` node; export across a package boundary uses `pub`, like any symbol (§23).",
+    "Mass": "`convert` (errata E-0072) is v1's only quantity conversion: converting a `Quantity` to another unit via an explicit form with an exact factor given as a pair of integers (semantics — §49). Currency conversion is handled by §50 (`currency_convert`, exchange snapshot); `Money` terms reject `convert` by name.",
+    "Natural": "Alias transparency applies at both stages, not only statically: checking an argument's type against the §189 signature (case — errata E-0046, inferred head — E-0077) compares names AFTER following alias chains, so `relation r(n: N)` with `type N = Natural;` accepts a `Natural` value — otherwise `check` would accept a file that execution rejects with `TYPE_ERROR` (errata E-0098).",
+    "NormativeStatus": "The values `AVAILABLE`, `EXERCISED`, `VALIDLY_EXERCISED`, `INVALIDLY_EXERCISED` of the `NormativeStatus` enum (`evaluation.schema.json`) are not removed by this change — they remain RESERVED by the syntax (`position(T, S)` §267.4 accepts them), but no 0.2 implementation produces them: a positive expectation of such a status in a test passes vacuously, not by being \"held\" (§267.4).",
+    "OffsetDateTime": "An `Instant` is a point on the time axis; a written offset is its representation, not part of its identity: `@1945-05-08T23:01:00+01:00` and `@1945-05-08T22:01:00Z` are the same value, and of two records the earlier one is whichever moment is earlier, regardless of wall-clock reading or civil date — the same fact §84.1 states about measuring the difference between two instants.",
+    "PositionInstance": "and receive ordinary `TRUE_ONLY / FALSE_ONLY / BOTH / NEITHER` support states.",
+    "Power": "`Power` describes the capacity to create a legal effect through a valid exercise.",
+    "ProofRef": "Standard library packages are versioned by the language's SEMANTICS REVISION and arrive via the §23 prelude (errata E-0154, DECISION-0166 §4.3/§4.5): they are not written to `law.lock`, not looked up in the registry, and an explicit `import law.std.<pkg> version` only confirms the built-in pin.",
+    "Result": "In this case an explicit measurement `280 m < 320 m` is a counterexample and suffices for `VIOLATED`; a completeness certificate is not needed for a negative result. If all available measurements satisfy the threshold but coverage of the whole operation window is not proven, the correct result for `SATISFIED` must be:",
+    "SourceEdition": "`artifactHash` covers the exact normalized CLIR, including `anchors`, `provenance`, `sourceSpan`, annotations, metadata and publication nodes. Only derived hash fields (`contentHash`, `semanticHash`, `theoryHash`, `artifactHash`) and recursive `labels` are excluded from its preimage: a presentation translation creates no new legal or provenance artifact. `SourceEdition.documentHash` is included.",
+    "SupportEdge": "`EvidenceItem`, `SupportEdge`, build/evaluation activities and agents can be exported into a W3C PROV-DM/PROV-O compatible graph.",
+    "Temperature": "The seven base dimensions carry std names: `Length`, `Mass`, `Time`, `Current`, `Temperature`, `Amount`, `Luminosity`. Their carrier in CLIR is the `unit_decl` node; export across a package boundary uses `pub`, like any symbol (§23).",
+    "Time": "`LanguageTag` 0.1 uses a portable BCP-47-compatible subset `[A-Za-z]{2,8}(-[A-Za-z0-9]{1,8})*`, supporting e.g. `kk-KZ`, `ru-KZ`, and region subtags like `es-419`. The resolver canonicalizes casing for comparison but preserves the original spelling as source trivia; grandfathered/private-use tags require a feature profile and are normalized to an explicit canonical value.",
+    "TruthStatus": "Standard library packages are versioned by the language's SEMANTICS REVISION and arrive via the §23 prelude (errata E-0154, DECISION-0166 §4.3/§4.5): they are not written to `law.lock`, not looked up in the registry, and an explicit `import law.std.<pkg> version` only confirms the built-in pin.",
+    "Velocity": "**Parametric std names are listed here, and the list is closed (errata E-0194).** A parameter is legal for exactly seven: `Option<T>`, `Result<T, E>`, `List<T>`, `Set<T>`, `Map<K, V>`, `Interval<T>`, and `Money<C>`.",
+    "_": "A rule variable left unbound by the goal is bound by a WITNESS (errata E-0189). The traversal is transitive — §47.5 derives `JUDGMENT_DEPENDENT` over the dependency graph, and an undetermined non-adjudicative subgoal is resolved by its own rules to any depth — but it descends into a ground subgoal; for `contract_avoided(c) ⇐ may_avoid_contract(c, p) ∧ notice_given(c, p)` …",
+    "accepts": "§78.1 describes the acceptance phase as an implementation duty but specifies neither the policy holder, its inputs, nor the decision form. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no rule of a specific policy lives in the implementation.",
+    "achieve": "`achieve F during W;` sets a goal of achieving `F` within window `W`, while `maintain F during W;` sets a goal of maintaining `F` throughout that window. These short forms inside `duty` are equivalent to the full `goal achievement`/`goal maintenance` blocks with `condition F; window W;` fields (DECISION-0185).",
+    "achievement": "An achievement duty is `satisfied` if accepted support confirms the condition within the window.",
+    "activation": "1. the creating rule application is accepted; 2. the activation condition/event is established; 3. context/time scope are satisfied; 4. the position is not blocked by a higher-priority position/effect.",
+    "adopted": "1. `source` — the abstract legal or documentary Work;\n2. `edition` — the concrete content, language and redaction, the Expression;\n3. `publication` — the concrete file or published representation, the Manifestation.",
+    "after": "The fifth and sixth rows are TERMS, not predicates: `before`/`after`/`during`/`overlaps`/`contains` return Boolean and construct nothing, whereas these nine produce values (`Date` for steps and boundaries, `Integer` for measurements and day-of-week).",
+    "against": "`liberty` is an explicit/strong permission. It can enter a priority conflict with a prohibition/duty to forbear.",
+    "aggregate": "DECISION-0187: `sum all a: Money for o: Order where F` is shorthand for `sum(collect all a: Money, o: Order where F)`. sum/count/min/max are supported; mandatory `distinct` unfolds into the earlier `collect` without `all`. Projection, binders, and strata are unchanged. `where` absorbs the full formula. An empty `count` yields 0; empty sum/min/max keep `EMPTY_AGGREGATE`.",
+    "alias": "**An alias to another package's type** (`type Persona = doctrine.ius_privatum::Persona;`) is the same §23 qualified reference as direct use of `pkg::T` in a signature: without a declared dependency it fails as `LDC-E1104`/`LDC-E1105` at lowering (§24); with one, it lowers to a `type_decl` of kind `alias` targeting `pkg#T`.",
+    "all": "For multiple bearers the author must specify an allocation policy; a collective duty does not automatically unfold into an individual duty for each participant.",
+    "alternatives": "`alternatives` also accepts a qualified reference to another package's `pub interpretation` (§23/§24, DECISION-0152) — the group is then assembled in the consuming package over readings, each declared next to its OWN pinned primary source.",
+    "any": "`alternatives` also accepts a qualified reference to another package's `pub interpretation` (§23/§24, DECISION-0152) — the group is then assembled in the consuming package over readings, each declared next to its OWN pinned primary source.",
+    "any_of": "Selection policy §155: evaluate eligible choices of readings.",
+    "arg": "§78.1 describes the acceptance phase as an implementation duty but specifies neither the policy holder, its inputs, nor the form of the decision. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no rule of a specific policy lives in the implementation.",
+    "ascending": "`ascending` is the default `stage` index direction: rounds run from `from` up to `to`, so `ascending` requires `from ≤ to`. It may be omitted from the declaration; `descending` must be written explicitly.",
+    "authenticates": "§78.1 describes the acceptance phase as an implementation obligation but specifies neither the policy's carrier, its inputs, nor the form of its decision. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no rule of a specific policy lives in the implementation.",
+    "authority": "1. `source` — the abstract legal or documentary Work;\n2. `edition` — the specific content, language, and revision, i.e. the Expression;\n3. `publication` — the specific file or published representation, i.e. the Manifestation.",
+    "basis": "`basis` (additive, DECISION-0042; repeatable, DECISION-0046) is the basis for issuing a subordinate act: the §127 StableId of the power norm in the authorizing act, i.e. what the act itself cites in its preamble (\"issued pursuant to paragraph 1 of Article 34 of Law Y\").",
+    "bearer": "They are represented as rules over the evidence graph. The burden of proof is a NORMATIVE POSITION (§134) over an epistemic goal: a party's duty to secure a determination of the question within the allotted window.",
+    "before": "The fifth and sixth rows are TERMS, not predicates: `before`/`after`/`during`/`overlaps`/`contains` return Boolean and construct nothing, whereas these nine produce values (`Date` for steps and bounds, `Integer` for measurements and weekday).",
+    "beneficiary": "For multiple bearers the author must specify an allocation policy; a collective duty does not automatically unfold into individual duties for each participant.",
+    "between": "`<ev>` and `<day>` are instance binders (the event entity and its `Date`); `<events>` is the `relation(subject, ev, day)` parameter (order/arity per its declaration); `<window>` is the `window` parameter; `<threshold>` is `integer`. An aggregate premise is at most one per rule (a second triggers `LDC-E1335`); it generates exactly what an author would write in a rule body under §52.1/§59.",
+    "bind": "`expand <reference> <Name> { … }`. The reference resolves to a definition in exactly one of two ways: (a) a local `expansion <reference>` in the same package; (b) an alias of a pinned package's definition per §279.1.8. Both at once is an ambiguity error; neither is `LDC-E1336`. `<Name>` is an ordinary instance identifier; `self` is its StableId (§279.1.4).",
+    "binder": "**Parameters.** The `params` section is mandatory and unique; parameter names are unique. Parameter types form a closed enumeration:",
+    "by": "Cases, holdings, and distinguishing are representable through sources, interpretations, rules, and priorities. A specialized similarity/precedent model remains a profile concern.",
+    "capability": "- declared by a manifest;\n- has a typed request/response;\n- binding is fixed by a snapshot/provider ID;\n- receives minimal permissions;\n- cannot change legal program state;\n- logs provenance.",
+    "cases": "**Parameters.** The `params` section is mandatory and unique; parameter names are unique. Parameter types are a closed list:",
+    "caused_by": "The revision graph MUST be immutable. A consolidated edition is a new edition with a provenance chain.",
+    "complete_as_of": "Only after a valid closure policy can the absence of a record give rise to an explicit negative assertion. The closure scope MUST be finite and precisely defined.",
+    "completeness_policy": "`achieve F during W;` sets a goal of achieving `F` within window `W`, while `maintain F during W;` sets a goal of maintaining `F` throughout it. These short forms inside `duty` are equivalent to full `goal achievement`/`goal maintenance` blocks with `condition F; window W;` fields (DECISION-0185).",
+    "compose_explicitly": "Selection policy §155 is reserved: source refuses with E1321; active evaluation refuses COMPOSITION_NON_EXECUTABLE. No composition policy is executed.",
+    "condition": "**Compound goal condition (errata E-0218).** The `condition` of an `achievement`, `maintenance`, or the inner `recurring` goal is evaluated as a pair of supports (§62), and the position's status is a projection of that pair per §134–§138. The same rule applies to an atom and to a compound formula; a condition leaf is a literal — `P` or `not P` (§63 mirrors both sides).",
+    "conflicted": "`monotone(P)` (errata E-0018) is computationally identical to `supported(P)` — true for any positive support. The difference is not in the test but in stated intent and layer membership: `monotone(P)` is an edge of monotone recursion (§103), belonging to layer L0; `supported(P)` consumes conflict and stays in L3.",
+    "contains": "The fifth and sixth rows are TERMS, not predicates: `before`/`after`/`during`/`overlaps`/`contains` return a Boolean and construct nothing, whereas the other nine produce values (`Date` for steps and bounds, `Integer` for measurements and day of week).",
+    "content_hash": "A fragment's `content_hash` answers a DIFFERENT question — not \"where did this text come from\" but \"has it changed since it was pinned\" — and one does not substitute for the other: §194 occurrence is checked by subsequence match, so a truncated text still counts as an occurrence, but the hash catches such truncation.",
+    "cost": "Without a cost function, the notion of \"minimal change\" is undefined.",
+    "court": "- `vocabulary` — the vocabulary id; `court` — the court's name; `decided` — the decision date (mandatory: without it a holding has no window of effect, §276.6);\n- `plaintiff`, `defendant` — factor sets X_π, X_δ found by the court, subsets of the vocabulary lists;\n- `outcome` — a polarity literal: favors π at positive polarity, δ at negative.",
+    "courts": "`signature` is an ordered tuple of binders `(name, type)`; a factor is a declared `relation` whose parameters are a SUBSEQUENCE of the signature (a factor over a single tuple entity is allowed): each parameter takes the nearest still-unclaimed binder of the same type, in signature order. `domain` is one or more established literals over signature variables, binding ALL of its variables.",
+    "create": "The lexer distinguishes **hard keywords** from **contextual keywords**.",
+    "currency_convert": "`convert` (errata E-0072) is v1's only quantity conversion: converting a `Quantity` to another unit via an explicit form with an exact factor given as a pair of integers (semantics — §49). Currency conversion is handled by §50 (`currency_convert`, exchange snapshot); `Money` terms reject `convert` by name.",
+    "decided": "- `vocabulary` — the vocabulary id; `court` — the court's name; `decided` — the decision date (mandatory: without it a holding has no window of effect, §276.6);\n- `plaintiff`, `defendant` — factor sets X_π, X_δ found by the court, subsets of the vocabulary lists;\n- `outcome` — a polarity literal: favors π at positive polarity, δ at negative.",
+    "deem": "A fiction derives an institutional fact, not an empirical fact. The compiler warns if a fiction's head relation has kind `empirical`. Strength after the name (`strict` or `defeasible`) is mandatory; Core does not default it.",
+    "default": "In a `term` declaration, `default` supplies the result when no `case` condition holds. Rule and classification strengths use `defeasible`.",
+    "defendant": "`signature` is an ordered tuple of binders `(name, type)`; a factor is a declared `relation` whose parameters are a SUBSEQUENCE of the signature (a factor over a single tuple entity is allowed): each parameter takes the nearest still-unclaimed binder of the same type, in signature order. `domain` is one or more established literals over signature variables, binding ALL of its variables.",
+    "derive_explicit_negative": "Only under a valid closure policy can the absence of a record produce an explicit negative assertion. The closure scope MUST be finite and precisely defined.",
+    "descending": "`descending` runs `stage` rounds from `to` down to `from` and requires `from ≥ to`; anything else is `LDC-E4122 STAGE_DOMAIN_EMPTY`. Index shifts in rule bodies mirror the direction (`i - 1` instead of `i + 1`).",
+    "dimension": "The right-hand side of the sugar is a product and quotient of exact integer/decimal numbers and parenthesized declared units. Arithmetic is rational, without rounding. A reference to an atom uses its scale and dimension, but the result becomes a NEW atom.",
+    "discharge_policy": "**Head composition.** The modality is `duty` or `prohibition` (DECISION-0209 R6; `liberty`, `power`, `immunity` are out of the 0.2 profile, `LDC-E1335`). The template path is a `generated_ref` of the form `<rule path>/norm` (§279.2.4).",
+    "distinct": "DECISION-0187: `sum all a: Money for o: Order where F` is shorthand for `collect(all a: Money, o: Order where F)` inside `sum`. sum/count/min/max are supported; the mandatory distinct expands to plain `collect` without `all`. Projection, binders, and strata are unchanged. Empty count yields 0; empty sum/min/max keep `EMPTY_AGGREGATE`.",
+    "document_hash": "§78.1 describes the acceptance phase as an implementation duty but specifies neither the policy holder, its inputs, nor the decision form. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no rule of a specific policy lives in the implementation.",
+    "domain": "Only after a valid closure policy can the absence of a record produce an explicit negative assertion. The closure scope MUST be finite and precisely defined.",
+    "due": "*A descriptive schema, not a 0.1 surface declaration (the `A | B` field-type notation): the block is intentionally non-compiling and stays `text`; see errata E-0130.*",
+    "during": "**Head composition.** The modality is `duty` or `prohibition` (DECISION-0209 R6; `liberty`, `power`, `immunity` are out of the 0.2 profile, `LDC-E1335`). The template path is a `generated_ref` of the form `<rule path>/norm` (§279.2.4).",
+    "duty": "For multiple bearers, the author must state an allocation policy; a collective duty does not automatically unfold into individual duties for each participant.",
+    "each": "**Parameters.** The `params` section is mandatory and unique; parameter names are unique. Parameter types are a closed list:",
+    "effect": "A deterministic local function with no external dependencies.",
+    "else": "In the canonical `IfTerm`, the condition is serialized as a Formula after Boolean lifting. `TRUE_ONLY` selects `then`, `FALSE_ONLY` selects `else`; `BOTH` yields `CONFLICTED_CONDITION`, `NEITHER` keeps missing/external issues without selecting a branch. A bare proposition in a data conditional is a static error, suggesting `established`, `supported`, `conflicted`, or another status test.",
+    "emit": "**Parameters.** The `params` section is mandatory and unique; parameter names are unique. Parameter types are a closed list.",
+    "empirical": "The negative-literal holder (DECISION-0353 §2, errata E-0235). A bare negative literal in a body — `when not p(x)`, per §66 the same as `established(not p(x))` — requires `p(x)` to have status `FALSE_ONLY`, obtainable ONLY from an explicit negative: a §99 negative rule head, a §71 negative assertion, an accepted `refutes` support §78.2.2, or §70 closure with `derive_explicit_negative`.",
+    "entity_labels": "`entity_labels` carries the §218 labels of a case entity addressed by StableId: `entity_labels \"<StableId>\" { label …; }`. It declares no entity, asserts no fact, and creates no constant.",
+    "entity_ref": "`entity_ref(id)` contextually receives the expected nominal entity type. Identity is the pair `(nominal_type, stable_id)`; the same string in `Person` and `Company` does not make the values equal. In `core-production` the entity ID must be an absolute IRI/URN or a resolved package/case-scoped StableId. Anonymous/mutable entity objects do not exist.",
+    "established": "`established(P)` returns a Boolean data value. In a rule body, a bare `P` is shorthand for requiring `P == TRUE_ONLY`. In Core 0.1 a status-test operand is a ground/groundable **literal**, not an arbitrary compound formula; compound status is expressed as a Boolean combination of status-tests. This preserves a well-defined producer barrier and closure key.",
+    "establishes": "§78.1 describes the acceptance phase as an implementation duty but specifies neither the policy's holder, its inputs, nor the form of its decision. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no specific policy rule lives in the implementation.",
+    "evaluate": "`evaluate` names the standard §172 query over a proposition or term whose value is requested (`DATA` §174.1). A test allows SEVERAL queries per case (errata E-0127): each `expect` refers to the nearest preceding `evaluate`, i.e. addresses the fields of ONE result — its own step. An expectation before the first `evaluate`, and a step with no `expect` at all, are rejected as `LDC-E1316`.",
+    "evaluative": "`Kind` is metadata for analysis and policies. By itself it does not change truth semantics.",
+    "every": "**Bounds and anchor — the `over` clause.** The schedule is counted from the START of the `over` interval in `every` steps; occurrence `k` (zero-indexed) occupies the half-open interval `[start + k·P, start + (k+1)·P)`, clipped at the end of `over`. Step `P` is a `CalendarPeriod` or `Duration` (§84); a calendar step is built by `add_calendar_period` (§84.2) and does not read the calendar (§85).",
+    "exact": "Exact definitions do not apply contraposition. Use an exact or necessary definition to declare its institutional predicate; a one-way derivation is an explicit relation plus a strict rule.",
+    "exactly_one": "Selection policy §155: choose exactly one reading from the group.",
+    "exclude": "A reference inside `extends` is of the same kind as one inside `alternatives`, and may be qualified (`extends pkg::Baseline`, §23/§24). `exclude`, however, stays local per §152: it removes the same expansion that `include` introduces.",
+    "exclusive": "**Head composition.** The modality is `duty` or `prohibition` (DECISION-0209 R6; `liberty`, `power`, `immunity` are out of the 0.2 profile, `LDC-E1335`). The template path is a `generated_ref` of the form `<rule path>/norm` (§279.2.4).",
+    "exercise": "A `power` describes the ability to create a legal effect upon valid exercise.",
+    "exists": "`collect all value: T, binder: U where F` allows additional existential local binders in the generator. Only `value` enters the collection; `binder` distinguishes solutions with the same value and is not free outside. This is needed, for example, when two different ownership positions carry the same share.",
+    "expect": "`expect` addresses fields of the result document (§174), not program facts. The field vocabulary is CLOSED and extended only additively. Operators are `==` and `!=`; ordering comparisons are undefined, since none of the enums are ordered and `truth_status > NEITHER` is meaningless for any of them.",
+    "expired": "Condition 3 of `evaluate` applies to every normative node with anchors (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): a node whose dating anchors ALL point to editions inapplicable at legal time under the lifecycle machine of §31 (`closed` | `suspended` | `not_yet`) takes no part in evaluation — the same as a rule outside `effective` under §87 (condition 4).",
+    "extends": "`extends` creates a set composition, not a mutation. `exclude` must be explicit and visible in the provenance.",
+    "external": "The source language has no HTTP/SQL/file-read operator. Access goes through a declared capability and a snapshot binding, which ensures sandboxing, auditability, and reproducibility.",
+    "fallback": "Unfolding an instance with `k` fixed `emit`s and `m` cases per traversal produces exactly `k + Σ k_c·m_c` nodes; body size is linear in the number of list elements and the sum of case premises.",
+    "false": "- `version` — the same EXACT version as in the string form: `import` checks against it (`LDC-E1111`, section 23), and it is what the lockfile pins (section 11). The string form is shorthand for a table with a single `version`; the meaning of the entry does not depend on the form;\n- `registry` — the publisher the dependency was taken from.",
+    "field": "§78.1 describes the acceptance phase as an implementation duty but specifies neither the policy holder, its inputs, nor the form of the decision. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no rule of a specific policy lives in the implementation.",
+    "finishes": "The fifth and sixth rows are TERMS, not predicates: `before`/`after`/`during`/`overlaps`/`contains` return Boolean and construct nothing, whereas these nine produce values (`Date` for steps and bounds, `Integer` for measurements and weekday).",
+    "first": "`first` and `multiple` preserve source order. `collect` orders matching rows by canonical row ID; `multiple` keeps duplicates. `unique` must prove pairwise non-overlap. `any` allows overlap only with canonically identical output; unproven overlap is not carried into runtime and yields `LDC-E8304 UNSUPPORTED_FEEL`.",
+    "for": "Binds variables in rules (§52), iterates emit/premise expansion slots (§279.1), or names the factors subject (§276.2), according to context.",
+    "forall": "Permitted in a representation profile, but not executable without a domain provider.",
+    "forbearance": "`achieve F during W;` sets a goal of achieving `F` within window `W`, while `maintain F during W;` sets a goal of maintaining `F` throughout it. These short forms inside `duty` are equivalent to full `goal achievement`/`goal maintenance` blocks with `condition F; window W;` fields (DECISION-0185).",
+    "format": "`Calendar` must be immutable and versioned. In authoring syntax, `content_hash` means the digest of the **calendar dataset's content**, not the semantic hash of the CLIR node. The compiler computes the canonical node's own `contentHash` separately.",
+    "from": "`from` occurs exactly once and is a positive event literal using a single binder of type `Date`. `due` occurs exactly once and is a positive predicate call missing its final date argument.",
+    "given": "DECISION-0186: `test \"group\" variants (amount: Money) { \"row-a\" (10 KZT); \"row-b\" (20 KZT); } { given { ... } evaluate ...; expect ...; }` defines numeric variants of a fixed, complete `given`. Each row becomes its own test with an explicit title and local consts. Expectations are shared and explicit; missing facts, negations, and BOTH are not inferred from the table.",
+    "goal": "`achieve F during W;` sets a goal of achieving `F` within window `W`, while `maintain F during W;` sets a goal of maintaining `F` throughout it. These short forms inside `duty` are equivalent to full `goal achievement`/`goal maintenance` blocks with `condition F; window W;` fields (DECISION-0185).",
+    "has_role": "`role` produces **exactly one** package constant `Taxpayer: LegalRole` whose value is its own StableId. This creates neither a membership assertion nor a new relation: `has_role` is the single standard relation `urn:law:std#has_role`. If `has_role`'s second argument is a known role constant, the compiler additionally checks that the first argument is compatible with its `for TypeRef`.",
+    "hit": "`first` and `multiple` preserve source order. `collect` orders matching rows by canonical row ID; `multiple` keeps duplicates. `unique` must prove pairwise non-overlap. `any` allows overlap only with canonically identical output; unproven overlap is not carried into runtime and yields `LDC-E8304 UNSUPPORTED_FEEL`.",
+    "holder": "`liberty` is an explicit/strong permission. It can enter a priority conflict with a prohibition/duty to forbear.",
+    "id": "DECISION-0187 allows the §14 string StableId to be moved into the header: `assert \"assert-acme-registered\": registered(ACME);`. This is the same `id` field used by source nodes and evidence (ERRATA E-0027); the earlier form is still permitted.",
+    "immunity": "An immunity blocks the corresponding legal transformation but does not necessarily forbid the physical act of the organ. An invalid exercise can still actually occur and have separate consequences.",
+    "immutable": "Without a cost function, the notion of a \"minimal change\" is undefined.",
+    "in": "By default a declaration is `internal`. The production API and cross-package references can only reach `pub` declarations.",
+    "in_force": "1. `source` — the abstract legal or documentary Work; 2. `edition` — the concrete content, language, and revision (Expression); 3. `publication` — the concrete file or published representation (Manifestation).",
+    "include": "`include` and `exclude` are a MEMBERSHIP position, and it stays LOCAL. A qualified reference is rejected here, and the reason lies in the canonical expansion itself, described below: lowering computes it FROM THE DECLARATION, and a neighboring package has no such declaration — import carries an interface, not nodes (§23).",
+    "inclusive": "**Head composition.** The modality is `duty` or `prohibition` (DECISION-0209 R6; `liberty`, `power`, `immunity` are out of the 0.2 profile, `LDC-E1335`). The template path is a `generated_ref` of the form `<rule path>/norm` (§279.2.4).",
+    "index": "`index` declares the round index of a `stage` (`index round: Integer from 1 to 12`); `bind <relation-arg> index N` ties a relation argument to the round. The index type is `Integer` or `Date`.",
+    "infinity": "Bounds may be open or closed. `infinity` is permitted only where the type has an ordered infinite extension.",
+    "initial": "DECISION-0013 §2.1 took pride in the §159–§164 profile creating no new node kind at all: states and transitions became constants, and the automaton became three kinds of rules. The §161.1 unfolding cannot sustain this, and not merely for reasons of effort.",
+    "input": "§78.1 describes the acceptance phase as an implementation duty but specifies neither the policy's holder, its inputs, nor the form of its decision. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no specific policy rule lives in the implementation.",
+    "institutional": "Kind is metadata for analysis and policies. By itself it does not change truth semantics.",
+    "internal": "By default a declaration is `internal`. Only the production API and cross-package references may reach `pub` declarations.",
+    "invalidated": "`evaluate` condition 3 applies to every normative node with anchors (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): a node all of whose dating anchors point to revisions not applicable at legal time under the §31 lifecycle machine (`closed` | `suspended` | `not_yet`) does not participate in evaluation — just as a rule outside `effective` §87 does not (condit …",
+    "join": "Parallel branches have explicit tokens/regions. Absence of branch state does not mean failure. The join policy must be explicit:",
+    "judgment": "A `judgment` relation in the body makes evaluation potentially `REQUIRES_JUDGMENT`. Rule strength does not matter here: `strict`, `defeasible`, and `defeater` all name the judge the same way — a reading both implementations wrongly reversed until 31.08.2026, masking a defeated rule's request as silent `NEITHER`/`COMPUTED` (errata E-0066).",
+    "kind": "`kind` is a URI-addressable symbol from the jurisdiction profile, not a hard-coded Core enum.",
+    "label": "Comments do not participate in semantics, but doc comments are preserved in the High-level IR.",
+    "labels": "**Parameters.** The `params` section is mandatory and unique; parameter names are unique. Parameter types form a closed enumeration:",
+    "let": "Binds a local expression value. The executable let-expression slice requires an explicit : T; unannotated type inference is outside the slice (E1321).",
+    "liberty": "`liberty` is an explicit/strong permission. It can participate in a priority conflict with a prohibition/duty to forbear.",
+    "locator": "A Fragment MUST have a stable ID. The article number is locator metadata, not the sole basis of identity.",
+    "maintain": "`achieve F during W;` sets a goal of achieving `F` within window `W`, and `maintain F during W;` sets a goal of maintaining `F` throughout that window. These short forms inside `duty` are equivalent to the full `goal achievement`/`goal maintenance` blocks with fields `condition F; window W;` (DECISION-0185).",
+    "maintenance": "A maintenance duty is `violated` if an accepted counterexample exists within the window.",
+    "match": "`let` has lexical scope and does not create an assertion. A sequence of authoring `let`s is normalized into nested canonical terms:",
+    "materialization_status": "1. `source` — the abstract legal or documentary Work; 2. `edition` — the concrete content, language, and revision (Expression); 3. `publication` — the concrete file or published representation (Manifestation).",
+    "measures": "§78.1 describes the acceptance phase as an implementation duty, but specifies neither the policy's owner, nor its inputs, nor the form of its decision. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no rule of a specific policy lives in the implementation.",
+    "media_type": "1. `source` — the abstract legal or documentary Work;\n2. `edition` — the concrete content, language, and version, i.e. the Expression;\n3. `publication` — a concrete file or published representation, i.e. the Manifestation.",
+    "message": "**Issues.** `VIOLATED` yields issue `CONSTRAINT_VIOLATED`, `CONFLICTED` yields `CONSTRAINT_CONFLICTED`; `severity` is the constraint's declared one (`critical` is recorded as `error` plus `details.severity = \"critical\"`; schema's `fatal` is reserved for computation abort, §238). `message` is `constraint <id> <verdict>: <constraint's message>`, or a default if none is given.",
+    "mod": "`mod` by zero is an evaluation error with a source span, just like division by zero.",
+    "modify": "The lexer distinguishes **hard keywords** from **contextual keywords**.",
+    "monotone": "`monotone(P)` (errata E-0018) is computationally identical to `supported(P)` — true given any positive support. The difference is not in the test but in the stated intent and layer membership: `monotone(P)` is a monotone-recursion edge (§103), belonging to layer L0; `supported(P)` is conflict consumption, remaining in L3.",
+    "multiple": "`first` and `multiple` preserve source order. `collect` orders matching rows by canonical row ID; `multiple` keeps duplicates. `unique` must prove pairwise disjointness. `any` allows overlap only when the output is canonically identical; an unproven case is not carried into runtime and yields `LDC-E8304 UNSUPPORTED_FEEL`.",
+    "mutable": "Without a cost function, the notion of \"minimal change\" is undefined.",
+    "necessary": "Desugars into a non-derivational constraint `when X; require Y;`. If `Y` is a literal and the author actually wants to derive it, they write an explicit rule; `only_if` never does this automatically.",
+    "next": "The revision graph MUST be immutable. A consolidated edition is a new edition with a provenance chain.",
+    "no_evidence": "- `P` is derived without direct evidence;\n- evidence for `P` exists but is inadmissible;\n- evidence is absent, but `P` was established by binding adjudication.",
+    "none": "An inapplicable dimension is absent (`none`/omitted), not filled with a fictitious `NEITHER` or `UNDETERMINED`. A query declaration compiles with a result contract; a mismatching runtime result is a conformance error.",
+    "normative_auxiliary": "`Kind` is metadata for analysis and policies. By itself it does not change truth semantics.",
+    "not": "They are stored independently.",
+    "not_known": "`not_known(P)`:\n\n- does not derive `not P`;\n- is only permitted in rule bodies;\n- is a non-monotonic/status-sensitive dependency;\n- requires stratification;\n- must not be used as a substitute for an explicit closed-world declaration.",
+    "number": "1. `source` — the abstract legal or documentary Work; 2. `edition` — the concrete content, language, and version of an Expression; 3. `publication` — the concrete file or published representation, a Manifestation.",
+    "observed": "DECISION-0187 allows moving the string StableId of §14 into the header: `assert \"assert-acme-registered\": registered(ACME);`. This is the same `id` field as on source nodes and evidence (errata E-0027); the earlier form remains valid.",
+    "of": "1. `source` — the abstract legal or documentary Work; 2. `edition` — the concrete content, language, and revision (Expression); 3. `publication` — the concrete file or published representation (Manifestation).",
+    "official": "1. `source` — the abstract legal or documentary Work;\n2. `edition` — the concrete content, language, and version, the Expression;\n3. `publication` — the concrete file or published representation, the Manifestation.",
+    "officiality": "1. `source` — the abstract legal or documentary Work;\n2. `edition` — the concrete content, language and redaction, the Expression;\n3. `publication` — the concrete file or published representation, the Manifestation.",
+    "on": "- `List<T>` — an ordered collection allowing duplicates;\n- `Set<T>` — an unordered collection without duplicates;\n- `Map<K,V>` — an unordered mapping;\n- iteration that affects the result MUST have a deterministic order;\n- `sum` over Decimal/Money/Quantity is defined exactly;\n- `average` requires explicit rounding/precision when the result is not exact.",
+    "only": "`only(collect v: T where R(key, v))` is an explicit functional lookup: the only distinct value of the collection (errata E-0256/E-0257). No value is the runtime error `EMPTY_AGGREGATE`; two or more distinct values are `CARDINALITY_CONFLICT`, never an arbitrary pick. It takes no `empty` policy. A form over a comprehension, not a std name.",
+    "op": "A revision edge MAY carry operations — a formalized delta of the amending act. An edge without operations remains a link annotation; an edge with operations MUST satisfy the consolidation invariant (§32.2).",
+    "opaque": "Supports all representational elements, including `judgment` and `opaque`, but is not required to execute them.",
+    "opposed": "`monotone(P)` (errata E-0018) is computationally identical to `supported(P)` — true under any positive support. The difference is not in the test but in the stated intent and layer membership: `monotone(P)` is a monotone-recursion edge (§103), belonging to layer L0; `supported(P)` is conflict consumption, staying in L3.",
+    "or": "`or` under `not` and inside an operand status test §65 is unaffected by this rule. A generator whose expansion leaves a construct outside the executable subset excludes the rule containing the comprehension — in its body, head, or `scope` — from execution with `NON_EXECUTABLE_RULE` and a reason; it does not fail the whole evaluation.",
+    "order": "1. `source` — the abstract legal or documentary Work;\n2. `edition` — the concrete content, language, and version, i.e. the Expression;\n3. `publication` — a concrete file or published representation, i.e. the Manifestation.",
+    "origin": "`assumed_for_simulation` must not enter a regulatory result without an explicit simulation mode.",
+    "otherwise": "`priority` is written only as `table hit priority order high, medium, low`: every row output, including the final `otherwise`, must appear in the explicit order list. It selects the first matching output by that list, not by row order. `collect` always writes `aggregate list|count|sum|min|max`.",
+    "outcome": "For `outcome: invalid`, a failed attempt's node names the CAUSE in the `reason` field, drawn from a closed vocabulary of FIVE values: the four §161.1 validity conditions — `from`, `on`, `guard`, `requires` — and a fifth, `join`, when the §162.2 join policy is not satisfied.",
+    "over": "`Calendar` must be immutable and versioned. In authoring syntax, `content_hash` means the digest of the **calendar dataset's content**, not the semantic hash of the CLIR node. The compiler computes the canonical node's own `contentHash` separately.",
+    "overlaps": "The fifth and sixth rows are TERMS, not predicates: `before`/`after`/`during`/`overlaps`/`contains` return Boolean and construct nothing, whereas these nine produce values (`Date` for steps and bounds, `Integer` for measurements and weekday).",
+    "overruled": "- `vocabulary` — the vocabulary id; `court` — the court's name; `decided` — the decision date (mandatory: without it a holding has no window of effect, §276.6);\n- `plaintiff`, `defendant` — factor sets X_π, X_δ found by the court, subsets of the vocabulary lists;\n- `outcome` — a polarity literal: favors π at positive polarity, δ at negative.",
+    "parallel": "**Concurrency is allowed only between pairwise INDEPENDENT active regions (§162.1).** Two transitions of a step are independent when they lie in DIFFERENT regions of the same `parallel` state, neither region is an ancestor of the other (a nested composite state is an ancestor of its own regions), and their effect-write scopes do not overlap: each moves ITS OWN token.",
+    "parent": "A `Fragment` MUST have a stable ID. An article number is locator metadata, not the sole basis of identity.",
+    "percent": "`convert` (errata E-0072) is the sole quantity conversion in v1: it converts a `Quantity` to another unit via an explicit form with an exact integer-pair factor (semantics — §49). Currency conversion is handled separately by §50 (`currency_convert`, exchange snapshot), and a `Money` term rejects it by name.",
+    "period": "A calendar must be immutable and versioned. In authoring syntax, `content_hash` means the digest of the calendar dataset's CONTENT, not the semantic hash of the CLIR node. The compiler computes `contentHash` of the canonical node separately.",
+    "plaintiff": "- `signature` — an ordered tuple of binders `(name, type)`; a factor is a declared `relation` whose parameters are a SUBSEQUENCE of the signature (a factor over one tuple entity is allowed): each parameter takes the nearest still-unused binder of the same type in signature order;\n- `domain` — one or more established literals over signature variables, binding ALL of its variables.",
+    "policy": "In surface annotations, this corresponds to three intentionally different forms of `@source(...)`: a bare local fragment (`@source(BVR_125_3_RU)`) resolves to a StableId in the current package; a string (`@source(\"archive:…\")`) remains an opaque external address for compatibility; `@source(pkg.name::FRAGMENT)` is a cross-package reference.",
+    "power": "`Power` describes the capacity to create a legal effect through a valid exercise.",
+    "predicate": "Only after a valid closure policy can absence of a record produce an explicit negative assertion. The closure scope MUST be finite and precisely defined.",
+    "prefer": "DECISION-0187 allows the short form `priority P: A > B reason R;` for one unconditional edge; name and rationale are mandatory, and the expansion matches the full block exactly. Conditions and extra fields need the full form. Priority never resolves a conflict between heads of the SAME polarity: by §105 two applications conflict only if their heads are complements.",
+    "prefix": "Unfolding an instance with `k` fixed `emit`s and `m` cases per traversal produces exactly `k + Σ k_c·m_c` nodes; body size is linear in the number of list elements and the sum of case premises.",
+    "presume": "1. a defeasible rule `accused(p) => innocent(p)`; 2. a defeater or contrary rule for the exception; 3. a priority of the exception over the presumption.",
+    "previous": "The revision graph MUST be immutable. A consolidated edition is a new edition with its own provenance chain.",
+    "profile": "`law.toml` is the authoring manifest. The resolved `law.lock` carries normative meaning.",
+    "prohibition": "desugars into a `duty` with a forbearance goal.",
+    "protected_effect": "An immunity blocks the corresponding legal transformation but does not necessarily forbid the physical act of the organ. An invalid exercise can still actually occur and have separate consequences.",
+    "protects": "§78.1 describes the acceptance phase as an implementation duty, but specifies neither the policy's carrier, nor its inputs, nor the form of decision. This section defines ONE executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no rule of a specific policy lives in the implementation.",
+    "pub": "Comments carry no semantics, but doc comments are preserved in the High-level IR.",
+    "published": "1. `source` — the abstract legal or documentary Work; 2. `edition` — the concrete content, language, and revision (Expression); 3. `publication` — the concrete file or published representation (Manifestation).",
+    "pure": "The lexer distinguishes **hard keywords** from **contextual keywords**.",
+    "quorum": "Parallel branches have explicit tokens/regions. Absence of branch state does not mean failure. The join policy must be explicit:",
+    "ratio": "- `vocabulary`, `court`, `decided` (mandatory: sets the holding's window of effect, §276.6); - `plaintiff`/`defendant` — factor sets X_π, X_δ found by the court; - `outcome` — a polarity literal favoring π (positive) or δ (negative) over any declared relation; - `ratio` — an optional subset of the winning party's factors the court named as the basis (reason model, §276.10).",
+    "reason": "DECISION-0187 allows the short form `priority P: A > B reason R;` for a single unconditional edge; the name and reason are mandatory, and it expands to the same as the full block. A condition or extra fields require the full form. A priority never resolves a clash of heads of the SAME polarity for any arguments: per §105, two applications are opposed only if their heads are complements.",
+    "recorded": "DECISION-0187 allows moving the string StableId (§14) into the header: `assert \"assert-acme-registered\": registered(ACME);`. This is the same `id` field as on source nodes and evidence (ERRATA E-0027); the earlier form remains valid.",
+    "recurring": "`achieve F during W;` sets a goal of achieving `F` within window `W`, and `maintain F during W;` a goal of maintaining `F` throughout it. These short forms inside `duty` are equivalent to the full `goal achievement`/`goal maintenance` blocks with `condition F; window W;` fields (DECISION-0185).",
+    "refuted": "**The `valid_when` form (errata E-0190).** `valid_when` is a formula; the executable subset of 0.1 is a literal (including under a §65 status wrapper) or a conjunction of such literals, with nested `and` read as one flat list in writing order. `refuted(P)` holds exactly when the support is `FALSE_ONLY`.",
+    "refutes": "The holder of a negative (DECISION-0353 §2, errata E-0235). A bare negative literal in a body — `when not p(x)`, per §66 equivalent to `established(not p(x))` — requires `p(x)` to have status `FALSE_ONLY`, obtainable ONLY from an explicit negative: a rule's negative head (§99), a negative assertion (§71), an accepted `refutes` support (§78.2.2), or closure (§70) via `derive_explicit_negative`.",
+    "repealed": "Condition 3 of `evaluate` applies to every normative node with anchors (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): a node whose dating anchors ALL point to editions inapplicable at legal time under the lifecycle machine of §31 (`closed` | `suspended` | `not_yet`) takes no part in evaluation — the same as a rule outside `effective` under §87 (condition 4).",
+    "reports": "§78.1 describes the acceptance phase as an implementation duty but specifies neither the policy's holder, its inputs, nor the form of its decision. This section defines **one** executable profile. The profile is core machinery; the policy itself is package data (CLIR rules), and no specific policy rule lives in the implementation.",
+    "request_schema": "A deterministic local function with no external dependencies.",
+    "require": "DECISION-0187 allows `constraint C(x: T) { … }` in place of a body's `for x: T;`. The same type groups are available as for `rule`. The header and body `for` are mutually exclusive; the constraint's semantics and binder order are preserved.",
+    "requires": "Desugars into a body predicate.",
+    "resolve_at": "In surface annotation this corresponds to three intentionally different forms of `@source(...)`: a bare local fragment (`@source(BVR_125_3_RU)`) resolves to a StableId in the current package; a string (`@source(\"archive:…\")`) remains an opaque external address for compatibility; `@source(pkg.name::FRAGMENT)` is a cross-package reference.",
+    "resource": "The manifest/runtime policy sets **semantic limits** — deterministic counters, identical across any conforming implementation.",
+    "restored": "`evaluate` condition 3 applies to every normative node with anchors (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): a node all of whose dating anchors point to revisions not applicable at legal time under the §31 lifecycle machine (`closed` | `suspended` | `not_yet`) does not participate in evaluation — just as a rule outside `effective` §87 does not (condit …",
+    "retrieved_at": "1. `source` — the abstract legal or documentary Work; 2. `edition` — the concrete content, language, and revision (Expression); 3. `publication` — the concrete file or published representation (Manifestation).",
+    "return": "A query adds no support to the legal state.",
+    "reviewer": "Alignment does not create logical equivalence between formalizations.",
+    "satisfies": "The lexer distinguishes **hard keywords** from **contextual keywords**.",
+    "scale": "§49.2 units are atoms with an exact rational scale and a seven-base-SI vector. `unit atm = 101325 * Pa;` is sugar for the explicit declaration `unit atm dimension Mass / (Length * Time * Time) scale 101325 / 1;` (DECISION-0157, errata E-0150).",
+    "selection": "`alternatives` also accepts a qualified reference to another package's `pub interpretation` (§23/§24, DECISION-0152); the group is then assembled in the consuming package over readings each declared beside its OWN pinned primary source.",
+    "self": "**Identities.** `self` is `<ns>#<Name>` of an instance, or its `@id` value. Child segments are structural: `self/elements`, `self/exemption/VoluntaryReport/excludes` (`key(c)` is the case name). The id excludes case ordinal, coordinates, definition version, and definition-package digest; adding a case never renames existing nodes.",
+    "severity": "DECISION-0187 permits `constraint C(x: T) { … }` instead of `for x: T;` in the body. The same type groups are available as for `rule`. The header and a body `for` are mutually exclusive; the constraint's semantics and binder order are preserved.",
+    "snapshot_from": "A deterministic local function with no external dependencies.",
+    "source_anchor": "In surface annotation this corresponds to three intentionally different forms of `@source(...)`: a bare local fragment (`@source(BVR_125_3_RU)`) resolves to a StableId in the current package; a string (`@source(\"archive:…\")`) remains an opaque external address for compatibility; `@source(pkg.name::FRAGMENT)` is a cross-package reference.",
+    "starts": "The fifth and sixth lines are TERMS, not predicates: `before`/`after`/`during`/`overlaps`/`contains` return Boolean and construct nothing, whereas these nine produce values (`Date` for steps and bounds, `Integer` for measurements and day-of-week).",
+    "status": "`monotone(P)` (errata E-0018) is computationally identical to `supported(P)` — true under any positive support. The difference is not the test but the intended meaning and layer: `monotone(P)` is a monotone-recursion edge §103, belonging to layer L0; `supported(P)` is conflict-consuming and stays in L3.",
+    "step": "`step` is the calendar step of a `Date`-typed `stage` index (§84.2); `to` must lie on its grid. A `Date` index declaration requires exactly one `step`.",
+    "supported": "`monotone(P)` (errata E-0018) is computationally identical to `supported(P)` — true under any positive support. The difference is not the test but the stated intent and layer: `monotone(P)` is a monotone-recursion edge (§103), belonging to layer L0; `supported(P)` consumes conflict and stays in L3.",
+    "supports": "- accepted support `supports` gives positive support to literal `to`;\n- accepted support `refutes` gives negative support to literal `to`;\n- unaccepted support gives support to NEITHER set, and in particular does **not prove the negation** of `to`;\n- lacking evidence of admissibility means \"insufficient data\", not a proven inadmissibility.",
+    "suspended": "Condition 3 of `evaluate` applies to every normative node with anchors (`rule`, `norm_template`, `constraint`, `priority_rule`, `assertion`; errata E-0095): a node all of whose dating anchors point to editions inapplicable at legal time per the §31 lifecycle machine (`closed` | `suspended` | `not_yet`) does not participate in evaluation — the same as a rule outside `effective` (§87, condition 4).",
+    "table": "`first` and `multiple` preserve source order. `collect` orders matching rows by canonical row ID; `multiple` keeps duplicates. `unique` must prove pairwise disjointness. `any` allows overlap only with a canonically identical output; an unknown proof is not carried into runtime and yields `LDC-E8304 UNSUPPORTED_FEEL`.",
+    "target": "Without a cost function, the notion of \"minimal change\" is undefined.",
+    "template": "Arbitrary hygienic macros are outside the 0.1 baseline because they can hide legal semantics. Allowed: pure parameterized functions, package modules, compiler-known sugar, and generated code with expansion and provenance.",
+    "terminal": "1. **`schemaVersion` shifts** — the node is new, and a document containing it cannot be read by a prior-version implementation. The shift is made by the change that first EMITS the node (stage S3, DECISION-0156), not by declaring the schema.\n2. …",
+    "terminate": "and receive ordinary `TRUE_ONLY / FALSE_ONLY / BOTH / NEITHER` support states.",
+    "termination": "The first form equals `goal achievement { condition F; window W; }`, the second `goal maintenance { condition F; window W; }`. `F` is a full formula, `W` a window term with the usual type checks; `during` and the closing `;` are mandatory. These words are contextual and don't block identically-named identifiers elsewhere; at top level `during` closes the formula, even after a number.",
+    "text_matches": "`text_matches(t, pattern)` is a formula conjunct (rule body, `require` constraint §93, `unless`, `if` condition §56): true exactly when the WHOLE text `t` — from the first code point to the last — matches `pattern` under the §257.1 grammar; start/end anchors are implicit, there is no partial match.",
+    "timezone_db": "A calendar must be immutable and versioned. In authoring syntax, `content_hash` means the digest of the **calendar dataset's content**, not the CLIR node's semantic hash. The compiler separately computes the `contentHash` of the canonical node itself.",
+    "to": "Then `valid_transition(x, T, e_k)`, `left_state(x, from(T), e_k)`, `entered_state(x, to(T), e_k)` are published, and the current state becomes `to(T)` — and when a step consists of several independent transitions, the state after `e_k` is the result of applying ALL valid transitions of the step SIMULTANEOUSLY, each in its own domain.",
+    "translation": "1. `source` — the abstract legal or documentary Work;\n2. `edition` — the concrete content, language and redaction, the Expression;\n3. `publication` — the concrete file or published representation, the Manifestation.",
+    "true": "The lexer distinguishes **hard keywords** from **contextual keywords**.",
+    "unique": "`first` and `multiple` preserve source order. `collect` orders matching rows by canonical row ID; `multiple` keeps duplicates. `unique` must prove pairwise non-overlap. `any` allows overlap only with a canonically identical output; an unknown proof is not carried into runtime and yields `LDC-E8304 UNSUPPORTED_FEEL`.",
+    "unknown": "**The `valid_when` form (errata E-0190).** `valid_when` is a formula; the executable subset of 0.1 is a literal (including under the status wrapper §65) or a conjunction of such literals, with nested `and` read as one flat list in written order.",
+    "unofficial": "1. `source` — the abstract legal or documentary Work;\n2. `edition` — the specific content, language, and revision, i.e. the Expression;\n3. `publication` — the specific file or published representation, i.e. the Manifestation.",
+    "valid": "DECISION-0187 allows lifting the string StableId §14 into the header: `assert \"assert-acme-registered\": registered(ACME);`. This is the same `id` field as on source nodes and evidence (ERRATA E-0027); the earlier form remains valid:",
+    "valid_when": "`valid_when`, reading a judgment relation (§47.3), is not resolved by computation: before an adjudicated assertion arrives it stays undetermined FOR A REASON, not for lack of facts. The document must name the reason — evaluation status `REQUIRES_JUDGMENT` with a typed `JudgmentRequest` (errata E-0100, §47.3).",
+    "value": "Records compare structurally and are immutable values.",
+    "variants": "The compiler MUST check for an exhaustive `match` in the executable profile.",
+    "verifier": "A record's `recordedAt` is MANDATORY (`InstantString`; no implicit `Date → Instant` — §48). An authenticity-check result is a fact about the world like the document itself, subject to the same knowledge cut §72: a historical computation may not rely on a verification that did not yet exist at knowledge time. Hash matching alone answers \"same document,\" not \"available then.\"",
+    "version": "- `version` is the same EXACT version as in the string form: `import` checks against it (`LDC-E1111`, section 23) and the lockfile pins it (section 11). The string form is shorthand for a table with a single `version`; the meaning does not depend on the form used;\n- `registry` is the publisher the dependency was fetched from.",
+    "violation_policy": "**Head composition.** The modality is `duty` or `prohibition` (DECISION-0209 R6; `liberty`, `power`, `immunity` are out of the 0.2 profile, `LDC-E1335`). The template path is a `generated_ref` of the form `<rule path>/norm` (§279.2.4).",
+    "window": "**Parameters.** The `params` section is mandatory and unique; parameter names are unique. Parameter types are a closed list:",
+    "with": "Units §49.2 are atoms with an exact rational scale and a vector over the seven SI base dimensions. `unit atm = 101325 * Pa;` is sugar for the explicit declaration `unit atm dimension Mass / (Length * Time * Time) scale 101325 / 1;` (DECISION-0157, errata E-0150).",
+    "subject": "Subject matter §127: a repeatable reference to the matter a power authorizes the holder to regulate."
+  },
+  "titles": {
+    "6": "System layers",
+    "9": "Standard project structure",
+    "10": "`law.toml`",
+    "11": "`law.lock`",
+    "11.1": "Resolution modes and lock format 0.4",
+    "13": "Encoding and normalization",
+    "14": "Identifiers",
+    "15": "Keywords",
+    "16.1": "0.2 metadata lexical blocks",
+    "20": "Intervals",
+    "21": "Units and money",
+    "22": "File header",
+    "23": "Import",
+    "23.1": "Exported fact groups",
+    "23.2": "Intra-package file dependencies",
+    "24": "Visibility",
+    "25": "Namespace extensions",
+    "26": "Feature gates",
+    "27": "Three levels of source identity",
+    "27.1": "`source`",
+    "27.2": "`edition`",
+    "27.3": "`publication`",
+    "28": "Fragment",
+    "29": "Alignment of multilingual fragments",
+    "30": "Reference",
+    "30.1": "Static reference",
+    "30.2": "Dynamic reference",
+    "31": "Lifecycle",
+    "32": "Revision graph",
+    "32.1": "Amendment operations",
+    "32.2": "Consolidation invariant",
+    "32.3": "Entrenchment",
+    "33": "Anchor",
+    "33.1": "Formalization coverage",
+    "34": "Separation of data values and propositions",
+    "35": "Built-in data types",
+    "36": "Nominal entity types",
+    "37": "Value records",
+    "38": "Enums",
+    "39": "Variants",
+    "40": "Type aliases",
+    "41": "Refinement constraints",
+    "42": "Subtyping",
+    "43": "Role sugar",
+    "44": "Relations for concepts",
+    "45": "Relations",
+    "45.1": "Relation keys",
+    "46": "Functions",
+    "47": "Effect/capability classes",
+    "47.1": "`pure`",
+    "47.2": "`snapshot`",
+    "47.3": "`judgment`",
+    "47.4": "`opaque`",
+    "47.5": "Computability classification",
+    "48": "No implicit conversions",
+    "49": "Dimensional checking",
+    "49.1": "Dimension algebra: `Magnitude`",
+    "49.2": "Unit declarations",
+    "50": "Money",
+    "50.1": "Percentage",
+    "51": "Collections",
+    "52": "Finite domains",
+    "52.1": "Finite relation comprehensions",
+    "53": "Terms",
+    "54": "Const",
+    "55": "Let",
+    "55.1": "Match expression",
+    "56": "Conditional expression",
+    "57": "Equality",
+    "58": "Arithmetic",
+    "59": "Aggregates",
+    "60": "External data access",
+    "61": "Literal",
+    "62": "Support pair",
+    "63.1": "Scope of explicit negation",
+    "64": "Conjunction and disjunction",
+    "64.1": "Lifting data Boolean into a formula",
+    "64.2": "Rounding relation over certified bounds (errata E-0136)",
+    "65": "Status tests",
+    "66": "Rule-body default",
+    "67": "`not_known`",
+    "68": "`no_evidence`",
+    "69": "Missing data",
+    "70": "Closed-world declarations",
+    "71": "Assertion",
+    "72": "Temporal dimensions assertion",
+    "73": "Origin",
+    "74": "Evidence declaration",
+    "75": "Support edges",
+    "76": "Evidence admissibility",
+    "77": "Burden and standard of proof",
+    "78": "Provenance",
+    "78.1": "Epistemic acceptance phase",
+    "78.2": "Executable EvidencePolicy profile `law.core.evidence-policy/0.1`",
+    "78.2.1": "Carrier: `evidence policy` declaration",
+    "78.2.2": "Decision unit — support, not document or fact",
+    "78.2.3": "Policy inputs: typed projection",
+    "79": "Event declaration",
+    "79.1": "Executable instance form",
+    "80": "Action declaration",
+    "81": "Event identity",
+    "82": "Temporal axes",
+    "82.1": "Temporal resolution policy",
+    "83": "Context time",
+    "84": "Duration types",
+    "84.1": "`Duration`",
+    "84.2": "`CalendarPeriod`",
+    "84.3": "`BusinessPeriod`",
+    "85": "Calendar snapshot",
+    "85.1": "`law.calendar/0.1` dataset",
+    "86": "Deadline policy",
+    "86.1": "Named term with special cases (`term`)",
+    "87": "Rule temporal qualifiers",
+    "88": "Transition rules",
+    "89": "Evaluation Context",
+    "89.2": "Context field type statuses",
+    "90": "Scope formula",
+    "91": "Applicability status",
+    "92": "Edition applicability",
+    "93": "Material and personal scope",
+    "93.1": "Purpose",
+    "93.2": "Constraint identity and result",
+    "93.3": "Execution and place of the result (errata E-0086)",
+    "93.4": "Composition of a constraint body (errata E-0132)",
+    "94": "General form",
+    "95.1": "`strict`",
+    "95.2": "`defeasible`",
+    "95.3": "`defeater`",
+    "96": "Explicit strength",
+    "97": "Variables",
+    "98": "Body",
+    "99": "Head",
+    "101": "Rule identity",
+    "102": "Formal program model",
+    "103": "Strict closure",
+    "105": "Opposition",
+    "105.1": "Basic normative conflict patterns",
+    "106": "Priority relation",
+    "107": "Defeat",
+    "108": "Surviving support",
+    "109": "Team support",
+    "110": "Stratification",
+    "111": "Order of evaluation strata",
+    "111.1": "`stage` with empty body — reserved boundary",
+    "111.2": "Round execution: indexed `stage`",
+    "112": "Ambiguity policy",
+    "113": "Default negation",
+    "114": "Strict and legal priority",
+    "115": "Conflict result",
+    "116": "Direct priority",
+    "117": "Contextual direct priority",
+    "118": "Priority policy",
+    "122": "Canonical modalities",
+    "123": "Duty",
+    "124": "Goal types",
+    "124.1": "Achievement goal",
+    "124.2": "Maintenance goal",
+    "124.3": "Forbearance sugar",
+    "124.4": "Recurrence sugar",
+    "125": "Liberty",
+    "126": "Weak permission",
+    "127": "Power",
+    "128": "Immunity",
+    "129": "Correlative views",
+    "130": "Prohibition sugar",
+    "133": "Norm template identity",
+    "134": "PositionInstance statuses",
+    "135": "Activation",
+    "136": "Achievement satisfaction",
+    "137": "Maintenance satisfaction",
+    "138": "Deadline",
+    "139": "Waiver, suspension, termination",
+    "141": "Reparation",
+    "144": "Definition",
+    "146": "Presumption",
+    "147": "Fiction",
+    "148": "Classification",
+    "149": "`unless`",
+    "150": "Exception from exception",
+    "151": "Necessary/sufficient conditions",
+    "152": "Interpretation",
+    "153": "Nested authoring",
+    "154": "Interpretation status",
+    "155": "Interpretation group",
+    "156": "Evaluation of alternatives",
+    "157": "Extends",
+    "158": "Conflicting official texts",
+    "159": "Procedure profile status",
+    "160": "Procedure declaration",
+    "160.1": "`on E` — transition validity condition",
+    "161": "Event-sourced semantics",
+    "161.1": "History folding",
+    "162": "Concurrency",
+    "162.1": "Regions and tokens",
+    "163": "Dependencies",
+    "165": "Decision declaration",
+    "166": "Decision tables",
+    "168": "Case file",
+    "168.6": "Case entity labels",
+    "169": "Case restrictions",
+    "170": "Evaluation Input Manifest and Execution Receipt",
+    "172": "Standard queries",
+    "173": "Query declaration",
+    "174": "EvaluationResult",
+    "174.1": "Result kinds and mandatory dimensions",
+    "175": "EvaluationStatus",
+    "178": "Compliance result",
+    "179": "Proof graph",
+    "180": "Rule application proof",
+    "180.2": "Proof nodes of procedure folding (DECISION-0156)",
+    "181.1": "Candidate closure certificate",
+    "181.2": "Total outcome under a blocking diagnostic",
+    "181.3": "Completeness relative to the question (`focused_truth`, DECISION-0368)",
+    "184": "Machine explanation",
+    "185": "Why-not",
+    "185.1": "Why-not over folding predicates (DECISION-0156)",
+    "186": "Counterfactual",
+    "189": "Type checks",
+    "190": "Rule safety",
+    "191": "Stratification checks",
+    "194": "Source/provenance checks",
+    "196": "Data quality checks",
+    "198": "Diagnostic format",
+    "201": "CLIR top-level node kinds",
+    "201.1": "The `procedure` node (DECISION-0156)",
+    "202": "Common node fields",
+    "203": "Canonical literal",
+    "203.1": "Canonical norm-template reference",
+    "204": "Canonical rule",
+    "208": "Canonical serialization",
+    "209": "Theory hash and artifact hash",
+    "210": "Stages",
+    "212": "Incremental compilation",
+    "213": "Expansion view",
+    "218": "Multilingual UX",
+    "218.1": "Grammatical forms",
+    "218.2": "Predicate templates",
+    "220": "Typed autocomplete",
+    "222": "Diagnostics for legal authors",
+    "223": "Snippets",
+    "225": "CLI",
+    "228": "Templates and macros",
+    "230": "Indexing",
+    "231.1": "Lazy closure and comprehensions",
+    "234": "Context partitioning",
+    "238": "Resource limits",
+    "240": "Package granularity",
+    "242": "Capability sandbox",
+    "248": "Akoma Ntoso adapter",
+    "251": "PROV adapter",
+    "256.1": "Derived-facts envelope",
+    "257": "`law.std.data`",
+    "258": "`law.std.time`",
+    "259": "`law.std.units`",
+    "259.1": "Quantity algebra",
+    "259.2": "Certified bounds",
+    "260": "`law.std.money`",
+    "261": "`law.std.actors`",
+    "262": "`law.std.documents`",
+    "263": "`law.std.events`",
+    "264": "`law.std.norms`",
+    "265": "`law.std.evidence`",
+    "266": "`law.std.results`",
+    "266.3": "Feature negotiation",
+    "266.4": "Frozen version `law.core/0.2`",
+    "267": "Test syntax",
+    "267.1": "`given` — case",
+    "267.2": "`evaluate` — query",
+    "267.3": "`expect` — result-field expectation",
+    "268": "Mandatory semantic tests",
+    "269": "Differential testing",
+    "270": "Property-based tests",
+    "271": "Law package",
+    "272": "Case",
+    "273": "Result",
+    "275": "Collective and diffuse rights",
+    "276": "Precedent reasoning",
+    "276.2": "Factor dictionary",
+    "276.3": "Precedent",
+    "279.1": "Expansion profile `law.expansion/0.1`",
+    "279.1.1": "Model",
+    "279.1.2": "Definition",
+    "279.1.3": "Instance",
+    "279.1.4": "Generated output: nodes, identities, labels, anchors",
+    "279.1.5": "Aggregate premise (quantifier with a threshold)",
+    "279.1.6": "Exported roles",
+    "279.1.8": "Definition package and pin",
+    "279.1.9": "Source-map `law.expansion-map/0.1`",
+    "279.1.11": "Standard definitions",
+    "279.2": "`law.expansion/0.2` expansion profile",
+    "279.2.1": "Version and pin",
+    "279.2.2": "New parameter kinds and the date term",
+    "279.2.3": "Deontic head `emit`",
+    "279.2.6": "Source-map `law.expansion-map/0.2`",
+    "279.2.7": "Diagnostics",
+    "279.2.8": "Standard definitions, first circle",
+    "280.2": "Evaluation",
+    "280.3": "Norm runtime",
+    "280.4": "Output",
+    "281": "Authoring primitives",
+    "49.3": "Exact units under a versioned policy (DECISION-0440)",
+    "89.1": "Named context profiles",
+    "46.1": "Total enum mappings",
+    "193": "Temporal checks"
+  },
+  "cards": {
+    "relation": {
+      "tier": "construct",
+      "title": "Relation",
+      "summary": "Declares a named predicate: rules derive which of its tuples hold.",
+      "exampleRef": "card-examples/vocabulary#relation-with-key",
+      "note": "`key(c)` is an integrity constraint: two accepted tuples with the same key and different other arguments give `KEY_CONFLICT`; nothing is chosen or dropped. `kind` is analysis metadata and does not change truth.",
+      "spec": {
+        "sec": "45"
+      },
+      "related": [
+        {
+          "sec": "45.1"
+        },
+        {
+          "sec": "46"
+        }
+      ]
+    },
+    "rule": {
+      "tier": "construct",
+      "title": "Inference rule",
+      "summary": "Derives a conclusion when its conditions hold.",
+      "exampleRef": "card-examples/rules#strict-minimal",
+      "note": "`strict` conclusions cannot be defeated by priority. Use `defeasible` for rules that admit exceptions.",
+      "spec": {
+        "sec": "94"
+      },
+      "related": [
+        {
+          "sec": "96"
+        },
+        {
+          "sec": "98"
+        }
+      ]
+    },
+    "when": {
+      "tier": "construct",
+      "title": "Body clause",
+      "summary": "Conjoins the conditions a rule needs: literals, comparisons, calls.",
+      "exampleRef": "card-examples/rules#strict-minimal",
+      "note": "Every variable the head concludes must be bound by a positive body conjunct; an unbound head variable is a static error.",
+      "spec": {
+        "sec": "98"
+      },
+      "related": [
+        {
+          "sec": "94"
+        },
+        {
+          "sec": "99"
+        }
+      ]
+    },
+    "then": {
+      "tier": "construct",
+      "title": "Rule head",
+      "summary": "States what the rule concludes: a literal or a norm template.",
+      "exampleRef": "card-examples/rules#strict-minimal",
+      "note": "A `defeater` rule has no `then`: it carries `defeat` instead.",
+      "spec": {
+        "sec": "99"
+      },
+      "related": [
+        {
+          "sec": "98"
+        },
+        {
+          "sec": "96"
+        }
+      ]
+    },
+    "strict": {
+      "tier": "construct",
+      "title": "Strict strength",
+      "summary": "An indefeasible consequence inside the chosen theory.",
+      "exampleRef": "card-examples/rules#strict-minimal",
+      "note": "Two strict rules with opposite conclusions keep a strict conflict; priority does not resolve it.",
+      "spec": {
+        "sec": "95.1"
+      },
+      "related": [
+        {
+          "sec": "96"
+        },
+        {
+          "sec": "94"
+        }
+      ]
+    },
+    "defeasible": {
+      "tier": "construct",
+      "title": "Defeasible strength",
+      "summary": "A candidate consequence that a stronger opposite can defeat.",
+      "exampleRef": "card-examples/rules#defeasible-minimal",
+      "note": "Most legal general rules and presumptions should be defeasible.",
+      "spec": {
+        "sec": "95.2"
+      },
+      "related": [
+        {
+          "sec": "96"
+        },
+        {
+          "sec": "94"
+        }
+      ]
+    },
+    "defeater": {
+      "tier": "construct",
+      "title": "Defeater rule",
+      "summary": "Blocks a conclusion without supporting its complement.",
+      "exampleRef": "card-examples/rules#defeater-minimal",
+      "note": "A defeater carries `defeat`, never `then`; production rules must declare strength explicitly.",
+      "spec": {
+        "sec": "95.3"
+      },
+      "related": [
+        {
+          "sec": "96"
+        },
+        {
+          "sec": "98"
+        }
+      ]
+    },
+    "key.neutral": {
+      "tier": "construct",
+      "title": "Key declaration",
+      "summary": "Names the arguments that identify a tuple or a generated node.",
+      "exampleRef": "card-examples/vocabulary#relation-with-key",
+      "note": "One spelling, two meanings: in a relation it constrains identity, in an expansion path it names the case. Check the role before editing.",
+      "spec": {
+        "sec": "45.1"
+      },
+      "related": [
+        {
+          "sec": "45"
+        },
+        {
+          "sec": "279.1.4"
+        }
+      ]
+    },
+    "key.relation": {
+      "tier": "construct",
+      "title": "Relation key",
+      "summary": "Declares the candidate key: one key projection identifies one tuple.",
+      "exampleRef": "card-examples/vocabulary#relation-with-key",
+      "note": "Two different non-key projections over one accepted key tuple are a KEY_CONFLICT; the evaluator never silently picks a value.",
+      "spec": {
+        "sec": "45.1"
+      },
+      "related": [
+        {
+          "sec": "45"
+        },
+        {
+          "sec": "46"
+        }
+      ]
+    },
+    "key.expansion": {
+      "tier": "construct",
+      "title": "Expansion case key",
+      "summary": "Names the generated node after the case: `key(c)` is the case name.",
+      "exampleRef": "card-examples/expansion-key#expansion-key",
+      "note": "The id carries no ordinal, coordinates, or package digest; adding a case never renames existing nodes.",
+      "spec": {
+        "sec": "279.1.4"
+      },
+      "related": [
+        {
+          "sec": "279.1.2"
+        },
+        {
+          "sec": "45.1"
+        }
+      ]
+    },
+    "package": {
+      "tier": "construct",
+      "title": "Package declaration",
+      "summary": "Names the package and pins the language version; every file belongs to exactly one package.",
+      "exampleRef": "card-examples/declarations#package-header",
+      "note": "The name is ASCII lowercase dotted segments; hard §15 keywords are allowed inside. Published registry packages use two or more segments; one segment is for local packages.",
+      "spec": {
+        "sec": "22"
+      },
+      "related": [
+        {
+          "sec": "23"
+        }
+      ]
+    },
+    "import": {
+      "tier": "construct",
+      "title": "Dependency import",
+      "summary": "Declares a dependency once per package; only its pub symbols become reachable as pkg::Symbol.",
+      "exampleRef": "card-examples/declarations#import-dep",
+      "note": "Repeat imports are LDC-E1103, self-import LDC-E1102. check does not judge dependencies (E-0126); lower needs the resolve context. The law.std prelude needs no import.",
+      "spec": {
+        "sec": "23"
+      },
+      "related": [
+        {
+          "sec": "22"
+        },
+        {
+          "sec": "23.1"
+        }
+      ]
+    },
+    "namespace": {
+      "tier": "construct",
+      "title": "Namespace declaration",
+      "summary": "URI from which declaration StableIds are built ({namespace}#{Name}); one package forms one tree.",
+      "exampleRef": "card-examples/declarations#namespace-decl",
+      "note": "The public namespace comes from the manifest URI: renaming a package must not change existing public @ids.",
+      "spec": {
+        "sec": "22"
+      },
+      "related": [
+        {
+          "sec": "23"
+        }
+      ]
+    },
+    "entity": {
+      "tier": "construct",
+      "title": "Nominal entity type",
+      "summary": "Declares a nominal type: identity is the pair (type, stable id); equal ids in two types never mix.",
+      "exampleRef": "card-examples/declarations#entity-decl",
+      "note": "Declare only intrinsic immutable payload; temporal or disputable traits belong in relations. Address pinned individuals with entity_ref.",
+      "spec": {
+        "sec": "36"
+      },
+      "related": [
+        {
+          "sec": "79"
+        },
+        {
+          "sec": "40"
+        }
+      ]
+    },
+    "event": {
+      "tier": "construct",
+      "title": "Event declaration",
+      "summary": "Desugars to an immutable nominal entity with id and typed fields; executable use wants one canonical time interval.",
+      "exampleRef": "card-examples/declarations#event-decl",
+      "note": "Instances are immutable; a correction creates a new version with provenance (§81.1). Prefer entity_ref when a pinned snapshot supplies the payload.",
+      "spec": {
+        "sec": "79"
+      },
+      "related": [
+        {
+          "sec": "36"
+        }
+      ]
+    },
+    "function": {
+      "tier": "construct",
+      "title": "Pure function",
+      "summary": "Returns a data value, never a proposition; pure means no assertions, no norms, no ambient reads.",
+      "exampleRef": "card-examples/declarations#function-decl",
+      "note": "pure demands proved purity, bare function asks for inference; both lower only with a proved PURE_DETERMINISTIC call graph. Model sourced attributes as relations instead.",
+      "spec": {
+        "sec": "46"
+      }
+    },
+    "type": {
+      "tier": "construct",
+      "title": "Type alias",
+      "summary": "Names an existing type without nominal separation; transparency holds on both compiler stages.",
+      "exampleRef": "card-examples/declarations#type-decl",
+      "note": "For a legally significant distinction use entity or a newtype profile. Alias cycles break on name repeat; foreign-package aliases resolve like any qualified reference.",
+      "spec": {
+        "sec": "40"
+      },
+      "related": [
+        {
+          "sec": "36"
+        }
+      ]
+    },
+    "expansion": {
+      "tier": "construct",
+      "title": "Expansion definition",
+      "summary": "A closed generation profile: params plus emit rules that generate nodes with stable ids, labels and anchors.",
+      "exampleRef": "card-examples/declarations#expansion-decl",
+      "note": "0.1 admits no open macros and no text pasting; 0.2 (§279.2) is additive. Case keys name the generated nodes.",
+      "spec": {
+        "sec": "279.1.2"
+      },
+      "related": [
+        {
+          "sec": "279.1.4"
+        }
+      ]
+    },
+    "facts": {
+      "tier": "construct",
+      "title": "Exported fact group",
+      "summary": "Named unit for exporting facts across the package border; the body holds asserts only.",
+      "exampleRef": "card-examples/declarations#facts-decl",
+      "note": "Inclusion is an explicit facts pkg::Group line — never a silent merge. Group nodes materialize byte-identically with producer provenance; membership is counted by the resolver.",
+      "spec": {
+        "sec": "23.1"
+      },
+      "related": [
+        {
+          "sec": "23"
+        }
+      ]
+    },
+    "query": {
+      "tier": "construct",
+      "title": "Query declaration",
+      "summary": "A named query declaration is reserved in the executable slice; use an explicit §172 query input.",
+      "exampleRef": "card-examples/declarations#query-decl",
+      "note": "Source refuses the declaration with E1321; active evaluation refuses QUERY_DECL_NON_EXECUTABLE. The full-model §173 shape is not an executable function.",
+      "spec": {
+        "sec": "173"
+      },
+      "related": [
+        {
+          "sec": "46"
+        }
+      ]
+    },
+    "Number": {
+      "tier": "type",
+      "title": "Exact number",
+      "summary": "The single exact numeric domain of 0.4 programs: every numeric spelling is one value, carried as an irreducible fraction.",
+      "exampleRef": "card-examples/types#number",
+      "note": "`1`, `1.0` and `2/2` are one value and one key. Programs 0.2/0.3 keep their own rules; mixing 0.4 values with earlier families without an explicit adapter is rejected.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "58"
+        }
+      ]
+    },
+    "Algebraic": {
+      "tier": "type",
+      "title": "Exact algebraic real",
+      "summary": "An exact algebraic real number: a minimal polynomial plus the index of its real root.",
+      "exampleRef": "card-examples/types#algebraic",
+      "note": "Always irrational: a rational result reduces to `Number`. Built by `exact_sqrt`; a literal is read only with an irreducible polynomial.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "257"
+        }
+      ]
+    },
+    "RealExpr": {
+      "tier": "type",
+      "title": "Symbolic real expression",
+      "summary": "A symbolic real expression over exact leaves and named constants such as `pi()` and `ln2()`.",
+      "exampleRef": "card-examples/types#real-expr",
+      "note": "Comparison is proven or refused (`UNPROVEN`), never guessed. Rounding publishes only a whole cell. A `RealExpr` value is not a key.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "257"
+        }
+      ]
+    },
+    "Currency": {
+      "tier": "type",
+      "title": "Currency",
+      "summary": "The currency of a `Money` amount — the code in a literal such as `1000000 KZT`.",
+      "exampleRef": "card-examples/types#money",
+      "note": "Not written as a type: `c: Currency` does not resolve (`LDC-E2101`). Arithmetic between different currencies is `CURRENCY_MISMATCH`.",
+      "spec": {
+        "sec": "260"
+      },
+      "related": [
+        {
+          "sec": "50"
+        }
+      ]
+    },
+    "exact_sqrt": {
+      "tier": "std",
+      "title": "Exact square root",
+      "summary": "Exact square root of a rational argument; takes no precision profile.",
+      "displayForm": "exact_sqrt(value)",
+      "params": [
+        {
+          "name": "value",
+          "doc": "A rational number; a negative one is `DOMAIN_ERROR`."
+        }
+      ],
+      "note": "A perfect square folds to `Number`; a negative argument is `DOMAIN_ERROR`; otherwise the result is `Algebraic`. Available from profile 0.4.",
+      "spec": {
+        "sec": "257"
+      },
+      "related": [
+        {
+          "sec": "35"
+        }
+      ]
+    },
+    "pi": {
+      "tier": "std",
+      "title": "Constant π",
+      "summary": "The constant π as an exact symbolic value, without rounding.",
+      "displayForm": "pi()",
+      "note": "Returns a `RealExpr` leaf (profile 0.5). Numeric bounds come from certificate composition over the profiles `p8 → p16 → p32`.",
+      "spec": {
+        "sec": "257"
+      },
+      "related": [
+        {
+          "sec": "35"
+        }
+      ]
+    },
+    "ln2": {
+      "tier": "std",
+      "title": "Constant ln 2",
+      "summary": "The constant ln 2 as an exact symbolic value, without rounding.",
+      "displayForm": "ln2()",
+      "note": "Returns a `RealExpr` leaf (profile 0.5). Numeric bounds come from certificate composition over the profiles `p8 → p16 → p32`.",
+      "spec": {
+        "sec": "257"
+      },
+      "related": [
+        {
+          "sec": "35"
+        }
+      ]
+    },
+    "solve_linear": {
+      "tier": "std",
+      "title": "Linear equation root",
+      "summary": "The root of `a·x + b = 0` over the rationals.",
+      "displayForm": "solve_linear(a, b)",
+      "params": [
+        {
+          "name": "a",
+          "doc": "The coefficient of `x`."
+        },
+        {
+          "name": "b",
+          "doc": "The constant term."
+        }
+      ],
+      "note": "Coefficients are Integer, Number, Rational or Decimal; the root is an exact `Number`. A degenerate equation is `DOMAIN_ERROR`. Available from profile 0.6.",
+      "spec": {
+        "sec": "257"
+      },
+      "related": [
+        {
+          "sec": "35"
+        }
+      ]
+    },
+    "temp_convert": {
+      "tier": "std",
+      "title": "Exact temperature conversion",
+      "summary": "Exact temperature conversion under an explicit versioned policy.",
+      "displayForm": "temp_convert(value, from, to, role, policy)",
+      "params": [
+        {
+          "name": "value",
+          "doc": "The temperature value."
+        },
+        {
+          "name": "from",
+          "doc": "The source unit."
+        },
+        {
+          "name": "to",
+          "doc": "The target unit."
+        },
+        {
+          "name": "role",
+          "doc": "`absolute` for a point, `difference` for a delta."
+        },
+        {
+          "name": "policy",
+          "doc": "The versioned policy tag, for example `units/0.7`."
+        }
+      ],
+      "note": "`role` is declared, never inferred: `absolute` is a point (affine, from 0 K; below zero is `DOMAIN_ERROR`), `difference` is a delta (pure scale). An unknown `policy` tag is a `TYPE_ERROR`.",
+      "spec": {
+        "sec": "49.3"
+      },
+      "related": [
+        {
+          "sec": "257"
+        }
+      ]
+    },
+    "angle_convert": {
+      "tier": "std",
+      "title": "Exact angle conversion",
+      "summary": "Exact angle conversion under an explicit versioned policy.",
+      "displayForm": "angle_convert(value, from, to, policy)",
+      "params": [
+        {
+          "name": "value",
+          "doc": "The angle value."
+        },
+        {
+          "name": "from",
+          "doc": "The source unit."
+        },
+        {
+          "name": "to",
+          "doc": "The target unit."
+        },
+        {
+          "name": "policy",
+          "doc": "The versioned policy tag, for example `units/0.7`."
+        }
+      ],
+      "note": "The result is always a symbolic `RealExpr` through `pi`, with no reduction. `policy` is a tag from a closed set (`units/0.7`); an unknown tag is a `TYPE_ERROR`.",
+      "spec": {
+        "sec": "49.3"
+      },
+      "related": [
+        {
+          "sec": "257"
+        }
+      ]
+    },
+    "magnitude": {
+      "tier": "std",
+      "title": "Quantity to Magnitude",
+      "summary": "Lifts a `Quantity` into the dimension algebra as a `Magnitude`.",
+      "displayForm": "magnitude(q)",
+      "params": [
+        {
+          "name": "q",
+          "doc": "A `Quantity` whose unit tag resolves in the unit registry."
+        }
+      ],
+      "note": "The unit tag must resolve in the §49.2 unit registry; an opaque legal tag such as `mrp` or `business_day` gives `UNIT_UNKNOWN`.",
+      "spec": {
+        "sec": "259.1"
+      },
+      "related": [
+        {
+          "sec": "49.1"
+        },
+        {
+          "sec": "49.2"
+        }
+      ]
+    },
+    "count": {
+      "tier": "std",
+      "title": "Count aggregate",
+      "summary": "Counts the elements of a collection; an empty collection gives 0.",
+      "displayForm": "count(xs)",
+      "params": [
+        {
+          "name": "xs",
+          "doc": "The collection to count."
+        }
+      ],
+      "note": "Short form: `count distinct o: Order for a: Money where F`. Unlike `sum`, `min` and `max`, an empty `count` is not an `EMPTY_AGGREGATE`.",
+      "spec": {
+        "sec": "59"
+      },
+      "related": [
+        {
+          "sec": "51"
+        }
+      ]
+    },
+    "max": {
+      "tier": "std",
+      "title": "Maximum aggregate",
+      "summary": "The largest value of a collection.",
+      "displayForm": "max(xs)",
+      "params": [
+        {
+          "name": "xs",
+          "doc": "The collection to take the largest value of."
+        }
+      ],
+      "note": "An empty collection gives `EMPTY_AGGREGATE` unless the full form names the policy: `max(xs, empty: 0 KZT)`. The collection stays the first positional argument.",
+      "spec": {
+        "sec": "59"
+      },
+      "related": [
+        {
+          "sec": "51"
+        }
+      ]
+    },
+    "min": {
+      "tier": "std",
+      "title": "Minimum aggregate",
+      "summary": "The smallest value of a collection.",
+      "displayForm": "min(xs)",
+      "params": [
+        {
+          "name": "xs",
+          "doc": "The collection to take the smallest value of."
+        }
+      ],
+      "note": "An empty collection gives `EMPTY_AGGREGATE` unless the full form names the policy: `min(xs, empty: 0 KZT)`. The collection stays the first positional argument.",
+      "spec": {
+        "sec": "59"
+      },
+      "related": [
+        {
+          "sec": "51"
+        }
+      ]
+    },
+    "sum": {
+      "tier": "std",
+      "title": "Sum aggregate",
+      "summary": "Exact sum of a collection of `Decimal`, `Money` or `Quantity` values.",
+      "displayForm": "sum(xs)",
+      "params": [
+        {
+          "name": "xs",
+          "doc": "The collection to add up."
+        }
+      ],
+      "note": "An empty collection gives `EMPTY_AGGREGATE` unless the policy is named: `sum(xs, empty: 0 KZT)`. Short form: `sum all a: Money for o: Order where F`.",
+      "spec": {
+        "sec": "59"
+      },
+      "related": [
+        {
+          "sec": "51"
+        }
+      ]
+    },
+    "round": {
+      "tier": "std",
+      "title": "Rounding under a policy",
+      "summary": "Rounds an already computed value to a precision under a named mode.",
+      "displayForm": "round(value, precision, mode)",
+      "params": [
+        {
+          "name": "value",
+          "doc": "The already computed value to round."
+        },
+        {
+          "name": "precision",
+          "doc": "Number of decimal places."
+        },
+        {
+          "name": "mode",
+          "doc": "Rounding mode, for example `HALF_UP`."
+        }
+      ],
+      "note": "Rounding is never implied: an inexact monetary result must name its policy. To divide under a policy use `div_round` — `/` may fail before `round` has anything to round.",
+      "spec": {
+        "sec": "50"
+      },
+      "related": [
+        {
+          "sec": "58"
+        }
+      ]
+    },
+    "div_round": {
+      "tier": "std",
+      "title": "Division under a policy",
+      "summary": "Divides and rounds the exact quotient to a precision under a named mode.",
+      "displayForm": "div_round(dividend, divisor, precision, mode)",
+      "params": [
+        {
+          "name": "dividend",
+          "doc": "The amount or number to divide."
+        },
+        {
+          "name": "divisor",
+          "doc": "The divisor; with `Money / Money` both amounts share one currency."
+        },
+        {
+          "name": "precision",
+          "doc": "Number of decimal places."
+        },
+        {
+          "name": "mode",
+          "doc": "Rounding mode, for example `HALF_UP`."
+        }
+      ],
+      "note": "Rounding is applied always, not only when the quotient is inexact. `Money / Money` of one currency gives a dimensionless share; `Integer / Integer` and `Rational / Rational` are not accepted.",
+      "spec": {
+        "sec": "50"
+      },
+      "related": [
+        {
+          "sec": "58"
+        }
+      ]
+    },
+    "add_calendar_period": {
+      "tier": "std",
+      "title": "Calendar step",
+      "summary": "Steps a date by a calendar period: days, weeks, months or years.",
+      "displayForm": "add_calendar_period(after, count)",
+      "params": [
+        {
+          "name": "after",
+          "doc": "The `Date` to step from."
+        },
+        {
+          "name": "count",
+          "doc": "A quantity of `calendar_day`, `calendar_week`, `calendar_month` or `calendar_year`."
+        }
+      ],
+      "note": "Calendar units only; business_day is TYPE_ERROR. The calendar snapshot is not read. Negative literal counts are LDC-E3102; negative variable counts refuse with DEADLINE_POLICY_INVALID.",
+      "spec": {
+        "sec": "86"
+      },
+      "related": [
+        {
+          "sec": "84.2"
+        }
+      ]
+    },
+    "add_business_days": {
+      "tier": "std",
+      "title": "Business-day step",
+      "summary": "Steps a date by counted days under the calendar snapshot and the deadline policy.",
+      "displayForm": "add_business_days(after, count)",
+      "params": [
+        {
+          "name": "after",
+          "doc": "The `Date` to step from."
+        },
+        {
+          "name": "count",
+          "doc": "A quantity of `business_day` or `calendar_day`."
+        }
+      ],
+      "note": "Requires a calendar snapshot; missing policy is MISSING_POLICY. Only business_day/calendar_day are accepted; other units are TYPE_ERROR. Negative literals are LDC-E3102; negative variable counts refuse with DEADLINE_POLICY_INVALID.",
+      "spec": {
+        "sec": "86"
+      },
+      "related": [
+        {
+          "sec": "85"
+        }
+      ]
+    },
+    "days_between": {
+      "tier": "std",
+      "title": "Days between dates",
+      "summary": "Number of calendar days from `from` to `to`; negative when `to` precedes `from`.",
+      "displayForm": "days_between(from, to)",
+      "params": [
+        {
+          "name": "from",
+          "doc": "The `Date` the count starts at."
+        },
+        {
+          "name": "to",
+          "doc": "The `Date` the count ends at."
+        }
+      ],
+      "note": "A core term: a penalty per day of delay is computed inside the rule instead of being asserted as a case fact.",
+      "spec": {
+        "sec": "84.2"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "year_start_of": {
+      "tier": "std",
+      "title": "Start of the year",
+      "summary": "January 1 of the calendar year containing the date.",
+      "displayForm": "year_start_of(d)",
+      "params": [
+        {
+          "name": "d",
+          "doc": "A `Date` inside the year."
+        }
+      ],
+      "note": "The calendar snapshot and the deadline policy are not consulted. Executable under semantics 0.2 only.",
+      "spec": {
+        "sec": "84.2"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "year_end_of": {
+      "tier": "std",
+      "title": "End of the year",
+      "summary": "December 31 of the calendar year containing the date.",
+      "displayForm": "year_end_of(d)",
+      "params": [
+        {
+          "name": "d",
+          "doc": "A `Date` inside the year."
+        }
+      ],
+      "note": "The calendar snapshot and the deadline policy are not consulted. Executable under semantics 0.2 only.",
+      "spec": {
+        "sec": "84.2"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "month_start_of": {
+      "tier": "std",
+      "title": "Start of the month",
+      "summary": "The first day of the month containing the date.",
+      "displayForm": "month_start_of(d)",
+      "params": [
+        {
+          "name": "d",
+          "doc": "A `Date` inside the month."
+        }
+      ],
+      "note": "The calendar snapshot and the deadline policy are not consulted.",
+      "spec": {
+        "sec": "84.2"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "month_end_of": {
+      "tier": "std",
+      "title": "End of the month",
+      "summary": "The last day of the month containing the date.",
+      "displayForm": "month_end_of(d)",
+      "params": [
+        {
+          "name": "d",
+          "doc": "A `Date` inside the month."
+        }
+      ],
+      "note": "The calendar snapshot and the deadline policy are not consulted.",
+      "spec": {
+        "sec": "84.2"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "weekday_of": {
+      "tier": "std",
+      "title": "Day of week",
+      "summary": "Day of week of a date as an integer from 1 (Monday) to 7 (Sunday).",
+      "displayForm": "weekday_of(d)",
+      "params": [
+        {
+          "name": "d",
+          "doc": "A `Date`."
+        }
+      ],
+      "note": "ISO 8601 numbering. The argument is `Date` only; the result is an `Integer`.",
+      "spec": {
+        "sec": "84.2"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "add_legal_term": {
+      "tier": "std",
+      "title": "Legal term step",
+      "summary": "Steps a date by a legal term, choosing the operation by the unit of the term.",
+      "displayForm": "add_legal_term(date, term)",
+      "params": [
+        {
+          "name": "date",
+          "doc": "The `Date` to step from."
+        },
+        {
+          "name": "term",
+          "doc": "A `Quantity` whose unit selects the operation."
+        }
+      ],
+      "note": "`business_day` and `calendar_day` run under `add_business_days` rules; `calendar_week`, `calendar_month` and `calendar_year` under `add_calendar_period` rules. Semantics 0.2 only.",
+      "spec": {
+        "sec": "86.1"
+      },
+      "related": [
+        {
+          "sec": "86"
+        }
+      ]
+    },
+    "add_duration": {
+      "tier": "std",
+      "title": "Instant plus duration",
+      "summary": "The instant that lies a physical duration after `after`.",
+      "displayForm": "add_duration(after, duration)",
+      "params": [
+        {
+          "name": "after",
+          "doc": "The `Instant` to step from."
+        },
+        {
+          "name": "duration",
+          "doc": "The physical `Duration` to add."
+        }
+      ],
+      "note": "The only step from an `Instant`: it adds physical time, not a calendar period or a business day, and reads neither the calendar nor the deadline policy. Semantics 0.2 only.",
+      "spec": {
+        "sec": "84.1"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "hours_between": {
+      "tier": "std",
+      "title": "Hours between instants",
+      "summary": "Number of full hours between two instants; negative when the order is reversed.",
+      "displayForm": "hours_between(from, to)",
+      "params": [
+        {
+          "name": "from",
+          "doc": "The `Instant` the count starts at."
+        },
+        {
+          "name": "to",
+          "doc": "The `Instant` the count ends at."
+        }
+      ],
+      "note": "Counts FULL hours, truncating toward zero; both arguments are `Instant`. For minute precision use `minutes_between`.",
+      "spec": {
+        "sec": "84.1"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "minutes_between": {
+      "tier": "std",
+      "title": "Minutes between instants",
+      "summary": "Number of full minutes between two instants, with the sign and truncation of `hours_between`.",
+      "displayForm": "minutes_between(from, to)",
+      "params": [
+        {
+          "name": "from",
+          "doc": "The `Instant` the count starts at."
+        },
+        {
+          "name": "to",
+          "doc": "The `Instant` the count ends at."
+        }
+      ],
+      "note": "Both arguments are `Instant`; the count truncates toward zero.",
+      "spec": {
+        "sec": "84.1"
+      },
+      "related": [
+        {
+          "sec": "258"
+        }
+      ]
+    },
+    "convert": {
+      "tier": "std",
+      "title": "Unit conversion",
+      "summary": "Converts a `Quantity` to another unit by the exact factor `num/den`.",
+      "displayForm": "convert(value, num, den, unit)",
+      "params": [
+        {
+          "name": "value",
+          "doc": "The `Quantity` to convert."
+        },
+        {
+          "name": "num",
+          "doc": "Numerator of the exact factor: a strictly positive `Integer`."
+        },
+        {
+          "name": "den",
+          "doc": "Denominator of the exact factor: a strictly positive `Integer`."
+        },
+        {
+          "name": "unit",
+          "doc": "The non-empty `Text` tag of the target unit."
+        }
+      ],
+      "note": "`value` is `Quantity` only — `Money` is rejected by name. `num` and `den` are strictly positive `Integer`s; `unit` is the non-empty target tag. No factor registry checks the pair.",
+      "spec": {
+        "sec": "49"
+      },
+      "related": [
+        {
+          "sec": "259"
+        }
+      ]
+    },
+    "with_unit": {
+      "tier": "std",
+      "title": "Attach a unit",
+      "summary": "Turns a dimensionless number into a `Quantity` of the named unit.",
+      "displayForm": "with_unit(value, unit)",
+      "params": [
+        {
+          "name": "value",
+          "doc": "A dimensionless number: `Integer`, `Decimal` or a 10-smooth `Rational`."
+        },
+        {
+          "name": "unit",
+          "doc": "The non-empty `Text` tag of the unit."
+        }
+      ],
+      "note": "`value` is `Integer`, `Decimal` or a 10-smooth `Rational`. A value that already has a unit is rejected by name — retagging is only `convert`.",
+      "spec": {
+        "sec": "49"
+      },
+      "related": [
+        {
+          "sec": "259"
+        }
+      ]
+    },
+    "unit_convert": {
+      "tier": "std",
+      "title": "Convert within a dimension",
+      "summary": "Converts a `Magnitude` to another unit of the same dimension.",
+      "displayForm": "unit_convert(m, unit)",
+      "params": [
+        {
+          "name": "m",
+          "doc": "The `Magnitude` to convert."
+        },
+        {
+          "name": "unit",
+          "doc": "The target unit, resolved in the unit registry."
+        }
+      ],
+      "note": "Source and target dimensions must match, otherwise `UNIT_DIMENSION_MISMATCH`. The scale ratio is exact, so no dated factor registry is involved.",
+      "spec": {
+        "sec": "259.1"
+      },
+      "related": [
+        {
+          "sec": "49.1"
+        }
+      ]
+    },
+    "scalar_of": {
+      "tier": "std",
+      "title": "Magnitude to number",
+      "summary": "A magnitude of zero dimension as an exact `Rational`.",
+      "displayForm": "scalar_of(m)",
+      "params": [
+        {
+          "name": "m",
+          "doc": "A `Magnitude` of zero dimension."
+        }
+      ],
+      "note": "A nonzero dimension gives `UNIT_DIMENSION_MISMATCH`. This is the only way out of the algebra into plain numbers.",
+      "spec": {
+        "sec": "259.1"
+      },
+      "related": [
+        {
+          "sec": "49.1"
+        }
+      ]
+    },
+    "quantity_of": {
+      "tier": "std",
+      "title": "Magnitude to Quantity",
+      "summary": "Turns a `Magnitude` back into a `Quantity` of the named unit.",
+      "displayForm": "quantity_of(m, unit)",
+      "params": [
+        {
+          "name": "m",
+          "doc": "The `Magnitude` to turn into a `Quantity`."
+        },
+        {
+          "name": "unit",
+          "doc": "The unit whose expansion must match the magnitude."
+        }
+      ],
+      "note": "Checked, not relabeled: the factors of the magnitude must match the expansion of the unit, otherwise `UNIT_MISMATCH`.",
+      "spec": {
+        "sec": "259.1"
+      },
+      "related": [
+        {
+          "sec": "49.1"
+        }
+      ]
+    },
+    "unit_exponent": {
+      "tier": "std",
+      "title": "Exponent of a unit",
+      "summary": "The exponent of a simple unit in the factors of a magnitude, as an exact `Integer`.",
+      "displayForm": "unit_exponent(m, unit)",
+      "params": [
+        {
+          "name": "m",
+          "doc": "The `Magnitude` to inspect."
+        },
+        {
+          "name": "unit",
+          "doc": "A simple unit, or an alias of one."
+        }
+      ],
+      "note": "A derived unit is rejected with `UNIT_MISMATCH` (it has no single exponent); an unknown name gives `UNIT_UNKNOWN`.",
+      "spec": {
+        "sec": "259.1"
+      },
+      "related": [
+        {
+          "sec": "49.2"
+        }
+      ]
+    },
+    "text_length": {
+      "tier": "std",
+      "title": "Text length",
+      "summary": "Number of code points of a text after NFC normalization.",
+      "displayForm": "text_length(t)",
+      "params": [
+        {
+          "name": "t",
+          "doc": "The `Text` to measure."
+        }
+      ],
+      "note": "The unit is the code point, not the byte or the grapheme cluster; an empty string gives 0.",
+      "spec": {
+        "sec": "257"
+      },
+      "related": [
+        {
+          "sec": "13"
+        }
+      ]
+    },
+    "round_bounds": {
+      "tier": "std",
+      "title": "Round an interval",
+      "summary": "Rounds certified bounds to a single value at a precision.",
+      "displayForm": "round_bounds(bounds, precision, mode)",
+      "params": [
+        {
+          "name": "bounds",
+          "doc": "The `Bounds` to round."
+        },
+        {
+          "name": "precision",
+          "doc": "Number of decimal places."
+        },
+        {
+          "name": "mode",
+          "doc": "Rounding mode, for example `HALF_UP`."
+        }
+      ],
+      "note": "Succeeds only when both ends round to the same value; otherwise `BOUNDS_INSUFFICIENT` names both extreme values.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "ln_bounds": {
+      "tier": "std",
+      "title": "Logarithm bounds",
+      "summary": "Certified bounds of the natural logarithm of `x`.",
+      "displayForm": "ln_bounds(x, profile)",
+      "params": [
+        {
+          "name": "x",
+          "doc": "A dimensionless number greater than 0."
+        },
+        {
+          "name": "profile",
+          "doc": "The precision profile, for example `p8/0.1`."
+        }
+      ],
+      "note": "`x` must be a dimensionless number greater than 0 (`DOMAIN_ERROR` otherwise); `Quantity`, `Money` and `Magnitude` are rejected by name. A profile outside the closed set is `UNIT_PROFILE_UNKNOWN`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "exp_bounds": {
+      "tier": "std",
+      "title": "Exponential bounds",
+      "summary": "Certified bounds of `e` to the power `x`, for any sign of `x`.",
+      "displayForm": "exp_bounds(x, profile)",
+      "params": [
+        {
+          "name": "x",
+          "doc": "The exponent, of any sign."
+        },
+        {
+          "name": "profile",
+          "doc": "The precision profile, for example `p8/0.1`."
+        }
+      ],
+      "note": "`profile` names the precision from a closed versioned set such as `p8/0.1`; a profile outside the set is `UNIT_PROFILE_UNKNOWN`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "sqrt_bounds": {
+      "tier": "std",
+      "title": "Square root bounds",
+      "summary": "Certified bounds of the square root of `x`.",
+      "displayForm": "sqrt_bounds(x, profile)",
+      "params": [
+        {
+          "name": "x",
+          "doc": "A number not less than 0."
+        },
+        {
+          "name": "profile",
+          "doc": "The precision profile, for example `p8/0.1`."
+        }
+      ],
+      "note": "`x < 0` gives `DOMAIN_ERROR`. An exact root returns a degenerate interval.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "pi_bounds": {
+      "tier": "std",
+      "title": "Bounds of π",
+      "summary": "Certified bounds of π at the precision of a profile.",
+      "displayForm": "pi_bounds(profile)",
+      "params": [
+        {
+          "name": "profile",
+          "doc": "The precision profile, for example `p8/0.1`."
+        }
+      ],
+      "note": "`profile` names the precision from a closed versioned set such as `p8/0.1`; a profile outside the set is `UNIT_PROFILE_UNKNOWN`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "sin_bounds": {
+      "tier": "std",
+      "title": "Sine bounds",
+      "summary": "Certified bounds of the sine of `x`.",
+      "displayForm": "sin_bounds(x, profile)",
+      "params": [
+        {
+          "name": "x",
+          "doc": "The argument of the sine."
+        },
+        {
+          "name": "profile",
+          "doc": "The precision profile, for example `p8/0.1`."
+        }
+      ],
+      "note": "Computed together with `cos_bounds` by one algorithm. A profile outside the closed versioned set is `UNIT_PROFILE_UNKNOWN`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "cos_bounds": {
+      "tier": "std",
+      "title": "Cosine bounds",
+      "summary": "Certified bounds of the cosine of `x`.",
+      "displayForm": "cos_bounds(x, profile)",
+      "params": [
+        {
+          "name": "x",
+          "doc": "The argument of the cosine."
+        },
+        {
+          "name": "profile",
+          "doc": "The precision profile, for example `p8/0.1`."
+        }
+      ],
+      "note": "Computed together with `sin_bounds` by one algorithm. A profile outside the closed versioned set is `UNIT_PROFILE_UNKNOWN`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "bounds_add": {
+      "tier": "std",
+      "title": "Add bounds",
+      "summary": "Interval sum: `[a.lo + b.lo, a.hi + b.hi]`.",
+      "displayForm": "bounds_add(a, b)",
+      "params": [
+        {
+          "name": "a",
+          "doc": "The first `Bounds` operand."
+        },
+        {
+          "name": "b",
+          "doc": "The second `Bounds` operand."
+        }
+      ],
+      "note": "Composes two `Bounds`; the derivation of the result records both operands, so the certificate stays checkable.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "bounds_sub": {
+      "tier": "std",
+      "title": "Subtract bounds",
+      "summary": "Interval difference: `[a.lo - b.hi, a.hi - b.lo]`.",
+      "displayForm": "bounds_sub(a, b)",
+      "params": [
+        {
+          "name": "a",
+          "doc": "The `Bounds` to subtract from."
+        },
+        {
+          "name": "b",
+          "doc": "The `Bounds` to subtract."
+        }
+      ],
+      "note": "The ends cross over: the lower end subtracts the upper end of the other interval.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "bounds_mul": {
+      "tier": "std",
+      "title": "Multiply bounds",
+      "summary": "Interval product of two bounds.",
+      "displayForm": "bounds_mul(a, b)",
+      "params": [
+        {
+          "name": "a",
+          "doc": "The first `Bounds` operand."
+        },
+        {
+          "name": "b",
+          "doc": "The second `Bounds` operand."
+        }
+      ],
+      "note": "The result is `[min p, max p]` over the four end products `a.lo·b.lo`, `a.lo·b.hi`, `a.hi·b.lo`, `a.hi·b.hi`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "bounds_div": {
+      "tier": "std",
+      "title": "Divide bounds",
+      "summary": "Interval quotient of two bounds.",
+      "displayForm": "bounds_div(a, b)",
+      "params": [
+        {
+          "name": "a",
+          "doc": "The dividend `Bounds`."
+        },
+        {
+          "name": "b",
+          "doc": "The divisor `Bounds`; it must not contain zero."
+        }
+      ],
+      "note": "A divisor interval that contains zero is rejected with `DIVISION_BY_ZERO`. A base-10 logarithm is a composition: `div(ln(x), ln(10))`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "bounds_scale": {
+      "tier": "std",
+      "title": "Scale bounds",
+      "summary": "Multiplies an interval by the exact factor `num/den`.",
+      "displayForm": "bounds_scale(b, num, den)",
+      "params": [
+        {
+          "name": "b",
+          "doc": "The `Bounds` to scale."
+        },
+        {
+          "name": "num",
+          "doc": "Numerator of the exact factor."
+        },
+        {
+          "name": "den",
+          "doc": "Denominator of the exact factor; zero is `DIVISION_BY_ZERO`."
+        }
+      ],
+      "note": "A negative factor swaps the ends; `den = 0` is `DIVISION_BY_ZERO`. `num` and `den` are exact dimensionless numbers.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "bounds_const": {
+      "tier": "std",
+      "title": "Exact value as bounds",
+      "summary": "The degenerate interval `[f, f]` for the exact number `f = num/den`.",
+      "displayForm": "bounds_const(num, den)",
+      "params": [
+        {
+          "name": "num",
+          "doc": "Numerator of the exact number."
+        },
+        {
+          "name": "den",
+          "doc": "Denominator of the exact number."
+        }
+      ],
+      "note": "Brings a literal of the norm into a bounds formula. `num` and `den` are exact dimensionless `Integer`, `Decimal` or `Rational`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "Text": {
+      "tier": "type",
+      "title": "Text value",
+      "summary": "A text value; text is NFC-normalized.",
+      "exampleRef": "card-examples/types#text",
+      "note": "Length is counted by `text_length` in code points, not bytes. A unit tag or a policy name passed to a std term is a non-empty `Text`.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "13"
+        },
+        {
+          "sec": "257"
+        }
+      ]
+    },
+    "Integer": {
+      "tier": "type",
+      "title": "Integer",
+      "summary": "A whole number.",
+      "exampleRef": "card-examples/types#integer",
+      "note": "Unlike `Rational`, an `Integer` has a value limit named by §58. Exact division yields `Rational`, never a silently rounded `Integer`.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "58"
+        }
+      ]
+    },
+    "Decimal": {
+      "tier": "type",
+      "title": "Decimal number",
+      "summary": "An exact decimal number, written as a literal such as `0.20`.",
+      "exampleRef": "card-examples/types#decimal",
+      "note": "`Decimal / Decimal` stays `Decimal` only for a 10-smooth denominator; otherwise the result is an exact `Rational`. Rounding is never implied — use `round` or `div_round`.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "58"
+        },
+        {
+          "sec": "50"
+        }
+      ]
+    },
+    "Rational": {
+      "tier": "type",
+      "title": "Exact rational",
+      "summary": "An exact rational value: the result type of exact division, serialized as an irreducible fraction.",
+      "exampleRef": "card-examples/types#rational",
+      "note": "Not bounded in bit width; unbounded use is stopped by the §238 resource counters with `RESOURCE_LIMIT` and no partial result.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "58"
+        }
+      ]
+    },
+    "Money": {
+      "tier": "type",
+      "title": "Money amount",
+      "summary": "An amount in a named currency, written as a literal such as `1000000 KZT`.",
+      "exampleRef": "card-examples/types#money",
+      "note": "Arithmetic between different currencies is `CURRENCY_MISMATCH`; conversion needs a rate, a date and a snapshot. Rounding is never implied.",
+      "spec": {
+        "sec": "50"
+      },
+      "related": [
+        {
+          "sec": "58"
+        },
+        {
+          "sec": "260"
+        }
+      ]
+    },
+    "Quantity": {
+      "tier": "type",
+      "title": "Quantity with a unit",
+      "summary": "A number with a unit tag, written as a literal such as `300 km`.",
+      "exampleRef": "card-examples/types#quantity",
+      "note": "Comparing or adding different units is a `TYPE_ERROR`; conversion is only explicit (`convert`). The type takes no parameter: `Quantity<Mass>` is `LDC-E2118`.",
+      "spec": {
+        "sec": "49"
+      },
+      "related": [
+        {
+          "sec": "49.1"
+        },
+        {
+          "sec": "259"
+        }
+      ]
+    },
+    "Date": {
+      "tier": "type",
+      "title": "Calendar date",
+      "summary": "A calendar date, written as `@2008-03-01`.",
+      "exampleRef": "card-examples/types#date",
+      "note": "Placing a `Date` on the time axis needs a §82.1 resolution policy; without it evaluation stops with `TEMPORAL_RESOLUTION_POLICY_MISSING`, never a silent fallback to UTC.",
+      "spec": {
+        "sec": "79.1"
+      },
+      "related": [
+        {
+          "sec": "84.2"
+        }
+      ]
+    },
+    "Instant": {
+      "tier": "type",
+      "title": "Instant",
+      "summary": "A point on the time axis, written with an offset: `@2026-03-31T18:00:00+05:00`.",
+      "exampleRef": "card-examples/types#instant",
+      "note": "The written offset is representation, not identity: the same moment in another offset is the same value, and order follows the moment, not the wall clock.",
+      "spec": {
+        "sec": "57"
+      },
+      "related": [
+        {
+          "sec": "84.1"
+        }
+      ]
+    },
+    "Duration": {
+      "tier": "type",
+      "title": "Physical duration",
+      "summary": "A physical duration in seconds and nanoseconds.",
+      "exampleRef": "card-examples/types#duration",
+      "note": "Not a calendar period: months and years are `CalendarPeriod`, working days are `BusinessPeriod`. `add_duration` is the only step from an `Instant`.",
+      "spec": {
+        "sec": "84.1"
+      },
+      "related": [
+        {
+          "sec": "84.2"
+        },
+        {
+          "sec": "84.3"
+        }
+      ]
+    },
+    "Boolean": {
+      "tier": "type",
+      "title": "Boolean",
+      "summary": "A two-valued data type: `true` or `false`.",
+      "exampleRef": "card-examples/types#boolean",
+      "note": "The result of a relation is not `Boolean`: it is a proposition evaluated as `TRUE_ONLY`, `FALSE_ONLY`, `BOTH` or `NEITHER`.",
+      "spec": {
+        "sec": "34"
+      },
+      "related": [
+        {
+          "sec": "35"
+        }
+      ]
+    },
+    "Timezone": {
+      "tier": "type",
+      "title": "Time zone",
+      "summary": "An IANA time zone name such as `Asia/Qyzylorda`.",
+      "exampleRef": "card-examples/types#timezone",
+      "note": "Only the portable name subset is accepted; whether the zone exists in tzdb is not checked by the profile.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "86"
+        }
+      ]
+    },
+    "LanguageTag": {
+      "tier": "type",
+      "title": "Language tag",
+      "summary": "A BCP-47 language tag such as `kk-KZ`.",
+      "exampleRef": "card-examples/types#language-tag",
+      "note": "Casing is canonicalized for comparison while the original spelling is kept. Grandfathered and private-use tags need a feature profile.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "257"
+        }
+      ]
+    },
+    "Jurisdiction": {
+      "tier": "type",
+      "title": "Jurisdiction",
+      "summary": "The type of a jurisdictional binding: a code that names a legal order.",
+      "exampleRef": "card-examples/types#jurisdiction",
+      "note": "A library type of `law.std.data`, not an actor and not a core built-in type. The constant is written with a record literal: `Jurisdiction { code: \"KZ\" }`.",
+      "spec": {
+        "sec": "257"
+      },
+      "related": [
+        {
+          "sec": "35"
+        }
+      ]
+    },
+    "List": {
+      "tier": "type",
+      "title": "List",
+      "summary": "An ordered collection that allows duplicates.",
+      "exampleRef": "card-examples/types#list",
+      "note": "Iteration that affects a result must have a deterministic order. The element type is written as a parameter: `List<Date>`.",
+      "spec": {
+        "sec": "51"
+      },
+      "related": [
+        {
+          "sec": "59"
+        }
+      ]
+    },
+    "Set": {
+      "tier": "type",
+      "title": "Set",
+      "summary": "An unordered collection without duplicates.",
+      "exampleRef": "card-examples/types#set",
+      "note": "Iteration that affects a result must have a deterministic order. The element type is written as a parameter: `Set<Text>`.",
+      "spec": {
+        "sec": "51"
+      },
+      "related": [
+        {
+          "sec": "59"
+        }
+      ]
+    },
+    "Option": {
+      "tier": "type",
+      "title": "Optional value",
+      "summary": "An optional value: there is no `null`, absence is `Option<T>`.",
+      "exampleRef": "card-examples/types#option",
+      "note": "One of the seven std names that take a parameter; a parameter on any other std name is `LDC-E2118`.",
+      "spec": {
+        "sec": "35"
+      },
+      "related": [
+        {
+          "sec": "257"
+        }
+      ]
+    },
+    "Magnitude": {
+      "tier": "type",
+      "title": "Dimensioned magnitude",
+      "summary": "A value whose dimension is computed from the unit registry, with product, quotient and conversion.",
+      "exampleRef": "card-examples/types#magnitude",
+      "note": "Enter the algebra with `magnitude(q)` and leave it with `quantity_of` or `scalar_of`; `Quantity * Quantity` itself stays an error (`LDC-E2108`).",
+      "spec": {
+        "sec": "49.1"
+      },
+      "related": [
+        {
+          "sec": "49.2"
+        },
+        {
+          "sec": "259.1"
+        }
+      ]
+    },
+    "Bounds": {
+      "tier": "type",
+      "title": "Certified bounds",
+      "summary": "A closed rational interval bundled with the derivation that produced it.",
+      "exampleRef": "card-examples/types#bounds",
+      "note": "A record literal in `Bounds` position is a `TYPE_ERROR`; on read the bounds are recomputed from the derivation, and a mismatch is `BOUNDS_CERTIFICATE_INVALID`.",
+      "spec": {
+        "sec": "259.2"
+      },
+      "related": [
+        {
+          "sec": "64.2"
+        }
+      ]
+    },
+    "text.fragment": {
+      "tier": "word",
+      "title": "Fragment text",
+      "summary": "The pinned official text of a fragment, in a named language and status.",
+      "exampleRef": "card-examples/fields#fragment-text",
+      "note": "`content_hash` is the sha256 of the exact text bytes; when the edition declares pinned bytes, a fragment without it is rejected (`LDC-E5205`).",
+      "spec": {
+        "sec": "28"
+      },
+      "related": [
+        {
+          "sec": "27.2"
+        },
+        {
+          "sec": "194"
+        }
+      ]
+    },
+    "text.amendment": {
+      "tier": "word",
+      "title": "Amendment text",
+      "summary": "The new text an amendment operation puts at a locator.",
+      "exampleRef": "card-examples/fields#amendment-text",
+      "note": "Applying the operations to the previous edition must yield the next one; a divergence is `LDC-E5401`, and neither text is accepted automatically.",
+      "spec": {
+        "sec": "32.1"
+      },
+      "related": [
+        {
+          "sec": "28"
+        }
+      ]
+    },
+    "uri": {
+      "tier": "word",
+      "title": "Publication address",
+      "summary": "The canonical address of a publication of an edition.",
+      "exampleRef": "card-examples/fields#publication-uri",
+      "note": "A publication requires `content_hash` (`LDC-E1305`). Its bytes are not part of the CLIR; without `local_path` they do not resolve locally and the §194 checks do not run.",
+      "spec": {
+        "sec": "27.3"
+      },
+      "related": [
+        {
+          "sec": "194"
+        }
+      ]
+    },
+    "jurisdiction": {
+      "tier": "word",
+      "title": "Source jurisdiction",
+      "summary": "The legal order a source belongs to, written as an institution identifier.",
+      "exampleRef": "card-examples/fields#source-jurisdiction",
+      "note": "An institution identifier (StableId), not a term: it needs no declaration, is not type-checked and is compared by equality. It is not the std type `Jurisdiction`.",
+      "spec": {
+        "sec": "27.1"
+      },
+      "related": [
+        {
+          "sec": "194"
+        }
+      ]
+    },
+    "timezone": {
+      "tier": "word",
+      "title": "Calendar time zone",
+      "summary": "The time zone of a calendar snapshot.",
+      "exampleRef": "card-examples/fields#calendar-timezone",
+      "note": "A calendar without `timezone_db` or with an incomplete `period` is an error before evaluation: holidays and working days are snapshot data, not operating-system settings.",
+      "spec": {
+        "sec": "85"
+      },
+      "related": [
+        {
+          "sec": "86"
+        }
+      ]
+    },
+    "quantity": {
+      "tier": "word",
+      "title": "Duration parameter",
+      "summary": "An expansion parameter holding the duration of a term, used in the date term of a deontic window.",
+      "exampleRef": "card-examples/fields#expansion-params",
+      "note": "The argument is a quantity literal of a term unit (`10 calendar_day`) or a `Quantity` binder. It is not declared in `for` and does not become a rule variable.",
+      "spec": {
+        "sec": "279.2.2"
+      },
+      "related": [
+        {
+          "sec": "279.1.2"
+        }
+      ]
+    },
+    "integer": {
+      "tier": "word",
+      "title": "Integer parameter",
+      "summary": "An expansion parameter holding a whole number: the threshold of an aggregate premise.",
+      "exampleRef": "card-examples/fields#expansion-params",
+      "note": "The argument is an integer literal or the name of an `Integer` binder parameter.",
+      "spec": {
+        "sec": "279.1.2"
+      },
+      "related": [
+        {
+          "sec": "279.1.3"
+        }
+      ]
+    },
+    "option": {
+      "tier": "word",
+      "title": "Optional premise parameter",
+      "summary": "An expansion parameter for a premise that may be absent.",
+      "exampleRef": "card-examples/fields#expansion-params",
+      "note": "The instance must choose explicitly: `some r` or `none`. Omitting the field is an error.",
+      "spec": {
+        "sec": "279.1.2"
+      },
+      "related": [
+        {
+          "sec": "279.1.3"
+        }
+      ]
+    },
+    "list.expansion": {
+      "tier": "word",
+      "title": "List parameter",
+      "summary": "An expansion parameter holding a finite list of relation references.",
+      "exampleRef": "card-examples/fields#expansion-params",
+      "note": "`min N` is the least length; `min 0` allows an empty list. The instance passes `[r1, r2, …]`.",
+      "spec": {
+        "sec": "279.1.2"
+      },
+      "related": [
+        {
+          "sec": "279.1.3"
+        }
+      ]
+    },
+    "list.aggregate": {
+      "tier": "word",
+      "title": "List aggregate",
+      "summary": "Collects the outputs of all matching rows of a decision table into a list.",
+      "exampleRef": "card-examples/fields#decision-list",
+      "note": "A final `otherwise` is forbidden here: no match gives `[]`. The return type must be `List<T>`; matching rows are ordered by canonical row ID.",
+      "spec": {
+        "sec": "166"
+      },
+      "related": [
+        {
+          "sec": "51"
+        }
+      ]
+    },
+    "decision": {
+      "tier": "construct",
+      "title": "Named pure decision",
+      "summary": "Names a pure query over evaluated legal state: one table or let* plus return, no norms or effects.",
+      "exampleRef": "card-examples/cases#decision-decl",
+      "note": "A nested rule is not a decision body: the compiler answers a migration diagnostic. A decision creates no norm or effect.",
+      "spec": {
+        "sec": "165"
+      },
+      "related": [
+        {
+          "sec": "166"
+        }
+      ]
+    },
+    "source": {
+      "tier": "construct",
+      "title": "Source work",
+      "summary": "Declares the abstract Work behind an act: its kind, jurisdiction, authority and number.",
+      "exampleRef": "card-examples/provenance#source-decl",
+      "note": "A source is the abstract Work, not its text: content and language live in edition, the file in publication.",
+      "spec": {
+        "sec": "27.1"
+      },
+      "related": [
+        {
+          "sec": "27"
+        }
+      ]
+    },
+    "case": {
+      "tier": "construct",
+      "title": "Case file",
+      "summary": "Pins one matter to decide: its evaluation context, named individuals and asserted facts with evidence.",
+      "exampleRef": "card-examples/cases#case-decl",
+      "note": "A case is computation input, not a norm: it creates no program node. Assertion arguments must be ground terms, never computed calls.",
+      "spec": {
+        "sec": "168"
+      },
+      "related": [
+        {
+          "sec": "89"
+        }
+      ]
+    },
+    "priority": {
+      "tier": "construct",
+      "title": "Rule priority",
+      "summary": "Orders conflicting rules: prefer the winning application over the losing one, with an explicit reason.",
+      "exampleRef": "card-examples/priority#priority-decl",
+      "note": "Priority resolves only opposite conclusions: two heads of one polarity never conflict, however different. A cycle gives PRIORITY_CONFLICT, never a silent tie-break.",
+      "spec": {
+        "sec": "116"
+      },
+      "related": [
+        {
+          "sec": "106"
+        }
+      ]
+    },
+    "evidence": {
+      "tier": "construct",
+      "title": "Evidence document",
+      "summary": "Declares a case document: a stable id over a typed schema with provenance fields.",
+      "exampleRef": "card-examples/cases#evidence-decl",
+      "note": "Evidence is case input, not program: in a package it warns (E1314) and is refused without status (E1208). The core never derives admissibility from a count.",
+      "spec": {
+        "sec": "74"
+      },
+      "related": [
+        {
+          "sec": "75"
+        }
+      ]
+    },
+    "context": {
+      "tier": "construct",
+      "title": "Named context profile",
+      "summary": "Pins reusable evaluation axes under one versioned name: jurisdiction, time, resolvers and policies.",
+      "exampleRef": "card-examples/cases#context-profile",
+      "note": "A profile sets no hidden defaults: the case extends it by name and states its own legal time. Extra fields must be namespaced.",
+      "spec": {
+        "sec": "89.1"
+      },
+      "related": [
+        {
+          "sec": "89"
+        }
+      ]
+    },
+    "constraint": {
+      "tier": "construct",
+      "title": "Non-derivational check",
+      "summary": "States a mandatory relation between decided facts: when the antecedent holds, the requirement must hold too.",
+      "exampleRef": "card-examples/cases#constraint-decl",
+      "note": "A constraint derives nothing: no support, no defeat, no sanction. Its failure is a validation finding; a legal consequence needs a separate rule.",
+      "spec": {
+        "sec": "93.1"
+      },
+      "related": [
+        {
+          "sec": "93.4"
+        }
+      ]
+    },
+    "interpretation": {
+      "tier": "construct",
+      "title": "Named reading",
+      "summary": "Groups rules, priorities and definitions as one reading of a named document, with status and authority.",
+      "exampleRef": "card-examples/provenance#interpretation-decl",
+      "note": "of names the interpreted document: include carries the whole canonical expansion, and a cross-package include is rejected.",
+      "spec": {
+        "sec": "152"
+      },
+      "related": [
+        {
+          "sec": "153"
+        }
+      ]
+    },
+    "stage": {
+      "tier": "construct",
+      "title": "Reserved tour boundary",
+      "summary": "Reserves a named node for round-based stratification: an empty body stays a loud boundary.",
+      "exampleRef": "card-examples/cases#stage-decl",
+      "note": "A reserved stage never executes: evaluation stops with NON_EXECUTABLE_STAGE. Indexed bodies need law.core 0.2.4 or later.",
+      "spec": {
+        "sec": "111.1"
+      },
+      "related": [
+        {
+          "sec": "111.2"
+        }
+      ]
+    },
+    "Unit": {
+      "tier": "construct",
+      "title": "Unit tag surface",
+      "summary": "The declared name for measurement-unit tags: tags resolve in the unit registry, conversions stay explicit.",
+      "exampleRef": "card-examples/units#unit-decl",
+      "note": "Unit is not an annotatable type: it stays out of the compiler type dictionary (E-0039), so never write x: Unit.",
+      "spec": {
+        "sec": "259.1"
+      },
+      "related": [
+        {
+          "sec": "49.2"
+        }
+      ]
+    },
+    "support": {
+      "tier": "construct",
+      "title": "Support edge",
+      "summary": "Links one document to one proposition with a fixed relation: supports, refutes, authenticates, measures, reports or establishes.",
+      "exampleRef": "card-examples/cases#support-decl",
+      "note": "Support lives in the case with evidence: a package-level edge warns (E1314). Name the policy that backs the link.",
+      "spec": {
+        "sec": "75"
+      },
+      "related": [
+        {
+          "sec": "74"
+        }
+      ]
+    },
+    "unit": {
+      "tier": "construct",
+      "title": "Unit declaration",
+      "summary": "Declares a measurement unit: a simple atom carries exact scale and dimension, a derived unit multiplies simple ones.",
+      "exampleRef": "card-examples/units#unit-decl",
+      "note": "Scale is an exact positive rational pair, never rounded: unknown tags, cycles and zero scale are static errors.",
+      "spec": {
+        "sec": "49.2"
+      },
+      "related": [
+        {
+          "sec": "259.1"
+        }
+      ]
+    },
+    "calendar": {
+      "tier": "construct",
+      "title": "Calendar dataset",
+      "summary": "Declares a versioned calendar dataset binding: timezone, period and a content-addressed resource.",
+      "exampleRef": "card-examples/time#calendar-decl",
+      "note": "content_hash pins the dataset bytes, not the CLIR node: the compiler hashes the node separately. The executor never reads bytes at resource directly.",
+      "spec": {
+        "sec": "85"
+      },
+      "related": [
+        {
+          "sec": "85.1"
+        }
+      ]
+    },
+    "snapshot": {
+      "tier": "construct",
+      "title": "Snapshot function",
+      "summary": "Declares an external function deterministic only against an exact snapshot hash, under a named capability.",
+      "exampleRef": "card-examples/time#snapshot-decl",
+      "note": "Determinism is relative to the snapshot, never absolute: a scenario snapshot must carry programHash, checked against the requesting program.",
+      "spec": {
+        "sec": "47.2"
+      },
+      "related": [
+        {
+          "sec": "47.1"
+        }
+      ]
+    },
+    "fragment": {
+      "tier": "construct",
+      "title": "Source fragment",
+      "summary": "Pins one addressable passage inside an edition: kind, locator and fixed text.",
+      "exampleRef": "card-examples/provenance#fragment-decl",
+      "note": "A fragment needs a stable id: the article number is locator metadata, never identity by itself.",
+      "spec": {
+        "sec": "28"
+      },
+      "related": [
+        {
+          "sec": "27"
+        }
+      ]
+    },
+    "Event": {
+      "tier": "construct",
+      "title": "Domain event",
+      "summary": "Declares an immutable nominal event subtype with typed intrinsic fields; identity is the stable id.",
+      "exampleRef": "card-examples/acts#event-decl",
+      "note": "For executable temporal use carry exactly one canonical time: Interval<Instant>, or an explicit mapping policy to one.",
+      "spec": {
+        "sec": "79"
+      },
+      "related": [
+        {
+          "sec": "80"
+        }
+      ]
+    },
+    "language": {
+      "tier": "construct",
+      "title": "Language header",
+      "summary": "Opens every file: the language name and the exact version the file is written against.",
+      "exampleRef": "card-examples/facts#language-decl",
+      "note": "The version is checked exactly against the registry: 0.1.0 is not 0.1, and an unknown version is E1401.",
+      "spec": {
+        "sec": "22"
+      }
+    },
+    "edition": {
+      "tier": "construct",
+      "title": "Source edition",
+      "summary": "Pins one content-language-revision Expression of a source: language, officiality and lifecycle.",
+      "exampleRef": "card-examples/provenance#edition-decl",
+      "note": "An edition is content, not a file: one edition may carry several publications without changing any norm.",
+      "spec": {
+        "sec": "27.2"
+      },
+      "related": [
+        {
+          "sec": "27"
+        }
+      ]
+    },
+    "assert": {
+      "tier": "construct",
+      "title": "Assertion",
+      "summary": "Asserts one proposition as fact, with id, origin, validity window and evidence links.",
+      "exampleRef": "card-examples/facts#assert-decl",
+      "note": "Arguments must be ground terms: computed calls never match silently (E1325). A duplicate anonymous assert is refused (E1331).",
+      "spec": {
+        "sec": "71"
+      }
+    },
+    "closure": {
+      "tier": "construct",
+      "title": "Closed-world scope",
+      "summary": "Bounds explicit negation: only inside predicate, domain and snapshot may absence become false.",
+      "exampleRef": "card-examples/facts#closure-decl",
+      "note": "The scope must be finite and precise: without a valid closure, absence of a record proves nothing.",
+      "spec": {
+        "sec": "70"
+      },
+      "related": [
+        {
+          "sec": "66"
+        }
+      ]
+    },
+    "const": {
+      "tier": "construct",
+      "title": "Named constant",
+      "summary": "Binds an immutable snapshot value to a name: numbers, money, or an individual via entity_ref.",
+      "exampleRef": "card-examples/facts#const-decl",
+      "note": "An individual gets a name only through const plus entity_ref: the call alone is a value, not a name. Mutable facts are relations.",
+      "spec": {
+        "sec": "54"
+      }
+    },
+    "map": {
+      "tier": "construct",
+      "title": "Total enum map",
+      "summary": "Declares a closed total mapping from one enum to another: sugar over a pure function.",
+      "exampleRef": "card-examples/acts#map-decl",
+      "note": "Totality is proven, not promised: a missed or repeated member is a static error (E1326). Both enums live in this package.",
+      "spec": {
+        "sec": "46.1"
+      },
+      "related": [
+        {
+          "sec": "46"
+        }
+      ]
+    },
+    "reference": {
+      "tier": "construct",
+      "title": "Dynamic reference",
+      "summary": "Declares a reference resolved at evaluation: source, locator, resolution axis and policy.",
+      "exampleRef": "card-examples/provenance#reference-decl",
+      "note": "resolve_at is mandatory (E1307): in 0.1 the only axis is legal_time. The resolved static reference lands in the input manifest.",
+      "spec": {
+        "sec": "30.2"
+      },
+      "related": [
+        {
+          "sec": "30"
+        }
+      ]
+    },
+    "state": {
+      "tier": "construct",
+      "title": "Automaton state",
+      "summary": "Names one state of a procedure automaton: entry states are initial, sinks are terminal.",
+      "exampleRef": "card-examples/procedures#state-decl",
+      "note": "State names are unique across the whole package (E1351): a case addresses a member by its bare name, so two procedures cannot share one.",
+      "spec": {
+        "sec": "160"
+      }
+    },
+    "test": {
+      "tier": "construct",
+      "title": "Executable test",
+      "summary": "Pins one executable check: given holds the case, evaluate asks the question, expect states the verdict.",
+      "exampleRef": "card-examples/definitions#test-decl",
+      "note": "A test is input and expectation, not a norm: it creates no program node. The given case needs no context block to compile.",
+      "spec": {
+        "sec": "267"
+      },
+      "related": [
+        {
+          "sec": "168"
+        }
+      ]
+    },
+    "procedure": {
+      "tier": "construct",
+      "title": "Procedure automaton",
+      "summary": "Declares a state automaton over one instance: named states plus the transitions between them.",
+      "exampleRef": "card-examples/procedures#procedure-decl",
+      "note": "Exactly one state is initial (E1311): the automaton has a single entry. The instance parameter is mandatory: guards read it.",
+      "spec": {
+        "sec": "160"
+      }
+    },
+    "action": {
+      "tier": "construct",
+      "title": "Action with actor",
+      "summary": "Declares an event with a designated actor: an action someone performs, with typed fields.",
+      "exampleRef": "card-examples/procedures#action-decl",
+      "note": "Declaring an action creates no permission or duty by itself. Like events, actions are immutable nominals with a stable id.",
+      "spec": {
+        "sec": "80"
+      },
+      "related": [
+        {
+          "sec": "79"
+        }
+      ]
+    },
+    "publication": {
+      "tier": "construct",
+      "title": "Published file",
+      "summary": "Pins one published file of an edition: media type, retrieval address and content hash.",
+      "exampleRef": "card-examples/provenance#publication-decl",
+      "note": "content_hash is mandatory (E1305): identity is the bytes. Without local_path the text-inclusion checks do not run (E5206).",
+      "spec": {
+        "sec": "27.3"
+      },
+      "related": [
+        {
+          "sec": "27"
+        }
+      ]
+    },
+    "definition": {
+      "tier": "construct",
+      "title": "Exact definition",
+      "summary": "Defines a concept by exact condition: the head holds exactly when the body holds.",
+      "exampleRef": "card-examples/definitions#definition-decl",
+      "note": "Use exact for both directions, necessary for a constraint; a one-way derivation is a strict rule.",
+      "spec": {
+        "sec": "144"
+      },
+      "related": [
+        {
+          "sec": "151"
+        }
+      ]
+    },
+    "record": {
+      "tier": "construct",
+      "title": "Value record",
+      "summary": "Bundles typed fields under one name: the plain value object of the language.",
+      "exampleRef": "card-examples/definitions#record-decl",
+      "note": "Records bundle named values, nothing more: decision tables read them by field, as input.income. A record derives nothing.",
+      "spec": {
+        "sec": "37"
+      }
+    },
+    "use": {
+      "tier": "construct",
+      "title": "Explicit selection",
+      "summary": "Selects records explicitly: in a case, use names a snapshot alias and the records taken from it.",
+      "exampleRef": "card-examples/definitions#use-decl",
+      "note": "Between files, use self::{...} needs [authoring] local_imports=explicit in the manifest, otherwise E1118. Name every record taken.",
+      "spec": {
+        "sec": "23.2"
+      }
+    },
+    "derived": {
+      "tier": "construct",
+      "title": "Derived unit",
+      "summary": "Declares a derived unit as a product and quotient of simple ones: it has no scale of its own.",
+      "exampleRef": "card-examples/units#derived-decl",
+      "note": "Unlike a simple atom, a derived unit carries no own scale: it computes from its factors. Unknown factors and cycles are static errors.",
+      "spec": {
+        "sec": "49.2"
+      },
+      "related": [
+        {
+          "sec": "49.1"
+        }
+      ]
+    },
+    "term": {
+      "tier": "construct",
+      "title": "Legal term with cases",
+      "summary": "Writes one legal deadline with a general rule and named special cases.",
+      "exampleRef": "card-examples/reasoning#term-decl",
+      "note": "from takes the single Date binder exactly once, due drops the date, default is mandatory: the lowering builds rules plus a priority. No policy lives inside term.",
+      "spec": {
+        "sec": "86.1"
+      },
+      "related": [
+        {
+          "sec": "86"
+        }
+      ]
+    },
+    "enum": {
+      "tier": "construct",
+      "title": "Enumeration",
+      "summary": "Declares a closed set of named members: the total vocabulary of one choice.",
+      "exampleRef": "card-examples/facts#enum-decl",
+      "note": "Closed means closed: maps over an enum prove totality (E1326 on a miss). Members are bare names, compared by identity.",
+      "spec": {
+        "sec": "38"
+      },
+      "related": [
+        {
+          "sec": "46.1"
+        }
+      ]
+    },
+    "transition": {
+      "tier": "construct",
+      "title": "Automaton transition",
+      "summary": "Moves one procedure automaton from one state to another on an event, under a guard.",
+      "exampleRef": "card-examples/procedures#transition-decl",
+      "note": "from and to name states of the same procedure; the guard reads the instance parameter. Member names stay unique package-wide (E1351).",
+      "spec": {
+        "sec": "88"
+      },
+      "related": [
+        {
+          "sec": "160"
+        }
+      ]
+    },
+    "revision": {
+      "tier": "construct",
+      "title": "Revision link",
+      "summary": "Links editions into an immutable graph: what came before, what comes next, and why.",
+      "exampleRef": "card-examples/policies#revision-decl",
+      "note": "The graph is immutable: a consolidation is a new edition with provenance, never an edit. Name the relation: supersedes, amends, repeals.",
+      "spec": {
+        "sec": "32"
+      },
+      "related": [
+        {
+          "sec": "27.2"
+        }
+      ]
+    },
+    "deadline": {
+      "tier": "construct",
+      "title": "Deadline policy",
+      "summary": "Pins how calendar deadlines count: start day, end inclusion, rolling and cutoff.",
+      "exampleRef": "card-examples/policies#deadline-decl",
+      "note": "The first three fields are mandatory; there is no ambient policy: without one the result is MISSING_POLICY, not a guess.",
+      "spec": {
+        "sec": "86"
+      },
+      "related": [
+        {
+          "sec": "85"
+        }
+      ]
+    },
+    "fiction": {
+      "tier": "construct",
+      "title": "Legal fiction",
+      "summary": "Deems an institutional fact true when its conditions hold: the law treats it as decided.",
+      "exampleRef": "card-examples/reasoning#fiction-decl",
+      "note": "Strength after the name is mandatory: Core never picks one for you. A fiction concludes institutional facts, never empirical ones.",
+      "spec": {
+        "sec": "147"
+      }
+    },
+    "presumption": {
+      "tier": "construct",
+      "title": "Presumption",
+      "summary": "Holds a conclusion defeasibly until an exception fires: a rule, a defeater and a priority in one form.",
+      "exampleRef": "card-examples/reasoning#presumption-decl",
+      "note": "scope, effective, source_anchor and metadata have no lowering here: in 0.1 they are refused (E0201), not silently dropped.",
+      "spec": {
+        "sec": "146"
+      }
+    },
+    "role": {
+      "tier": "construct",
+      "title": "Legal role",
+      "summary": "Introduces one LegalRole constant for an actor type, read through the has_role relation.",
+      "exampleRef": "card-examples/policies#role-decl",
+      "note": "A role creates no membership and no relation: has_role stays the single standard relation. Only the const is new.",
+      "spec": {
+        "sec": "43"
+      }
+    },
+    "temporal_resolution_policy": {
+      "tier": "construct",
+      "title": "Day-resolution policy",
+      "summary": "Pins how a Date becomes an Instant interval: one fixed offset and a day boundary.",
+      "exampleRef": "card-examples/policies#temporal-resolution-policy-decl",
+      "note": "The offset is fixed and trusted, the IANA name is a label only: no tz database is ever read. DST-crossing windows need a pinned tz dataset instead.",
+      "spec": {
+        "sec": "82.1"
+      },
+      "related": [
+        {
+          "sec": "85"
+        }
+      ]
+    },
+    "classification": {
+      "tier": "construct",
+      "title": "Classification",
+      "summary": "Supports a class by rule-like conditions: strict or defeasible strength.",
+      "exampleRef": "card-examples/reasoning#classification-decl",
+      "note": "defeater is not a classification strength: a class is supported or separately excepted, never defeated in place.",
+      "spec": {
+        "sec": "148"
+      },
+      "related": [
+        {
+          "sec": "144"
+        }
+      ]
+    },
+    "expand": {
+      "tier": "construct",
+      "title": "Expansion instance",
+      "summary": "Instantiates a named expansion: binds its parameters to local relations and values.",
+      "exampleRef": "card-examples/instances#expand-decl",
+      "note": "Name the expansion first, then the instance, and label it (E1339 without one). Bind every parameter the expansion declares.",
+      "spec": {
+        "sec": "279.1.3"
+      },
+      "related": [
+        {
+          "sec": "279.1.2"
+        }
+      ]
+    },
+    "exports": {
+      "tier": "construct",
+      "title": "Export map",
+      "summary": "Names what an expansion publishes: local names for generated nodes.",
+      "exampleRef": "card-examples/instances#exports-decl",
+      "note": "exports maps a local name to a generated node (self/...): the instance binds params, the outside world reads exports.",
+      "spec": {
+        "sec": "279.1.2"
+      },
+      "related": [
+        {
+          "sec": "279.1.3"
+        }
+      ]
+    },
+    "counterfactual": {
+      "tier": "construct",
+      "title": "What-if analysis",
+      "summary": "Asks what minimal case change would flip a target: mutable and immutable inputs plus cost.",
+      "exampleRef": "card-examples/analysis#counterfactual-decl",
+      "note": "Exactly one cost is required (E1205): without it minimality is undefined. Immutable wins over mutable on every clash.",
+      "spec": {
+        "sec": "186"
+      }
+    },
+    "factors": {
+      "tier": "construct",
+      "title": "Factor dictionary",
+      "summary": "Declares the closed factor vocabulary of one precedent line: signature, domain, sides and courts.",
+      "exampleRef": "card-examples/precedents#factors-decl",
+      "note": "The dictionary is closed: an undeclared factor does not exist for the profile. The domain binds every signature variable (E2701).",
+      "spec": {
+        "sec": "276.2"
+      },
+      "related": [
+        {
+          "sec": "276.3"
+        }
+      ]
+    },
+    "property": {
+      "tier": "construct",
+      "title": "Property check",
+      "summary": "States what must hold over generated inputs: a forall domain plus a pure expectation.",
+      "exampleRef": "card-examples/analysis#property-decl",
+      "note": "The domain must be finite and seeded, with the seed in the test manifest. A property observes the program, it never extends it.",
+      "spec": {
+        "sec": "270"
+      }
+    },
+    "precedent": {
+      "tier": "construct",
+      "title": "Precedent case",
+      "summary": "Records one decided case as factor sets and an outcome under a named vocabulary.",
+      "exampleRef": "card-examples/precedents#precedent-decl",
+      "note": "decided is mandatory: without a date the holding has no window. Overruling is declared by the overruled precedent itself, in its own package.",
+      "spec": {
+        "sec": "276.3"
+      },
+      "related": [
+        {
+          "sec": "276.2"
+        }
+      ]
+    },
+    "region": {
+      "tier": "construct",
+      "title": "Parallel region",
+      "summary": "Declares one token-holding area of a parallel state: its own states and transitions.",
+      "exampleRef": "card-examples/procedures#region-decl",
+      "note": "Each area owns exactly one token: a transition inside an area moves only that token. Every area needs its own initial state, and join stays explicit.",
+      "spec": {
+        "sec": "162.1"
+      },
+      "related": [
+        {
+          "sec": "162"
+        }
+      ]
+    },
+    "params": {
+      "tier": "construct",
+      "title": "Expansion params",
+      "summary": "Declares what an expansion instance must bind: binders, relations and value slots.",
+      "exampleRef": "card-examples/instances#params-decl",
+      "note": "The instance binds each declared parameter by name: bind for binders, plain assignment for relations and values.",
+      "spec": {
+        "sec": "279.1.2"
+      },
+      "related": [
+        {
+          "sec": "279.1.3"
+        }
+      ]
+    },
+    "entrenchment": {
+      "tier": "construct",
+      "title": "Entrenchment",
+      "summary": "Shields one source passage over a time window: a locator plus its validity interval.",
+      "exampleRef": "card-examples/policies#entrenchment-decl",
+      "note": "The locator shields itself and its /-children only: article/2 covers /paragraph/7, never /20. A touching revision op is refused (E5301).",
+      "spec": {
+        "sec": "32.3"
+      }
+    },
+    "align": {
+      "tier": "construct",
+      "title": "Fragment alignment",
+      "summary": "States that two fragments in different languages correspond, with review status.",
+      "exampleRef": "card-examples/provenance#align-decl",
+      "note": "Alignment creates no logical equivalence of formalizations: it is a review claim about texts, not a merged meaning.",
+      "spec": {
+        "sec": "29"
+      }
+    },
+    "interpretation_group": {
+      "tier": "construct",
+      "title": "Reading alternatives",
+      "summary": "Groups rival readings of one document with a selection policy: exactly one, any, or composed.",
+      "exampleRef": "card-examples/provenance#interpretation-group-decl",
+      "note": "With exactly_one and no chosen alternative, dependent queries answer INTERPRETATION_REQUIRED: a result status, not a document failure.",
+      "spec": {
+        "sec": "155"
+      },
+      "related": [
+        {
+          "sec": "152"
+        }
+      ]
+    },
+    "verification": {
+      "tier": "construct",
+      "title": "Verification record",
+      "summary": "Pins one external authenticity check of a case document: evidence, hash, verifier and outcome.",
+      "exampleRef": "card-examples/cases#verification-decl",
+      "note": "The core never verifies: it accepts only when document_hash matches the bytes. Verification lives in the case, like the evidence it checks.",
+      "spec": {
+        "sec": "78.2"
+      },
+      "related": [
+        {
+          "sec": "74"
+        }
+      ]
+    },
+    "and": {
+      "tier": "construct",
+      "title": "Conjunction",
+      "summary": "Conjoins formulas: every conjunct must hold for the whole to hold.",
+      "exampleRef": "card-examples/clauses#and-decl",
+      "note": "Write every conjunct positively: not (A and B) is a static error, so name a predicate for the negative case instead.",
+      "spec": {
+        "sec": "64"
+      }
+    },
+    "scope": {
+      "tier": "construct",
+      "title": "Rule scope",
+      "summary": "Restricts when a rule applies: a formula kept separate for indexing and explanations.",
+      "exampleRef": "card-examples/clauses#scope-decl",
+      "note": "Scope merges with when semantically: moving a condition changes nothing about cycles or barriers. At most one scope per block (E1329).",
+      "spec": {
+        "sec": "90"
+      }
+    },
+    "effective": {
+      "tier": "construct",
+      "title": "Effective window",
+      "summary": "Bounds the rule to a legal-time interval: outside it the rule does not apply.",
+      "exampleRef": "card-examples/clauses#effective-decl",
+      "note": "effective is checked against context.legal_time. At most one per block (E1329); a constraint outside legal_time is skipped.",
+      "spec": {
+        "sec": "87"
+      }
+    },
+    "unless": {
+      "tier": "construct",
+      "title": "Rule exception",
+      "summary": "Adds a defeasible exception to a rule: when it fires, the rule does not.",
+      "exampleRef": "card-examples/clauses#unless-decl",
+      "note": "`unless C` creates a defeater; `unless C then not A` creates a defeasible contrary rule with direct priority over the general rule. It is invalid on a strict rule.",
+      "spec": {
+        "sec": "149"
+      },
+      "related": [
+        {
+          "sec": "107"
+        }
+      ]
+    },
+    "collect": {
+      "tier": "construct",
+      "title": "Comprehension",
+      "summary": "Builds a set or list by filtering: collect bindings of a type where a formula holds.",
+      "exampleRef": "card-examples/clauses#collect-where-decl",
+      "note": "collect x: T is a Set, collect all x: T is a List: the keyword all switches shape. Aggregates fold the result.",
+      "spec": {
+        "sec": "52.1"
+      }
+    },
+    "defeat": {
+      "tier": "construct",
+      "title": "Defeater head",
+      "summary": "Heads a defeater rule: removes support for the named conclusion without asserting anything.",
+      "exampleRef": "card-examples/priority#defeat-decl",
+      "note": "A defeater never wins by strength: it blocks an equal or incomparable candidate, but a stronger rule beats it.",
+      "spec": {
+        "sec": "107"
+      }
+    },
+    "where": {
+      "tier": "construct",
+      "title": "Filter clause",
+      "summary": "Filters a comprehension or aggregate: only bindings satisfying the formula are collected.",
+      "exampleRef": "card-examples/clauses#collect-where-decl",
+      "note": "where absorbs the whole formula, including and: the bindings it filters come from the collect line.",
+      "spec": {
+        "sec": "52.1"
+      }
+    },
+    "if": {
+      "tier": "construct",
+      "title": "Conditional term",
+      "summary": "Chooses between two data terms on a boolean: if the condition holds, the first, else the second.",
+      "exampleRef": "card-examples/clauses#if-decl",
+      "note": "Branches are data terms, not rule bodies. In rule heads, status tests are nonmonotone reads and may be refused by §111 (E-0176).",
+      "spec": {
+        "sec": "56"
+      }
+    },
+    "some": {
+      "tier": "construct",
+      "title": "Present option",
+      "summary": "Passes a present optional argument at an instance: some names the value the option carries.",
+      "exampleRef": "card-examples/instances#some-decl",
+      "note": "some(...) as a data constructor is reserved (0.2): in 0.1 some lives only in expansion arguments and if some premises. none drops the premise.",
+      "spec": {
+        "sec": "279.1.2"
+      },
+      "related": [
+        {
+          "sec": "279.1.3"
+        }
+      ]
+    },
+    "as": {
+      "tier": "construct",
+      "title": "Premise alias",
+      "summary": "Names the unwrapped value of an if some premise: the binder the when-line reads.",
+      "exampleRef": "card-examples/instances#as-decl",
+      "note": "import ... as ... is reserved in 0.1 (E0206): the package is addressed by name. In 0.1 as lives only in expansion premises.",
+      "spec": {
+        "sec": "279.1.2"
+      }
+    },
+    "governs": {
+      "tier": "construct",
+      "title": "Temporal scope",
+      "summary": "Scopes a rule to regulated-fact time on a named axis: support outside the window is not support.",
+      "exampleRef": "card-examples/clauses#governs-decl",
+      "note": "The axis is judged by the support valid interval intersecting the window: a support without that axis never passes. Asserts carry no axis slot.",
+      "spec": {
+        "sec": "87"
+      }
+    },
+    "within": {
+      "tier": "construct",
+      "title": "Aggregate window",
+      "summary": "Bounds an event day to the instance window inside a count premise: day within window.",
+      "exampleRef": "card-examples/instances#within-decl",
+      "note": "At most one aggregate premise per rule (E1335). The window binds by name and must be linked by a positive premise of the same rule.",
+      "spec": {
+        "sec": "279.1.5"
+      },
+      "related": [
+        {
+          "sec": "52.1"
+        }
+      ]
+    },
+    "set": {
+      "tier": "word",
+      "title": "Set literal (reserved)",
+      "summary": "Reserved word of the set literal; a set is built by a `collect` comprehension.",
+      "exampleRef": "card-examples/fields#set-by-collect",
+      "note": "The literal `set { … }` is declared by the grammar but reserved: no implementation parses it (`LDC-E0201`). Build a `Set<T>` with `collect x: T where F`, or list fixed values as an `enum`.",
+      "spec": {
+        "sec": "51"
+      },
+      "related": [
+        {
+          "sec": "52.1"
+        },
+        {
+          "sec": "38"
+        }
+      ]
+    },
+    "effect_terminate": {
+      "tier": "word",
+      "title": "Terminate effect",
+      "summary": "Names a terminate LegalEffect on a power (§127).",
+      "exampleRef": "card-examples/p3-effects#power-terminate",
+      "note": "This spelling identifies a LegalEffect kind. E0310 execution limits remain; no new effect executor is introduced.",
+      "spec": {
+        "sec": "127"
+      }
+    },
+    "effect_modify": {
+      "tier": "word",
+      "title": "Modify effect",
+      "summary": "Names a modify LegalEffect on a power (§127).",
+      "exampleRef": "card-examples/p3-effects#power-modify",
+      "note": "This spelling identifies a LegalEffect kind. E0310 execution limits remain; no new effect executor is introduced.",
+      "spec": {
+        "sec": "127"
+      }
+    },
+    "protected_effect_terminate": {
+      "tier": "word",
+      "title": "Protected terminate effect",
+      "summary": "Names the terminate effect protected by an immunity (§128).",
+      "exampleRef": "card-examples/p3-effects#immunity-terminate",
+      "note": "This spelling identifies a LegalEffect kind. E0310 execution limits remain; no new effect executor is introduced.",
+      "spec": {
+        "sec": "128"
+      }
+    },
+    "poly_root_2": {
+      "tier": "std",
+      "title": "Quadratic root",
+      "summary": "Selects the k-th distinct real root of a degree-2 polynomial over the rationals.",
+      "displayForm": "poly_root_2(c0, c1, c2, k)",
+      "params": [
+        {
+          "name": "c0",
+          "doc": "The coefficient of x^0."
+        },
+        {
+          "name": "c1",
+          "doc": "The coefficient of x^1."
+        },
+        {
+          "name": "c2",
+          "doc": "The coefficient of x^2."
+        },
+        {
+          "name": "k",
+          "doc": "Root index, 1-based, in increasing order."
+        }
+      ],
+      "note": "Rational roots are Number, irrational roots Algebraic. A whole Number index narrows exactly to Integer; a fractional index is TYPE_ERROR. An index outside the roots is DOMAIN_ERROR. Available from profile 0.6.",
+      "spec": {
+        "sec": "257"
+      },
+      "related": [
+        {
+          "sec": "35"
+        }
+      ]
+    },
+    "poly_root_3": {
+      "tier": "std",
+      "title": "Cubic root",
+      "summary": "Selects the k-th distinct real root of a degree-3 polynomial over the rationals.",
+      "displayForm": "poly_root_3(c0, c1, c2, c3, k)",
+      "params": [
+        {
+          "name": "c0",
+          "doc": "The coefficient of x^0."
+        },
+        {
+          "name": "c1",
+          "doc": "The coefficient of x^1."
+        },
+        {
+          "name": "c2",
+          "doc": "The coefficient of x^2."
+        },
+        {
+          "name": "c3",
+          "doc": "The coefficient of x^3."
+        },
+        {
+          "name": "k",
+          "doc": "Root index, 1-based, in increasing order."
+        }
+      ],
+      "note": "Rational roots are Number, irrational roots Algebraic. A whole Number index narrows exactly to Integer; a fractional index is TYPE_ERROR. An index outside the roots is DOMAIN_ERROR. Available from profile 0.6.",
+      "spec": {
+        "sec": "257"
+      },
+      "related": [
+        {
+          "sec": "35"
+        }
+      ]
+    }
+  },
+  "words": {
+    "relation": {
+      "default": "relation"
+    },
+    "rule": {
+      "default": "rule"
+    },
+    "when": {
+      "default": "when"
+    },
+    "then": {
+      "default": "then"
+    },
+    "strict": {
+      "default": "strict"
+    },
+    "defeasible": {
+      "default": "defeasible"
+    },
+    "defeater": {
+      "default": "defeater"
+    },
+    "key": {
+      "default": "key.neutral",
+      "variants": {
+        "relation_decl": "key.relation",
+        "expansion_decl": "key.expansion"
+      }
+    },
+    "package": {
+      "default": "package"
+    },
+    "import": {
+      "default": "import"
+    },
+    "namespace": {
+      "default": "namespace"
+    },
+    "entity": {
+      "default": "entity"
+    },
+    "event": {
+      "default": "event"
+    },
+    "function": {
+      "default": "function"
+    },
+    "type": {
+      "default": "type"
+    },
+    "expansion": {
+      "default": "expansion"
+    },
+    "facts": {
+      "default": "facts"
+    },
+    "query": {
+      "default": "query"
+    },
+    "Number": {
+      "default": "Number"
+    },
+    "Algebraic": {
+      "default": "Algebraic"
+    },
+    "RealExpr": {
+      "default": "RealExpr"
+    },
+    "Currency": {
+      "default": "Currency"
+    },
+    "exact_sqrt": {
+      "default": "exact_sqrt"
+    },
+    "pi": {
+      "default": "pi"
+    },
+    "ln2": {
+      "default": "ln2"
+    },
+    "solve_linear": {
+      "default": "solve_linear"
+    },
+    "temp_convert": {
+      "default": "temp_convert"
+    },
+    "angle_convert": {
+      "default": "angle_convert"
+    },
+    "magnitude": {
+      "default": "magnitude"
+    },
+    "count": {
+      "default": "count"
+    },
+    "max": {
+      "default": "max"
+    },
+    "min": {
+      "default": "min"
+    },
+    "sum": {
+      "default": "sum"
+    },
+    "round": {
+      "default": "round"
+    },
+    "div_round": {
+      "default": "div_round"
+    },
+    "add_calendar_period": {
+      "default": "add_calendar_period"
+    },
+    "add_business_days": {
+      "default": "add_business_days"
+    },
+    "days_between": {
+      "default": "days_between"
+    },
+    "year_start_of": {
+      "default": "year_start_of"
+    },
+    "year_end_of": {
+      "default": "year_end_of"
+    },
+    "month_start_of": {
+      "default": "month_start_of"
+    },
+    "month_end_of": {
+      "default": "month_end_of"
+    },
+    "weekday_of": {
+      "default": "weekday_of"
+    },
+    "add_legal_term": {
+      "default": "add_legal_term"
+    },
+    "add_duration": {
+      "default": "add_duration"
+    },
+    "hours_between": {
+      "default": "hours_between"
+    },
+    "minutes_between": {
+      "default": "minutes_between"
+    },
+    "convert": {
+      "default": "convert"
+    },
+    "with_unit": {
+      "default": "with_unit"
+    },
+    "unit_convert": {
+      "default": "unit_convert"
+    },
+    "scalar_of": {
+      "default": "scalar_of"
+    },
+    "quantity_of": {
+      "default": "quantity_of"
+    },
+    "unit_exponent": {
+      "default": "unit_exponent"
+    },
+    "text_length": {
+      "default": "text_length"
+    },
+    "round_bounds": {
+      "default": "round_bounds"
+    },
+    "ln_bounds": {
+      "default": "ln_bounds"
+    },
+    "exp_bounds": {
+      "default": "exp_bounds"
+    },
+    "sqrt_bounds": {
+      "default": "sqrt_bounds"
+    },
+    "pi_bounds": {
+      "default": "pi_bounds"
+    },
+    "sin_bounds": {
+      "default": "sin_bounds"
+    },
+    "cos_bounds": {
+      "default": "cos_bounds"
+    },
+    "bounds_add": {
+      "default": "bounds_add"
+    },
+    "bounds_sub": {
+      "default": "bounds_sub"
+    },
+    "bounds_mul": {
+      "default": "bounds_mul"
+    },
+    "bounds_div": {
+      "default": "bounds_div"
+    },
+    "bounds_scale": {
+      "default": "bounds_scale"
+    },
+    "bounds_const": {
+      "default": "bounds_const"
+    },
+    "Text": {
+      "default": "Text"
+    },
+    "Integer": {
+      "default": "Integer"
+    },
+    "Decimal": {
+      "default": "Decimal"
+    },
+    "Rational": {
+      "default": "Rational"
+    },
+    "Money": {
+      "default": "Money"
+    },
+    "Quantity": {
+      "default": "Quantity"
+    },
+    "Date": {
+      "default": "Date"
+    },
+    "Instant": {
+      "default": "Instant"
+    },
+    "Duration": {
+      "default": "Duration"
+    },
+    "Boolean": {
+      "default": "Boolean"
+    },
+    "Timezone": {
+      "default": "Timezone"
+    },
+    "LanguageTag": {
+      "default": "LanguageTag"
+    },
+    "Jurisdiction": {
+      "default": "Jurisdiction"
+    },
+    "List": {
+      "default": "List"
+    },
+    "Set": {
+      "default": "Set"
+    },
+    "Option": {
+      "default": "Option"
+    },
+    "Magnitude": {
+      "default": "Magnitude"
+    },
+    "Bounds": {
+      "default": "Bounds"
+    },
+    "text": {
+      "default": "text.fragment",
+      "variants": {
+        "revision_decl": "text.amendment"
+      }
+    },
+    "uri": {
+      "default": "uri"
+    },
+    "jurisdiction": {
+      "default": "jurisdiction"
+    },
+    "timezone": {
+      "default": "timezone"
+    },
+    "quantity": {
+      "default": "quantity"
+    },
+    "integer": {
+      "default": "integer"
+    },
+    "option": {
+      "default": "option"
+    },
+    "list": {
+      "default": "list.expansion",
+      "variants": {
+        "decision_decl": "list.aggregate"
+      }
+    },
+    "decision": {
+      "default": "decision"
+    },
+    "source": {
+      "default": "source"
+    },
+    "case": {
+      "default": "case"
+    },
+    "priority": {
+      "default": "priority"
+    },
+    "evidence": {
+      "default": "evidence"
+    },
+    "context": {
+      "default": "context"
+    },
+    "constraint": {
+      "default": "constraint"
+    },
+    "interpretation": {
+      "default": "interpretation"
+    },
+    "stage": {
+      "default": "stage"
+    },
+    "Unit": {
+      "default": "Unit"
+    },
+    "support": {
+      "default": "support"
+    },
+    "unit": {
+      "default": "unit"
+    },
+    "Calendar": {
+      "default": "calendar"
+    },
+    "calendar": {
+      "default": "calendar"
+    },
+    "Fragment": {
+      "default": "fragment"
+    },
+    "fragment": {
+      "default": "fragment"
+    },
+    "snapshot": {
+      "default": "snapshot"
+    },
+    "Event": {
+      "default": "Event"
+    },
+    "language": {
+      "default": "language"
+    },
+    "edition": {
+      "default": "edition"
+    },
+    "assert": {
+      "default": "assert"
+    },
+    "closure": {
+      "default": "closure"
+    },
+    "const": {
+      "default": "const"
+    },
+    "map": {
+      "default": "map"
+    },
+    "Action": {
+      "default": "action"
+    },
+    "action": {
+      "default": "action"
+    },
+    "Publication": {
+      "default": "publication"
+    },
+    "publication": {
+      "default": "publication"
+    },
+    "reference": {
+      "default": "reference"
+    },
+    "state": {
+      "default": "state"
+    },
+    "test": {
+      "default": "test"
+    },
+    "procedure": {
+      "default": "procedure"
+    },
+    "definition": {
+      "default": "definition"
+    },
+    "record": {
+      "default": "record"
+    },
+    "use": {
+      "default": "use"
+    },
+    "derived": {
+      "default": "derived"
+    },
+    "term": {
+      "default": "term"
+    },
+    "enum": {
+      "default": "enum"
+    },
+    "transition": {
+      "default": "transition"
+    },
+    "revision": {
+      "default": "revision"
+    },
+    "deadline": {
+      "default": "deadline"
+    },
+    "fiction": {
+      "default": "fiction"
+    },
+    "presumption": {
+      "default": "presumption"
+    },
+    "role": {
+      "default": "role"
+    },
+    "temporal_resolution_policy": {
+      "default": "temporal_resolution_policy"
+    },
+    "classification": {
+      "default": "classification"
+    },
+    "expand": {
+      "default": "expand"
+    },
+    "exports": {
+      "default": "exports"
+    },
+    "counterfactual": {
+      "default": "counterfactual"
+    },
+    "factors": {
+      "default": "factors"
+    },
+    "property": {
+      "default": "property"
+    },
+    "precedent": {
+      "default": "precedent"
+    },
+    "region": {
+      "default": "region"
+    },
+    "params": {
+      "default": "params"
+    },
+    "entrenchment": {
+      "default": "entrenchment"
+    },
+    "align": {
+      "default": "align"
+    },
+    "interpretation_group": {
+      "default": "interpretation_group"
+    },
+    "verification": {
+      "default": "verification"
+    },
+    "and": {
+      "default": "and"
+    },
+    "scope": {
+      "default": "scope"
+    },
+    "effective": {
+      "default": "effective"
+    },
+    "unless": {
+      "default": "unless"
+    },
+    "collect": {
+      "default": "collect"
+    },
+    "defeat": {
+      "default": "defeat"
+    },
+    "where": {
+      "default": "where"
+    },
+    "if": {
+      "default": "if"
+    },
+    "some": {
+      "default": "some"
+    },
+    "as": {
+      "default": "as"
+    },
+    "governs": {
+      "default": "governs"
+    },
+    "within": {
+      "default": "within"
+    },
+    "set": {
+      "default": "set"
+    },
+    "effect_terminate": {
+      "default": "effect_terminate"
+    },
+    "effect_modify": {
+      "default": "effect_modify"
+    },
+    "protected_effect_terminate": {
+      "default": "protected_effect_terminate"
+    },
+    "poly_root_2": {
+      "default": "poly_root_2"
+    },
+    "poly_root_3": {
+      "default": "poly_root_3"
+    }
+  }
+}

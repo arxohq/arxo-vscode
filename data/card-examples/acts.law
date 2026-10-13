@@ -1,0 +1,20 @@
+// Card-examples fixture for the construct wave (batch 2): events and enum
+// mappings. Every region is a card example; the whole file compiles with
+// `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.acts version "0.1.0";
+namespace "urn:law:handbook:card-acts";
+
+// region: event-decl
+event Signed {
+    time: Interval<Instant>;
+}
+// endregion: event-decl
+enum Grade { Junior; Senior; }
+enum Band { Low; High; }
+// region: map-decl
+map GradeToBand: Grade -> Band {
+    Junior => Low;
+    Senior => High;
+}
+// endregion: map-decl

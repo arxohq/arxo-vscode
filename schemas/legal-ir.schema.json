@@ -41,7 +41,8 @@
             "count",
             "min",
             "max",
-            "average"
+            "average",
+            "only"
           ]
         },
         "options": {
@@ -81,6 +82,11 @@
             "labels": {},
             "package": {},
             "provenance": {},
+            "quote": {
+              "description": "Exact quote of the norm's location inside the fragment text: a contiguous substring of `Fragment.texts[].text` in at least one language of the same fragment, byte for byte, without normalization. Optional; a mismatch is a static error. Offsets are deliberately not stored: they shift on every re-pinning of the publication, while containment does not.",
+              "$comment": "SPEC §33, §13, §194; DECISION-0358; errata E-0240; LDC-E5208",
+              "type": "string"
+            },
             "relation": {
               "enum": [
                 "formalizes",
@@ -122,91 +128,93 @@
           "$ref": "#/$defs/NodeCommon"
         },
         {
+          "$ref": "#/$defs/AssertionBody"
+        }
+      ]
+    },
+    "AssertionBody": {
+      "additionalProperties": false,
+      "properties": {
+        "anchors": {},
+        "annotations": {},
+        "contentHash": {},
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/StableId"
+          },
+          "type": "array"
+        },
+        "id": {},
+        "judgment": {
           "additionalProperties": false,
           "properties": {
-            "anchors": {},
-            "annotations": {},
-            "contentHash": {},
-            "evidence": {
-              "items": {
-                "$ref": "#/$defs/StableId"
-              },
-              "type": "array"
+            "authority": {
+              "$ref": "#/$defs/StableId"
             },
-            "id": {},
-            "judgment": {
-              "additionalProperties": false,
-              "properties": {
-                "authority": {
-                  "$ref": "#/$defs/StableId"
-                },
-                "payload": {
-                  "$ref": "#/$defs/Term"
-                },
-                "request": {
-                  "$ref": "#/$defs/StableId"
-                }
-              },
-              "required": [
-                "authority"
-              ],
-              "type": "object"
+            "payload": {
+              "$ref": "#/$defs/Term"
             },
-            "kind": {
-              "const": "assertion"
-            },
-            "labels": {},
-            "literal": {
-              "$ref": "#/$defs/Literal"
-            },
-            "observedAt": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/DateString"
-                },
-                {
-                  "$ref": "#/$defs/InstantString"
-                }
-              ]
-            },
-            "origin": {
-              "enum": [
-                "case_input",
-                "source_asserted",
-                "external_snapshot",
-                "derived",
-                "adjudicated",
-                "assumed_for_simulation"
-              ]
-            },
-            "package": {},
-            "provenance": {},
-            "recordedAt": {
-              "oneOf": [
-                {
-                  "$ref": "#/$defs/DateString"
-                },
-                {
-                  "$ref": "#/$defs/InstantString"
-                }
-              ]
-            },
-            "sourceSpan": {},
-            "valid": {
-              "$ref": "#/$defs/TemporalInterval"
+            "request": {
+              "$ref": "#/$defs/StableId"
             }
           },
           "required": [
-            "kind",
-            "id",
-            "package",
-            "contentHash",
-            "literal",
-            "origin"
+            "authority"
           ],
           "type": "object"
+        },
+        "kind": {
+          "const": "assertion"
+        },
+        "labels": {},
+        "literal": {
+          "$ref": "#/$defs/Literal"
+        },
+        "observedAt": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DateString"
+            },
+            {
+              "$ref": "#/$defs/InstantString"
+            }
+          ]
+        },
+        "origin": {
+          "enum": [
+            "case_input",
+            "source_asserted",
+            "external_snapshot",
+            "derived",
+            "adjudicated",
+            "assumed_for_simulation"
+          ]
+        },
+        "package": {},
+        "provenance": {},
+        "recordedAt": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/DateString"
+            },
+            {
+              "$ref": "#/$defs/InstantString"
+            }
+          ]
+        },
+        "sourceSpan": {},
+        "valid": {
+          "$ref": "#/$defs/TemporalInterval"
         }
-      ]
+      },
+      "required": [
+        "kind",
+        "id",
+        "package",
+        "literal",
+        "origin"
+      ],
+      "type": "object"
     },
     "BinaryTerm": {
       "additionalProperties": false,
@@ -327,8 +335,19 @@
         }
       ]
     },
+    "CaseAssertion": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/NodeCommonInput"
+        },
+        {
+          "$ref": "#/$defs/AssertionBody"
+        }
+      ]
+    },
     "EvidencePolicy": {
-      "description": "Носитель исполнимой EvidencePolicy §78.2 (DECISION-0126). Правила фазы ЗАКРЫТЫ перечнем `rules`; открытых metadata у узла нет.",
+      "description": "Carrier of an executable evidence policy. Phase rules are closed by the `rules` list; the node has no open metadata.",
+      "$comment": "SPEC §78.2; DECISION-0126",
       "allOf": [
         {
           "$ref": "#/$defs/NodeCommon"
@@ -351,7 +370,8 @@
               "const": "evidence_policy"
             },
             "visibility": {
-              "description": "§24 (DECISION-0165 §1.8): `pub` у политики — она адресуема осью дела соседа `пакет::Политика`; отсутствие поля — internal, байты без `pub` не меняются.",
+              "description": "`pub` on a policy makes it addressable from a neighboring case axis as `package::Policy`. Absence of the field means internal, and bytes without `pub` are unchanged.",
+              "$comment": "SPEC §24; DECISION-0165",
               "enum": [
                 "public"
               ]
@@ -365,8 +385,7 @@
             "anchors": {},
             "provenance": {},
             "profile": {
-              "type": "string",
-              "minLength": 1
+              "const": "law.core.evidence-policy/0.2"
             },
             "accepts": {
               "$ref": "#/$defs/StableId"
@@ -450,7 +469,8 @@
               "const": "deadline_policy"
             },
             "visibility": {
-              "description": "§24 (DECISION-0165 §1.8): `pub` у политики — она адресуема осью дела соседа `пакет::Политика`; отсутствие поля — internal, байты без `pub` не меняются.",
+              "description": "`pub` on a policy makes it addressable from a neighboring case axis as `package::Policy`. Absence of the field means internal, and bytes without `pub` are unchanged.",
+              "$comment": "SPEC §24; DECISION-0165",
               "enum": [
                 "public"
               ]
@@ -505,17 +525,29 @@
       ]
     },
     "TemporalResolutionPolicy": {
-      "description": "§82.1: разрешение `Date` → `Instant` (errata E-0143). Исполняется ТОЛЬКО `utcOffset`; `timezone` — ярлык провенанса, tz-база не читается ни одной реализацией.",
+      "description": "Resolution of `Date` into `Instant`. Only `utcOffset` is executed; `timezone` is a provenance label, and no time-zone database is read.",
+      "$comment": "SPEC §82.1; errata E-0143",
       "allOf": [
-        {"$ref": "#/$defs/NodeCommon"},
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
         {
           "type": "object",
           "additionalProperties": false,
-          "required": ["kind", "id", "package", "contentHash", "utcOffset"],
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "utcOffset"
+          ],
           "properties": {
-            "kind": {"const": "temporal_resolution_policy"},
+            "kind": {
+              "const": "temporal_resolution_policy"
+            },
             "visibility": {
-              "description": "§24 (DECISION-0165 §1.8): `pub` у политики — она адресуема осью дела соседа `пакет::Политика`; отсутствие поля — internal, байты без `pub` не меняются.",
+              "description": "`pub` on a policy makes it addressable from a neighboring case axis as `package::Policy`. Absence of the field means internal, and bytes without `pub` are unchanged.",
+              "$comment": "SPEC §24; DECISION-0165",
               "enum": [
                 "public"
               ]
@@ -528,23 +560,53 @@
             "labels": {},
             "anchors": {},
             "provenance": {},
-            "utcOffset": {"type": "string", "pattern": "^[+-]([01]\\d|2[0-3]):[0-5]\\d$"},
-            "dayBoundary": {"type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"},
-            "timezone": {"type": "string", "minLength": 1}
+            "utcOffset": {
+              "type": "string",
+              "pattern": "^[+-]([01]\\d|2[0-3]):[0-5]\\d$"
+            },
+            "dayBoundary": {
+              "type": "string",
+              "pattern": "^([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+            },
+            "timezone": {
+              "type": "string",
+              "minLength": 1
+            }
           }
         }
       ]
     },
     "Procedure": {
-      "description": "§201.1: автомат профиля §159–§164 как ДАННЫЕ, исполняемые фазой свёртки §161.1 (DECISION-0156). Правил `<P>/initial`, `<P>/<T>/valid`, `<P>/<T>/enters` десугаризация больше не эмитирует.",
+      "description": "The profile automaton as data, executed by the folding phase. Desugaring no longer emits the `<P>/initial`, `<P>/<T>/valid` and `<P>/<T>/enters` rules.",
+      "$comment": "SPEC §201.1, §159-§164, §161.1; DECISION-0156",
       "allOf": [
-        {"$ref": "#/$defs/NodeCommon"},
+        {
+          "$ref": "#/$defs/NodeCommon"
+        },
         {
           "type": "object",
           "additionalProperties": false,
-          "required": ["kind", "id", "package", "contentHash", "instanceType", "states", "transitions", "instancePredicate", "attemptedPredicate", "validPredicate", "enteredPredicate", "leftPredicate", "initialPredicate", "stateBeforePredicate", "currentStatePredicate"],
+          "required": [
+            "kind",
+            "id",
+            "package",
+            "contentHash",
+            "instanceType",
+            "states",
+            "transitions",
+            "instancePredicate",
+            "attemptedPredicate",
+            "validPredicate",
+            "enteredPredicate",
+            "leftPredicate",
+            "initialPredicate",
+            "stateBeforePredicate",
+            "currentStatePredicate"
+          ],
           "properties": {
-            "kind": {"const": "procedure"},
+            "kind": {
+              "const": "procedure"
+            },
             "id": {},
             "package": {},
             "contentHash": {},
@@ -553,24 +615,52 @@
             "labels": {},
             "anchors": {},
             "provenance": {},
-            "instanceType": {"$ref": "#/$defs/TypeRef"},
-            "instancePredicate": {"description": "§201.1: `procedure_instance` ЭТОЙ процедуры. Восемь предикатов профиля §164.1 названы узлом поимённо: при двух процедурах в одном пакете имена квалифицируются (DECISION-0013 §2.3), и принадлежность факта процедуре иначе выводилась бы догадкой по имени — тем самым способом, который §201.1 снимает.", "$ref": "#/$defs/StableId"},
-            "attemptedPredicate": {"$ref": "#/$defs/StableId"},
-            "validPredicate": {"$ref": "#/$defs/StableId"},
-            "enteredPredicate": {"$ref": "#/$defs/StableId"},
-            "leftPredicate": {"$ref": "#/$defs/StableId"},
-            "initialPredicate": {"$ref": "#/$defs/StableId"},
-            "stateBeforePredicate": {"$ref": "#/$defs/StableId"},
-            "currentStatePredicate": {"$ref": "#/$defs/StableId"},
-            "completedPredicate": {"description": "§163.1/§201.1: предикат сахара `completed(P, y)` этой процедуры. Необязателен: процедура, к завершённости которой ни одна норма пакета не обращается, его не объявляет. Названный узлом, а не угаданный по форме первого аргумента: догадка «двухместное отношение, чей первый аргумент есть имя процедуры» покрывает и постороннее `paid(ProcedureA, y)`, и свёртка объявляла бы его истинным, ничего о нём не зная.", "$ref": "#/$defs/StableId"},
+            "instanceType": {
+              "$ref": "#/$defs/TypeRef"
+            },
+            "instancePredicate": {
+              "description": "The `procedure_instance` of this procedure. The eight profile predicates are named by the node explicitly: with two procedures in one package the names are qualified, and a fact's membership in a procedure would otherwise be guessed from the name — precisely the inference this explicit naming removes.",
+              "$comment": "SPEC §201.1, §164.1; DECISION-0013",
+              "$ref": "#/$defs/StableId"
+            },
+            "attemptedPredicate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "validPredicate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "enteredPredicate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "leftPredicate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "initialPredicate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "stateBeforePredicate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "currentStatePredicate": {
+              "$ref": "#/$defs/StableId"
+            },
+            "completedPredicate": {
+              "description": "The sugar predicate `completed(P, y)` of this procedure. Optional: a procedure whose completion is not referenced by any rule of the package does not declare it. Named by the node, not guessed from the first argument's shape: the guess \"a binary relation whose first argument is the procedure name\" would also cover an unrelated `paid(ProcedureA, y)`, and folding would declare it true knowing nothing about it.",
+              "$comment": "SPEC §163.1, §201.1",
+              "$ref": "#/$defs/StableId"
+            },
             "states": {
               "type": "array",
               "minItems": 1,
-              "items": {"$ref": "#/$defs/ProcedureState"}
+              "items": {
+                "$ref": "#/$defs/ProcedureState"
+              }
             },
             "transitions": {
               "type": "array",
-              "items": {"$ref": "#/$defs/ProcedureTransition"}
+              "items": {
+                "$ref": "#/$defs/ProcedureTransition"
+              }
             }
           }
         }
@@ -579,59 +669,111 @@
     "ProcedureState": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "initial", "terminal"],
+      "required": [
+        "id",
+        "initial",
+        "terminal"
+      ],
       "properties": {
-        "id": {"$ref": "#/$defs/StableId"},
-        "initial": {"type": "boolean"},
-        "terminal": {"type": "boolean"},
+        "id": {
+          "$ref": "#/$defs/StableId"
+        },
+        "initial": {
+          "type": "boolean"
+        },
+        "terminal": {
+          "type": "boolean"
+        },
         "regions": {
           "type": "array",
           "minItems": 2,
-          "items": {"$ref": "#/$defs/ProcedureRegion"}
+          "items": {
+            "$ref": "#/$defs/ProcedureRegion"
+          }
         },
-        "join": {"$ref": "#/$defs/ProcedureJoin"}
+        "join": {
+          "$ref": "#/$defs/ProcedureJoin"
+        }
       }
     },
     "ProcedureRegion": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "states", "transitions"],
+      "required": [
+        "id",
+        "states",
+        "transitions"
+      ],
       "properties": {
-        "id": {"$ref": "#/$defs/StableId"},
+        "id": {
+          "$ref": "#/$defs/StableId"
+        },
         "states": {
           "type": "array",
           "minItems": 1,
-          "items": {"$ref": "#/$defs/ProcedureState"}
+          "items": {
+            "$ref": "#/$defs/ProcedureState"
+          }
         },
         "transitions": {
           "type": "array",
-          "items": {"$ref": "#/$defs/ProcedureTransition"}
+          "items": {
+            "$ref": "#/$defs/ProcedureTransition"
+          }
         }
       }
     },
     "ProcedureTransition": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "from", "to", "requires"],
+      "required": [
+        "id",
+        "from",
+        "to",
+        "requires"
+      ],
       "properties": {
-        "id": {"$ref": "#/$defs/StableId"},
-        "from": {"$ref": "#/$defs/StableId"},
-        "to": {"$ref": "#/$defs/StableId"},
-        "on": {"$ref": "#/$defs/StableId"},
-        "guard": {"$ref": "#/$defs/Formula"},
+        "id": {
+          "$ref": "#/$defs/StableId"
+        },
+        "from": {
+          "$ref": "#/$defs/StableId"
+        },
+        "to": {
+          "$ref": "#/$defs/StableId"
+        },
+        "on": {
+          "$ref": "#/$defs/StableId"
+        },
+        "guard": {
+          "$ref": "#/$defs/Formula"
+        },
         "requires": {
           "type": "array",
-          "items": {"$ref": "#/$defs/Formula"}
+          "items": {
+            "$ref": "#/$defs/Formula"
+          }
         }
       }
     },
     "ProcedureJoin": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["policy"],
+      "required": [
+        "policy"
+      ],
       "properties": {
-        "policy": {"enum": ["all", "any", "quorum"]},
-        "count": {"type": "integer", "minimum": 1}
+        "policy": {
+          "enum": [
+            "all",
+            "any",
+            "quorum"
+          ]
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        }
       }
     },
     "Stage": {
@@ -662,7 +804,86 @@
             "anchors": {},
             "provenance": {},
             "status": {
-              "const": "reserved"
+              "description": "Lifecycle state of a stage body. `reserved` is an empty body executed by no version; `executable` is a body with an index and bindings.",
+              "$comment": "SPEC §111.1, §111.2; DECISION-0199; errata E-0262, E-0269; revision law.core/0.2.4 and later",
+              "enum": [
+                "reserved",
+                "executable"
+              ]
+            },
+            "index": {
+              "description": "Index of the round. The domain runs from `from` to `to` per the declaration and is finite by construction; the rank is the number of steps from `from` along `direction`; `step` is a calendar step for `Date` only.",
+              "$comment": "SPEC §111.2",
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "type": {
+                  "enum": [
+                    "Integer",
+                    "Date"
+                  ]
+                },
+                "from": {
+                  "$ref": "#/$defs/Term"
+                },
+                "to": {
+                  "$ref": "#/$defs/Term"
+                },
+                "step": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "count": {
+                      "type": "integer"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "count",
+                    "unit"
+                  ]
+                },
+                "direction": {
+                  "enum": [
+                    "ascending",
+                    "descending"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "type",
+                "from",
+                "to",
+                "direction"
+              ]
+            },
+            "bindings": {
+              "description": "Round predicates of the stage: the relation and the one-based position of the index argument.",
+              "$comment": "SPEC §111.2",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "predicate": {
+                    "$ref": "#/$defs/StableId"
+                  },
+                  "position": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                },
+                "required": [
+                  "predicate",
+                  "position"
+                ]
+              }
             }
           }
         }
@@ -780,14 +1001,16 @@
       "additionalProperties": false,
       "properties": {
         "binders": {
-          "description": "§52.1: auxiliary existential-local generator binders; they distinguish List positions but are not collection elements.",
+          "description": "Auxiliary existential-local generator binders; they distinguish List positions but are not collection elements.",
+          "$comment": "SPEC §52.1",
           "items": {
             "$ref": "#/$defs/Variable"
           },
           "type": "array"
         },
         "distinct": {
-          "description": "§51/§52.1: true — Set<T> (`collect`, различные ground-значения); false — List<T> (`collect all`, по элементу на каждую solution substitution generator-а; errata E-0012). Обязательно, умолчания нет: кратность — семантическое решение автора, а не default схемы.",
+          "description": "True gives Set<T> (`collect`, distinct ground values); false gives List<T> (`collect all`, one element per solution substitution of the generator). Required, with no default: multiplicity is the author's semantic decision, not a schema default.",
+          "$comment": "SPEC §51, §52.1; errata E-0012",
           "type": "boolean"
         },
         "element": {
@@ -949,8 +1172,15 @@
       ]
     },
     "DateString": {
+      "description": "Current semantic Date axes use ASCII YYYY-MM-DD, years 0001 through 9999, and a valid proleptic Gregorian calendar date. This lexical schema pattern does not check calendar validity; current semantic admission does.",
       "format": "date",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "type": "string"
+    },
+    "DateBound": {
+      "description": "A finite temporal bound is ASCII YYYY-MM-DD with year 0001 through 9999 and a valid proleptic Gregorian calendar date. The pattern checks lexical ranges; admission checks month length and leap years.",
+      "format": "date",
+      "pattern": "^(?!0000-)[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$",
       "type": "string"
     },
     "DecimalString": {
@@ -1123,7 +1353,7 @@
             "anchors": {},
             "annotations": {},
             "authority": {
-              "$ref": "#/$defs/Term"
+              "$ref": "#/$defs/RefTerm"
             },
             "capability": {
               "type": "string"
@@ -1315,7 +1545,13 @@
                 "properties": {
                   "contentHash": {
                     "$ref": "#/$defs/Digest",
-                    "description": "§194 (errata E-0024): digest точных UTF-8 байтов официального текста. ОБЯЗАТЕЛЕН, если редакция фрагмента объявила materializationStatus из группы закреплённых (§27.2: PINNED_OFFICIAL_BYTES, PINNED_UNOFFICIAL_COPY, PINNED_EDITORIAL_RECONSTRUCTION) — отсутствие есть LDC-E5205, расхождение с текстом есть LDC-E5201. Обязанность кросс-узловая (зависит от редакции), поэтому `required` её не выражает и держит статика §194; вне группы закреплённых поле остаётся необязательным: ABSTRACT_ONLY объявляет отсутствие текста."
+                    "description": "Digest of this text item's own exact UTF-8 bytes, independently of other texts and language/status. Direct CLIR may carry multiple items with individual digests; the single source content_hash field is limited to one text item (E5209). Required when the fragment's edition declared a materialization status from the pinned group (PINNED_OFFICIAL_BYTES, PINNED_UNOFFICIAL_COPY, PINNED_EDITORIAL_RECONSTRUCTION): absence is then a static error, as is a mismatch with the text. The obligation is cross-node (it depends on the edition), so `required` cannot express it and a static check enforces it; outside the pinned group the field stays optional, and ABSTRACT_ONLY declares the absence of text.",
+                    "$comment": "SPEC §194, §27.2; errata E-0024; LDC-E5205, LDC-E5201"
+                  },
+                  "exactBytes": {
+                    "description": "The exact UTF-8 bytes of the source text block, in canonical base64 (RFC 4648, standard alphabet, padded, no whitespace). Present if and only if those bytes differ from the UTF-8 encoding of `text`, which always carries the NFC form. The exact bytes of a text are the decoded `exactBytes`, or UTF-8 `text` when the field is absent; `contentHash`, publication containment and text coverage are computed over them, while string comparison (quotes, revisions) runs over `text`. The carrier is legal only when re-encoding the decoded bytes yields the same string, they are valid UTF-8, their NFC form equals `text`, and they differ from UTF-8 `text`; otherwise evaluation reports fatal SOURCE_TEXT_BYTES_INVALID. Legality is a content check, not a schema pattern: canonical base64 includes zero trailing bits, which a pattern does not express, and an illegal carrier is an evaluation issue, not a request rejection. Current documents carrying the field are written as law.core.ir/0.7.",
+                    "$comment": "SPEC §13, §28, §208, §33.1, §33.2, §32; DECISION-0375; errata E-0248; LDC-E5202",
+                    "type": "string"
                   },
                   "language": {
                     "$ref": "#/$defs/LanguageTag"
@@ -1324,6 +1560,8 @@
                     "type": "string"
                   },
                   "text": {
+                    "description": "The official text in Unicode NFC; the source bytes, when they differ, are carried by `exactBytes`.",
+                    "$comment": "SPEC §13, §208",
                     "type": "string"
                   }
                 },
@@ -1337,7 +1575,8 @@
               "type": "array"
             },
             "visibility": {
-              "description": "§24/§33: `pub fragment` — единственная форма cross-package @source target. Отсутствие означает internal, как у остальных экспортируемых declarations.",
+              "description": "`pub fragment` is the only form of a cross-package @source target. Absence means internal, as with other exportable declarations.",
+              "$comment": "SPEC §24, §33",
               "enum": [
                 "public"
               ]
@@ -1394,7 +1633,8 @@
               "$ref": "#/$defs/StableId"
             },
             "visibility": {
-              "description": "§24: видимость декларации. Отсутствие поля — умолчание `internal`; `public` пишется только для `pub`-деклараций, поэтому появление поля аддитивно и не меняет байты программ без `pub`. Межпакетные ссылки `pkg::Symbol` разрешаются только в public-декларации.",
+              "description": "Declaration visibility. Absence of the field defaults to `internal`; `public` is written only for `pub` declarations, so the field's appearance is additive and does not change the bytes of programs without `pub`. Cross-package references of the form `pkg::Symbol` resolve only against a public declaration.",
+              "$comment": "SPEC §24",
               "enum": [
                 "public"
               ]
@@ -1481,8 +1721,15 @@
       "type": "object"
     },
     "InstantString": {
+      "description": "Current semantic Instant axes use ASCII YYYY-MM-DDTHH:MM:SS[.fraction](Z|±HH:MM), with a required offset whose hours are 00 through 23 and minutes 00 through 59. Current semantic admission also checks the Gregorian date, clock ranges, and offset ranges; this lexical pattern alone does not.",
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$",
+      "type": "string"
+    },
+    "InstantBound": {
+      "description": "A finite temporal bound is ASCII YYYY-MM-DDTHH:MM:SS[.fraction](Z|±HH:MM), with year 0001 through 9999, a valid proleptic Gregorian date, clock fields in range, a required explicit offset with hours 00 through 23 and minutes 00 through 59, and one or more ASCII fraction digits when present. Admission checks calendar validity.",
+      "format": "date-time",
+      "pattern": "^(?!0000-)[0-9]{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])T(?:[01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](?:\\.[0-9]+)?(?:Z|[+-](?:[01][0-9]|2[0-3]):[0-5][0-9])$",
       "type": "string"
     },
     "Interpretation": {
@@ -1525,7 +1772,8 @@
               "const": "interpretation"
             },
             "visibility": {
-              "description": "§24, DECISION-0152: pub interpretation экспортирует прочтение целиком. Отсутствие означает internal.",
+              "description": "Visibility of an interpretation: `pub` exports the entire reading. Absence means internal.",
+              "$comment": "SPEC §24; DECISION-0152",
               "enum": [
                 "public"
               ]
@@ -1547,7 +1795,8 @@
               "type": "string"
             },
             "origin": {
-              "description": "§276.10: id узла precedent_decl, из которого узел порождён компилятором; на рукописных узлах отсутствует.",
+              "description": "Id of the precedent_decl node from which this node was generated by the compiler; absent on hand-written nodes.",
+              "$comment": "SPEC §276.10",
               "$ref": "#/$defs/StableId"
             }
           },
@@ -1675,7 +1924,8 @@
       "properties": {
         "grammaticalForms": {
           "type": "object",
-          "description": "§218.1: морфологические формы метки; ключ — слот из закрытого словаря своего language tag, значение — непустая форма. Презентационны: вне semantic hash §209 (errata E-0010), внутри content hash узла §202.",
+          "description": "Morphological forms of the label; the key is a slot from the closed dictionary of its language tag, the value is a non-empty form. Presentational: outside the semantic hash, inside the node's content hash.",
+          "$comment": "SPEC §218.1, §209, §202; errata E-0010",
           "propertyNames": {
             "pattern": "^[a-z][a-z0-9_]*$"
           },
@@ -1694,6 +1944,12 @@
             "unofficial",
             "translation"
           ]
+        },
+        "template": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Predicate template of a relation label: a positive clause with placeholders {parameterName} for every parameter; {{ and }} are literal braces. Presentational: outside the semantic hash, inside the node's content hash; allowed only on labels of relation symbol_decl.",
+          "$comment": "SPEC §218.2, §209, §202; DECISION-0395"
         },
         "text": {
           "type": "string"
@@ -1796,10 +2052,10 @@
               "$ref": "#/$defs/TemporalInterval"
             },
             {
-              "$ref": "#/$defs/DateString"
+              "$ref": "#/$defs/DateBound"
             },
             {
-              "$ref": "#/$defs/InstantString"
+              "$ref": "#/$defs/InstantBound"
             }
           ]
         },
@@ -1887,7 +2143,8 @@
           "$ref": "#/$defs/JsonValue"
         },
         "factors": {
-          "description": "§49.1 (E-0136): мультимножитель простых единиц величины. `unit` при чтении не разбирается, а СВЕРЯЕТСЯ с его рендерингом: грамматика «база _per_ база» неоднозначна.",
+          "description": "The multiset of a quantity's base units. `unit` is not parsed on read but is checked against its rendering: the grammar \"base _per_ base\" is ambiguous.",
+          "$comment": "SPEC §49.1; E-0136",
           "type": "array",
           "items": {
             "type": "object",
@@ -1907,17 +2164,41 @@
           }
         },
         "lower": {
-          "description": "§259.2 (E-0136): нижняя граница отрезка, несократимая дробь `<n>/<d>`.",
+          "description": "Lower bound of the interval, an irreducible fraction `<n>/<d>`.",
+          "$comment": "SPEC §259.2; E-0136",
           "type": "string",
           "pattern": "^-?[0-9]+/[1-9][0-9]*$"
         },
         "upper": {
-          "description": "§259.2 (E-0136): верхняя граница отрезка.",
+          "description": "Upper bound of the interval.",
+          "$comment": "SPEC §259.2; E-0136",
           "type": "string",
           "pattern": "^-?[0-9]+/[1-9][0-9]*$"
         },
         "derivation": {
-          "description": "§259.2 (E-0136): канон деривации. По нему границы ПЕРЕСЧИТЫВАЮТСЯ, а не сверяются поле с полем.",
+          "description": "The derivation canon. The bounds are recomputed from it, not checked field by field.",
+          "$comment": "SPEC §259.2; E-0136",
+          "type": "string",
+          "minLength": 1
+        },
+        "poly": {
+          "description": "Algebraic min-poly coefficients, ascending, as ASCII-int decimal strings; verified through the canon funnel on read, never trusted.",
+          "$comment": "Form 0.4.1; DECISION-0437",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[+-]?[0-9]+$"
+          }
+        },
+        "root": {
+          "description": "1-based index of the real root in ascending order; range-checked against the Sturm count on read.",
+          "$comment": "Form 0.4.1; DECISION-0437",
+          "type": "integer",
+          "minimum": 1
+        },
+        "expr": {
+          "description": "RealExpr canon string; verified through the constructor funnel on read, never trusted.",
+          "$comment": "Form 0.5, canon §1; DECISION-0438",
           "type": "string",
           "minLength": 1
         }
@@ -2222,6 +2503,52 @@
       ],
       "type": "object"
     },
+    "NodeCommonInput": {
+      "properties": {
+        "anchors": {
+          "items": {
+            "$ref": "#/$defs/StableId"
+          },
+          "type": "array"
+        },
+        "annotations": {
+          "$ref": "#/$defs/JsonObject"
+        },
+        "contentHash": {
+          "$ref": "#/$defs/Digest"
+        },
+        "id": {
+          "$ref": "#/$defs/StableId"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "$ref": "#/$defs/Label"
+          },
+          "type": "array"
+        },
+        "package": {
+          "$ref": "#/$defs/StableId"
+        },
+        "provenance": {
+          "items": {
+            "$ref": "#/$defs/ProvenanceEdge"
+          },
+          "type": "array"
+        },
+        "sourceSpan": {
+          "$ref": "#/$defs/SourceSpan"
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "package"
+      ],
+      "type": "object"
+    },
     "NormTemplate": {
       "allOf": [
         {
@@ -2299,7 +2626,8 @@
       "properties": {
         "labels": {
           "type": "array",
-          "description": "§22/§218 (errata E-0025): человеческое название пакета — того акта или свода, который он формализует. Пакет не является узлом (§201), поэтому `labels` из NodeCommon §202 на него не распространялись, и назвать пакет было нечем. Поле необязательное и презентационное: вне semantic hash §209 (`labels` в RECURSIVE_EXCLUDED_KEYS), внутри канонических байтов §208 — то есть меняет contentHash пакета, но не может изменить ни одного вывода.",
+          "description": "The human-readable name of the package: the act or code it formalizes. A package is not a node, so the shared node `labels` did not apply to it, and there was nothing to name the package with. The field is optional and presentational: outside the semantic hash (`labels` stays in RECURSIVE_EXCLUDED_KEYS), inside the canonical bytes — i.e. it changes the package's contentHash but cannot change any inference.",
+          "$comment": "SPEC §22, §218, §201, §202, §209, §208; errata E-0025",
           "items": {
             "$ref": "#/$defs/Label"
           }
@@ -2376,7 +2704,8 @@
           "$ref": "#/$defs/Term"
         },
         "subject": {
-          "description": "§127 (DECISION-0043): предмет полномочия — КОНЕЧНОЕ перечисление того, что делегат вправе урегулировать, идентификаторами словаря самого уполномочившего акта. Конечность существенна: §105.1 запрещает выводить «норма A охватывает норму B вообще», и предметная компетенция проверяется принадлежностью объявленного множеству объявленных, а не выводом из текста. Отсутствие поля означает, что предмет не объявлен и проверить его нечем (LDC-W5302), — это НЕ «предмет любой».",
+          "description": "The subject matter of a power: a finite enumeration of what the delegate may regulate, using identifiers from the dictionary of the authorizing act itself. Finiteness is essential: inferring that one norm covers another in general is prohibited, and subject-matter competence is checked by membership of the declared item in the declared set, not by inference from the text. Absence of the field means the subject matter is not declared and there is nothing to check it against (LDC-W5302) — this is not \"any subject matter\".",
+          "$comment": "SPEC §127, §105.1; DECISION-0043",
           "items": {
             "$ref": "#/$defs/StableId"
           },
@@ -2442,14 +2771,16 @@
             },
             "sourceSpan": {},
             "variables": {
-              "description": "Мета-домен priority policy §118: переменные, пробегающие grounded RuleApplication; на них ссылаются higher/lower и condition. У direct-приоритетов §116/§117 отсутствует: стороны названы const_ref-ами, а v0/v1 в условии §117 — применения higher и lower соответственно.",
+              "description": "Meta-domain of a priority policy: variables ranging over grounded RuleApplication, referenced by higher/lower and condition. Absent for direct priorities: the sides are named by const_refs, and v0/v1 in the condition are the applications of higher and lower respectively.",
+              "$comment": "SPEC §118, §116, §117",
               "items": {
                 "$ref": "#/$defs/Variable"
               },
               "type": "array"
             },
             "origin": {
-              "description": "§276.10: id узла precedent_decl, из которого узел порождён компилятором; на рукописных узлах отсутствует.",
+              "description": "Id of the precedent_decl node from which this node was generated by the compiler; absent on hand-written nodes.",
+              "$comment": "SPEC §276.10",
               "$ref": "#/$defs/StableId"
             }
           },
@@ -2469,7 +2800,8 @@
     },
     "ProvenanceEdge": {
       "additionalProperties": false,
-      "description": "Нормализованное ребро provenance graph (§202). Профили `attributes`: сахар §144 — `{declaration: \"definition\", mode: necessary|exact, part: sufficient|necessary, alternative?: Integer}` на правиле и ограничении, `target` — символ понятия (DECISION-0151); таблицы решений A3 — `{decisionKind, hitPolicy, rows}` (DECISION-0143); группы фактов — `{factGroup, visibility?}`.",
+      "description": "A normalized edge of the provenance graph. `attributes` profiles: sugar — `{declaration: \"definition\", mode: necessary|exact, part: sufficient|necessary, alternative?: Integer}` on a rule and a constraint, where `target` is the concept's symbol; A3 decision tables — `{decisionKind, hitPolicy, rows}`; fact groups — `{factGroup, visibility?}`.",
+      "$comment": "SPEC §202, §144; DECISION-0151, DECISION-0143",
       "properties": {
         "at": {
           "$ref": "#/$defs/InstantString"
@@ -2651,7 +2983,8 @@
     },
     "RecurringGoal": {
       "additionalProperties": false,
-      "description": "§124.4.1: `over` — интервал всей повторяемости; он же якорь расписания и его конечность (errata E-0146). Необязательное `activation` — ВНУТРЕННЯЯ формула активации §135.1, единственная, которая видит мета-термы `occurrence.*`; внешняя активация расписания целиком живёт полем `activation` у `DutyPayload` §123.",
+      "description": "`over` is the interval of the entire recurrence; it is also the schedule's anchor and its finiteness bound. The optional `activation` is the internal activation formula, the only one that sees the `occurrence.*` meta-terms; the schedule's overall external activation lives entirely in the `activation` field of `DutyPayload`.",
+      "$comment": "SPEC §124.4.1, §135.1, §123; errata E-0146",
       "properties": {
         "activation": {
           "$ref": "#/$defs/Formula"
@@ -2729,7 +3062,8 @@
               "$ref": "#/$defs/StableId"
             },
             "operations": {
-              "description": "§32.1: формализованная дельта изменяющего акта. Ребро без операций — аннотация связи; ребро с операциями обязано удовлетворять инварианту консолидации §32.2 (apply(previous, operations) ≡ next), иначе LDC-E5401.",
+              "description": "The formalized delta of an amending act. An edge without operations is a link annotation; an edge with operations must satisfy the consolidation invariant (applying previous with operations yields next), otherwise a static error is reported.",
+              "$comment": "SPEC §32.1, §32.2; LDC-E5401",
               "items": {
                 "$ref": "#/$defs/RevisionOperation"
               },
@@ -2775,7 +3109,8 @@
             },
             "labels": {},
             "locator": {
-              "description": "§32.3: защищены этот locator и его потомки по сегментам '/'.",
+              "description": "This locator and its descendants by '/' segments are protected.",
+              "$comment": "SPEC §32.3",
               "type": "string"
             },
             "package": {},
@@ -2810,7 +3145,8 @@
               "$ref": "#/$defs/Digest"
             },
             "effectiveAt": {
-              "description": "§32.1: атрибут ОПЕРАЦИИ, а не ребра — акт вводится поэтапно. При отсутствии наследуется от ребра.",
+              "description": "An attribute of the operation, not the edge: the act is introduced in stages. If absent, it is inherited from the edge.",
+              "$comment": "SPEC §32.1",
               "oneOf": [
                 {
                   "$ref": "#/$defs/DateString"
@@ -2835,7 +3171,8 @@
               ]
             },
             "text": {
-              "description": "§32.1: операции экстенсиональны — здесь РЕЗУЛЬТАТ (текст фрагмента после поправки), а не инструкция изменяющего акта.",
+              "description": "Operations are extensional: this holds the result (the fragment's text after the amendment), not the instruction of the amending act.",
+              "$comment": "SPEC §32.1",
               "type": "string"
             },
             "toLocator": {
@@ -2967,13 +3304,15 @@
               "type": "array"
             },
             "visibility": {
-              "description": "§24: видимость декларации. Отсутствие поля — умолчание `internal`; `public` пишется только для `pub`-деклараций, поэтому появление поля аддитивно и не меняет байты программ без `pub`. Межпакетные ссылки `pkg::Symbol` разрешаются только в public-декларации.",
+              "description": "Declaration visibility. Absence of the field defaults to `internal`; `public` is written only for `pub` declarations, so the field's appearance is additive and does not change the bytes of programs without `pub`. Cross-package references of the form `pkg::Symbol` resolve only against a public declaration.",
+              "$comment": "SPEC §24",
               "enum": [
                 "public"
               ]
             },
             "origin": {
-              "description": "§276.10: id узла precedent_decl, из которого узел порождён компилятором; на рукописных узлах отсутствует.",
+              "description": "Id of the precedent_decl node from which this node was generated by the compiler; absent on hand-written nodes.",
+              "$comment": "SPEC §276.10",
               "$ref": "#/$defs/StableId"
             }
           },
@@ -3024,7 +3363,8 @@
             "anchors": {},
             "applicability": {
               "const": "timeless",
-              "description": "Явная вневременная применимость edition (§31): для Писания, доктрины и иных источников без даты вступления в силу. Совместима только с пустым lifecycle; не создаёт выдуманной даты и не меняет семантику edition, у которой applicability отсутствует."
+              "description": "Explicit timeless applicability of an edition, for Scripture, doctrine, and other sources without an effective date. Compatible only with an empty lifecycle; it does not fabricate a date and does not change the semantics of an edition for which applicability is absent.",
+              "$comment": "SPEC §31"
             },
             "annotations": {},
             "contentHash": {},
@@ -3046,7 +3386,8 @@
               "type": "array"
             },
             "materializationStatus": {
-              "description": "§27.2 (errata E-0013, расширено E-0057; PATCH-0.1.1 §9 в узкой форме): насколько байты редакции действительно закреплены. Объявляется явно, а не выводится из наличия publication — отсутствие закреплённых байтов есть заявление о качестве источника. ГРУППА ЗАКРЕПЛЁННЫХ — PINNED_OFFICIAL_BYTES, PINNED_UNOFFICIAL_COPY, PINNED_EDITORIAL_RECONSTRUCTION. Профили §8.6: core-auditable — статус из группы закреплённых, core-production — PINNED_OFFICIAL_BYTES безусловно. PINNED_EDITORIAL_RECONSTRUCTION отличается от копии не степенью закрепления, а тем, что оригинала, копией которого текст был бы, не существует: издатель собрал его из цитат в чужих сочинениях.",
+              "description": "How firmly the edition's bytes are actually pinned. Declared explicitly, not inferred from the presence of a publication: the absence of pinned bytes is itself a statement about source quality. The pinned group is PINNED_OFFICIAL_BYTES, PINNED_UNOFFICIAL_COPY and PINNED_EDITORIAL_RECONSTRUCTION. Auditable profiles require a status from the pinned group; production profiles require PINNED_OFFICIAL_BYTES unconditionally. PINNED_EDITORIAL_RECONSTRUCTION differs from a copy not by degree of pinning but by the fact that no original exists of which the text would be a copy: the publisher assembled it from quotations in other works.",
+              "$comment": "SPEC §27.2, §8.6; errata E-0013, E-0057; PATCH-0.1.1 §9",
               "enum": [
                 "PINNED_OFFICIAL_BYTES",
                 "PINNED_UNOFFICIAL_COPY",
@@ -3149,7 +3490,8 @@
                 "$ref": "#/$defs/StableId"
               },
               "type": "array",
-              "description": "§27.1 (DECISION-0042, повторяемое DECISION-0046): основания издания — StableId power-норм §127 уполномочившего акта, названный самим подзаконным актом («издан на основании статьи X закона Y»). Провенансные ДАННЫЕ, а не программная ссылка: делегация не есть импорт §23, и уполномочивший акт в мир вычисления не втягивается. Разрешимость основания и действие power на дату принятия проверяет делегационная цепочка (LDC-E5304/E5305), читающая CLIR родителя отдельно; компилятор пакета этого доказать не может. В semantic hash §209 ВХОДИТ — это утверждение пакета о праве, а не оформление, в отличие от меток (errata E-0010). Поле ПОВТОРЯЕМОЕ: у приказа V2000021744 оснований два, и выбрасывать одно значит терять половину делегации; цепочка проверяет КАЖДОЕ, а предметная компетенция сверяется против ОБЪЕДИНЕНИЯ их предметов."
+              "description": "The basis of issuance: the StableId of the power norms of the authorizing act, named by the subordinate act itself (\"issued on the basis of Article X of Law Y\"). Provenance data, not a program reference: delegation is not import, and the authorizing act is not pulled into the computation world. Resolvability of the basis and the power's validity at the adoption date are checked by the delegation chain, which reads the parent's IR separately; the package compiler cannot prove this. The field is included in the semantic hash: this is the package's assertion about the law, not formatting, unlike labels. The field is repeatable: order V2000021744 has two bases, and dropping one would mean losing half the delegation; the chain checks each one, and subject-matter competence is checked against the union of their subject matters.",
+              "$comment": "SPEC §27.1, §127, §23, §209; DECISION-0042, DECISION-0046; errata E-0010; LDC-E5304, LDC-E5305"
             },
             "contentHash": {},
             "id": {},
@@ -3157,7 +3499,8 @@
               "$ref": "#/$defs/Term"
             },
             "regulates": {
-              "description": "§27.1 (DECISION-0043): предмет самого акта — что он регулирует, идентификаторами словаря уполномочившего акта. Провенансные данные того же рода, что `basis`: строки, а не квалифицированные ссылки, потому что делегация не есть импорт §23. Предметная компетенция проверяется цепочкой как ВКЛЮЧЕНИЕ `regulates ⊆ subject` power-нормы (LDC-E5307).",
+              "description": "The subject matter of the act itself: what it regulates, using identifiers from the authorizing act's dictionary. Provenance data of the same kind as `basis`: strings, not qualified references, because delegation is not import. Subject-matter competence is checked by the chain as the inclusion of `regulates` in the power norm's `subject`.",
+              "$comment": "SPEC §27.1, §23; DECISION-0043; LDC-E5307",
               "items": {
                 "$ref": "#/$defs/StableId"
               },
@@ -3413,33 +3756,11 @@
             },
             "package": {},
             "parameters": {
-              "description": "0.1-форма — TypeRef[]; 0.2-форма (DECISION-0001) — ParameterDecl[]. Форма определяется schemaVersion конверта документа; смешение форм внутри документа запрещено semantic-правилом (проверяется реализацией, не схемой).",
+              "type": "array",
               "items": {
-                "anyOf": [
-                  {
-                    "$ref": "#/$defs/ParameterDecl"
-                  },
-                  {
-                    "$ref": "#/$defs/TypeRef"
-                  }
-                ]
+                "$ref": "#/$defs/ParameterDecl"
               },
-              "type": "array"
-            },
-            "judgment": {
-              "additionalProperties": false,
-              "properties": {
-                "authority": {
-                  "$ref": "#/$defs/StableId"
-                },
-                "requestSchema": {
-                  "$ref": "#/$defs/TypeRef"
-                }
-              },
-              "required": [
-                "authority"
-              ],
-              "type": "object"
+              "description": "Current named parameter declarations; TypeRef is a type, not a parameter declaration."
             },
             "provenance": {},
             "relationKind": {
@@ -3460,7 +3781,8 @@
               "$ref": "#/$defs/Term"
             },
             "visibility": {
-              "description": "§24: видимость декларации. Отсутствие поля — умолчание `internal`; `public` пишется только для `pub`-деклараций, поэтому появление поля аддитивно и не меняет байты программ без `pub`. Межпакетные ссылки `pkg::Symbol` разрешаются только в public-декларации.",
+              "description": "Declaration visibility. Absence of the field defaults to `internal`; `public` is written only for `pub` declarations, so the field's appearance is additive and does not change the bytes of programs without `pub`. Cross-package references of the form `pkg::Symbol` resolve only against a public declaration.",
+              "$comment": "SPEC §24",
               "enum": [
                 "public"
               ]
@@ -3512,6 +3834,7 @@
       "type": "object"
     },
     "TemporalInterval": {
+      "description": "Optional start and end are independent open sides and remain absent when omitted; admission does not synthesize infinity values. An explicit start may be a finite Date, a finite offset-bearing Instant, or -infinity; an explicit end may be a finite Date, a finite offset-bearing Instant, or infinity. Mixed Date/Instant comparisons retain the selected temporal-resolution policy.",
       "additionalProperties": false,
       "properties": {
         "axis": {
@@ -3520,10 +3843,10 @@
         "end": {
           "oneOf": [
             {
-              "$ref": "#/$defs/DateString"
+              "$ref": "#/$defs/DateBound"
             },
             {
-              "$ref": "#/$defs/InstantString"
+              "$ref": "#/$defs/InstantBound"
             },
             {
               "const": "infinity"
@@ -3536,10 +3859,10 @@
         "start": {
           "oneOf": [
             {
-              "$ref": "#/$defs/DateString"
+              "$ref": "#/$defs/DateBound"
             },
             {
-              "$ref": "#/$defs/InstantString"
+              "$ref": "#/$defs/InstantBound"
             },
             {
               "const": "-infinity"
@@ -3743,7 +4066,8 @@
               "type": "array"
             },
             "visibility": {
-              "description": "§24: видимость декларации. Отсутствие поля — умолчание `internal`; `public` пишется только для `pub`-деклараций, поэтому появление поля аддитивно и не меняет байты программ без `pub`. Межпакетные ссылки `pkg::Symbol` разрешаются только в public-декларации.",
+              "description": "Declaration visibility. Absence of the field defaults to `internal`; `public` is written only for `pub` declarations, so the field's appearance is additive and does not change the bytes of programs without `pub`. Cross-package references of the form `pkg::Symbol` resolve only against a public declaration.",
+              "$comment": "SPEC §24",
               "enum": [
                 "public"
               ]
@@ -3804,13 +4128,15 @@
     },
     "ParameterDecl": {
       "additionalProperties": false,
-      "description": "0.2-форма параметра символа (DECISION-0001): id — StableId параметра (прецедентность источника: явный @id, суффикс из role, суффикс из name); name — имя аргумента, non-semantic metadata вне semantic hash; role — необязательная семантическая роль (СЛЕДУЕТ для pub; ДОЛЖЕН вместе с @id для public в core-auditable и ontology-пакетов); порядок и длина массива сохраняют валидность позиционных keys; labels — метки §218 самого параметра (errata E-0153, DECISION-0161), только непустые.",
+      "description": "The 0.2 form of a symbol parameter: id is the parameter's StableId (source precedence: explicit @id, suffix from role, suffix from name); name is the argument name, non-semantic metadata outside the semantic hash; role is an optional semantic role (SHOULD for pub; MUST together with @id for public declarations in core-auditable and ontology packages); array order and length preserve the validity of positional keys; labels are the labels of the parameter itself, non-empty only.",
+      "$comment": "SPEC §218; DECISION-0001, DECISION-0161; errata E-0153",
       "properties": {
         "id": {
           "$ref": "#/$defs/StableId"
         },
         "labels": {
-          "description": "§218 (errata E-0153, DECISION-0161): метки самого параметра — носитель свой, не узел-владелец. Только непустой список (minItems 1): пустой не сериализуется, неразмеченный параметр — прежние байты. Вне semantic/theory/artifact hash §209 (E-0010 рекурсивно), внутри contentHash узла-владельца §202.",
+          "description": "Labels of the parameter itself: it has its own carrier, not the owning node. A non-empty list only (minItems 1): an empty one is not serialized, and an unlabeled parameter keeps the previous bytes. Outside the semantic, theory and artifact hashes (recursively), inside the owning node's content hash.",
+          "$comment": "SPEC §218, §209, §202; DECISION-0161; errata E-0153, E-0010",
           "items": {
             "$ref": "#/$defs/Label"
           },
@@ -3906,7 +4232,8 @@
     },
     "WildcardTerm": {
       "additionalProperties": false,
-      "description": "E-0165 §98: экзистенциальный аргумент литерала тела правила — «есть какое-либо значение». Связывания не даёт, в подстановку не входит; законен только аргументом положительного литерала тела (иначе LDC-E0207).",
+      "description": "The existential argument of a rule-body literal: \"there is some value\". It does not bind, it is not part of the substitution; it is legal only as an argument of a positive body literal, otherwise a static error is reported.",
+      "$comment": "SPEC §98; E-0165; LDC-E0207",
       "properties": {
         "kind": {
           "const": "wildcard"
@@ -3956,7 +4283,7 @@
     },
     "VariantTerm": {
       "additionalProperties": false,
-      "description": "Значение алгебраического типа: Result/Option и user enum payload. В отличие от VariantPattern это term, а не pattern.",
+      "description": "A value of an algebraic type: Result/Option and a user enum payload. Unlike VariantPattern this is a term, not a pattern.",
       "properties": {
         "kind": {
           "const": "variant_value"
@@ -4033,7 +4360,8 @@
             "provenance": {},
             "sourceSpan": {},
             "signature": {
-              "description": "§276.2: упорядоченный кортеж связывателей словаря.",
+              "description": "An ordered tuple of vocabulary binders.",
+              "$comment": "SPEC §276.2",
               "items": {
                 "$ref": "#/$defs/Variable"
               },
@@ -4041,21 +4369,24 @@
               "minItems": 1
             },
             "plaintiff": {
-              "description": "§276.2: факторы за истца (id отношений), порядок объявления.",
+              "description": "Factors for the plaintiff (relation ids), in declaration order.",
+              "$comment": "SPEC §276.2",
               "items": {
                 "$ref": "#/$defs/StableId"
               },
               "type": "array"
             },
             "defendant": {
-              "description": "§276.2: факторы за ответчика.",
+              "description": "Factors for the defendant.",
+              "$comment": "SPEC §276.2",
               "items": {
                 "$ref": "#/$defs/StableId"
               },
               "type": "array"
             },
             "courts": {
-              "description": "§276.2: частичный предпорядок судов — цепочки от старшего к младшему; суды вне цепочек несравнимы.",
+              "description": "A partial preorder of courts: chains from senior to junior; courts outside the chains are incomparable.",
+              "$comment": "SPEC §276.2",
               "items": {
                 "items": {
                   "type": "string"
@@ -4066,7 +4397,8 @@
               "type": "array"
             },
             "domain": {
-              "description": "§276.2: established-литералы над переменными сигнатуры, связывающие все её переменные; читаются первыми в каждом holding.",
+              "description": "Established literals over the signature's variables, binding all of them; read first in each holding.",
+              "$comment": "SPEC §276.2",
               "items": {
                 "$ref": "#/$defs/Literal"
               },
@@ -4113,7 +4445,8 @@
             },
             "court": {
               "type": "string",
-              "description": "§276.3: имя суда; отсутствие — суд несравним со всеми."
+              "description": "The court's name; absence means the court is incomparable to all others.",
+              "$comment": "SPEC §276.3"
             },
             "decided": {
               "$ref": "#/$defs/DateString"
@@ -4132,21 +4465,24 @@
             },
             "outcome": {
               "$ref": "#/$defs/Literal",
-              "description": "§276.3: исход над переменными сигнатуры (var v<i>); положительная полярность — за истца, отрицательная — за ответчика."
+              "description": "The outcome over the signature's variables (var v<i>); positive polarity is for the plaintiff, negative for the defendant.",
+              "$comment": "SPEC §276.3"
             },
             "ratio": {
               "items": {
                 "$ref": "#/$defs/StableId"
               },
               "type": "array",
-              "description": "§276.3: факторы-основания выигравшей стороны (reason model)."
+              "description": "The ground factors of the winning side (reason model).",
+              "$comment": "SPEC §276.3"
             },
             "preferOver": {
               "items": {
                 "$ref": "#/$defs/StableId"
               },
               "type": "array",
-              "description": "§276.3: правила baseline, которые holding побеждает."
+              "description": "The baseline rules that the holding defeats.",
+              "$comment": "SPEC §276.3"
             },
             "overruled": {
               "additionalProperties": false,
@@ -4181,7 +4517,8 @@
       ]
     },
     "UnitDecl": {
-      "description": "§49.2 / E-0150: simple — атом с точным рациональным масштабом и вектором семи баз SI; derived раскрывается в атомы; alias — второе имя. Сахар нормализуется до хэширования §209.",
+      "description": "Simple: an atom with an exact rational scale and a tuple of the seven SI base units; derived unfolds into atoms; alias is a second name. Sugar is normalized before hashing.",
+      "$comment": "SPEC §49.2, §209; E-0150",
       "allOf": [
         {
           "$ref": "#/$defs/NodeCommon"
@@ -4337,7 +4674,8 @@
       ]
     },
     "RoundingFormula": {
-      "description": "§64.2 (errata E-0136): единственная формула Core, чья опора берётся из ДОКАЗАТЕЛЬСТВА. `I ⊆ C` даёт TRUE_ONLY, `I ∩ C = ∅` — FALSE_ONLY, пересечение нескольких ячеек — NEITHER по недостаточности границ.",
+      "description": "The only core formula whose support is taken from the proof. `I ⊆ C` gives TRUE_ONLY, `I ∩ C = ∅` gives FALSE_ONLY, and an intersection of several cells gives NEITHER due to insufficient bounds.",
+      "$comment": "SPEC §64.2; errata E-0136",
       "additionalProperties": false,
       "properties": {
         "bounds": {
@@ -4376,10 +4714,10 @@
       "type": "object"
     }
   },
-  "$id": "urn:law-dsl:core:0.1:schema:legal-ir",
+  "$id": "https://law.arxo.io/schema/legal-ir.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
-  "description": "Draft machine-readable schema for the canonical Legal IR defined by Law DSL Core 0.1.",
+  "description": "Machine-readable schema for the sole current canonical Legal IR.",
   "properties": {
     "features": {
       "default": [],
@@ -4409,27 +4747,26 @@
       "$ref": "#/$defs/PackageRef"
     },
     "schemaVersion": {
-      "description": "Конверт документа определяет форму SymbolDecl.parameters и МИНИМАЛЬНУЮ версию читателя: law.core.ir/0.1 — TypeRef[], law.core.ir/0.2 — ParameterDecl[] (DECISION-0001; чтение 0.1 — compat mode). law.core.ir/0.3 (DECISION-0156 §2.9) — та же форма параметров плюс узлы событийной модели (procedure §201.1, temporal_resolution_policy §82.1); документ пишется 0.3 ТОЛЬКО когда несёт такой узел, иначе остаётся 0.2 — конверт объявляет требуемого читателя, а не дату сборки, и программа без нового узла читается прежней реализацией без изменений.",
-      "enum": [
-        "law.core.ir/0.1",
-        "law.core.ir/0.2",
-        "law.core.ir/0.3"
-      ]
+      "const": "law.core.ir/0.7",
+      "description": "The sole current preproduction CLIR envelope. Historical envelopes are not accepted."
     },
     "semanticHash": {
       "$ref": "#/$defs/Digest"
     },
     "theoryHash": {
       "$ref": "#/$defs/Digest",
-      "description": "§209/DECISION-0111 §2.6: normalized declarations without presentation or provenance"
+      "description": "Normalized declarations without presentation or provenance.",
+      "$comment": "SPEC §209; DECISION-0111"
     },
     "artifactHash": {
       "$ref": "#/$defs/Digest",
-      "description": "§209/DECISION-0111 §2.6: canonical CLIR artifact identity with provenance, excluding presentation labels"
+      "description": "Canonical CLIR artifact identity with provenance, excluding presentation labels.",
+      "$comment": "SPEC §209; DECISION-0111"
     },
     "semanticVersion": {
-      "pattern": "^(?:0\\.1(?:\\.\\d+)?|0\\.2(?:-draft|\\.\\d+)?)$",
-      "type": "string"
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$",
+      "description": "Canonical semantic selector syntax; current build admission is enforced by release binding. Historical release identity grants no execution."
     },
     "strata": {
       "default": [],
@@ -4444,25 +4781,10 @@
     "semanticVersion",
     "package",
     "nodes",
-    "semanticHash"
+    "semanticHash",
+    "theoryHash",
+    "artifactHash"
   ],
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "semanticVersion": {
-            "pattern": "^0\\.2"
-          }
-        }
-      },
-      "then": {
-        "required": [
-          "theoryHash",
-          "artifactHash"
-        ]
-      }
-    }
-  ],
-  "title": "Law DSL Core 0.1 Canonical Legal IR",
+  "title": "Arxo Current Canonical Legal IR",
   "type": "object"
 }

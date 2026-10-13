@@ -1,0 +1,214 @@
+{
+  "information_for_contributors": [
+    "law.toml — the §10 package manifest. This grammar is plain TOML: brackets, keys, strings, numbers.",
+    "What a key or a value MEANS (a known section, a package name, a closed vocabulary) is not decided",
+    "here: law-lsp reads the manifest schema and answers with semantic tokens, so the vocabulary has",
+    "one owner — spec/schema/package-manifest.schema.json."
+  ],
+  "name": "Arxo Law Manifest",
+  "scopeName": "source.law-manifest",
+  "fileTypes": [],
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#table"
+    },
+    {
+      "include": "#entry"
+    }
+  ],
+  "repository": {
+    "comment": {
+      "name": "comment.line.number-sign.law-manifest",
+      "match": "(#).*$",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.comment.law-manifest"
+        }
+      }
+    },
+    "table": {
+      "name": "meta.table.law-manifest",
+      "match": "^\\s*(\\[\\[?)\\s*((?:[A-Za-z0-9_-]+|\"[^\"]*\"|'[^']*')(?:\\s*\\.\\s*(?:[A-Za-z0-9_-]+|\"[^\"]*\"|'[^']*'))*)\\s*(\\]\\]?)",
+      "captures": {
+        "1": {
+          "name": "punctuation.definition.table.law-manifest"
+        },
+        "2": {
+          "name": "entity.name.section.law-manifest"
+        },
+        "3": {
+          "name": "punctuation.definition.table.law-manifest"
+        }
+      }
+    },
+    "entry": {
+      "name": "meta.entry.law-manifest",
+      "begin": "^\\s*((?:[A-Za-z0-9_-]+|\"[^\"]*\"|'[^']*')(?:\\s*\\.\\s*(?:[A-Za-z0-9_-]+|\"[^\"]*\"|'[^']*'))*)\\s*(=)\\s*",
+      "end": "$",
+      "beginCaptures": {
+        "1": {
+          "name": "support.type.property-name.law-manifest"
+        },
+        "2": {
+          "name": "punctuation.separator.key-value.law-manifest"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#value"
+        },
+        {
+          "include": "#comment"
+        }
+      ]
+    },
+    "value": {
+      "patterns": [
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#datetime"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#boolean"
+        },
+        {
+          "include": "#array"
+        },
+        {
+          "include": "#inline-table"
+        }
+      ]
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.triple.basic.law-manifest",
+          "begin": "\"\"\"",
+          "end": "\"\"\"(?!\")",
+          "patterns": [
+            {
+              "include": "#escape"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.triple.literal.law-manifest",
+          "begin": "'''",
+          "end": "'''(?!')"
+        },
+        {
+          "name": "string.quoted.double.law-manifest",
+          "begin": "\"",
+          "end": "\"|$",
+          "patterns": [
+            {
+              "include": "#escape"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.law-manifest",
+          "begin": "'",
+          "end": "'|$"
+        }
+      ]
+    },
+    "escape": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.law-manifest",
+          "match": "\\\\(?:[btnfr\"\\\\]|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})"
+        },
+        {
+          "name": "invalid.illegal.escape.law-manifest",
+          "match": "\\\\[^\\s]"
+        }
+      ]
+    },
+    "datetime": {
+      "name": "constant.other.datetime.law-manifest",
+      "match": "\\b\\d{4}-\\d{2}-\\d{2}(?:[Tt ]\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:[Zz]|[+-]\\d{2}:\\d{2})?)?\\b|\\b\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?\\b"
+    },
+    "number": {
+      "name": "constant.numeric.law-manifest",
+      "match": "(?<![\\w.-])[+-]?(?:0x[0-9A-Fa-f_]+|0o[0-7_]+|0b[01_]+|(?:\\d[\\d_]*)(?:\\.\\d[\\d_]*)?(?:[eE][+-]?\\d[\\d_]*)?|inf|nan)(?![\\w.-])"
+    },
+    "boolean": {
+      "name": "constant.language.boolean.law-manifest",
+      "match": "\\b(?:true|false)\\b"
+    },
+    "array": {
+      "name": "meta.array.law-manifest",
+      "begin": "\\[",
+      "end": "\\]",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.array.law-manifest"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.array.law-manifest"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "include": "#value"
+        },
+        {
+          "name": "punctuation.separator.array.law-manifest",
+          "match": ","
+        }
+      ]
+    },
+    "inline-table": {
+      "name": "meta.inline-table.law-manifest",
+      "begin": "\\{",
+      "end": "\\}",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.inline-table.law-manifest"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.inline-table.law-manifest"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#comment"
+        },
+        {
+          "match": "((?:[A-Za-z0-9_-]+|\"[^\"]*\"|'[^']*')(?:\\s*\\.\\s*(?:[A-Za-z0-9_-]+|\"[^\"]*\"|'[^']*'))*)\\s*(=)",
+          "captures": {
+            "1": {
+              "name": "support.type.property-name.law-manifest"
+            },
+            "2": {
+              "name": "punctuation.separator.key-value.law-manifest"
+            }
+          }
+        },
+        {
+          "include": "#value"
+        },
+        {
+          "name": "punctuation.separator.inline-table.law-manifest",
+          "match": ","
+        }
+      ]
+    }
+  }
+}

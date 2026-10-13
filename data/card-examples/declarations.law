@@ -1,0 +1,50 @@
+// region: package-header
+language "law.core" version "0.2";
+package handbook.card.declarations version "0.1.0";
+// endregion: package-header
+// region: namespace-decl
+namespace "urn:law:handbook:card-declarations";
+// endregion: namespace-decl
+// region: import-dep
+import kz.common.actors version "1.0.0";
+// endregion: import-dep
+
+// Self-contained fixture for the construct wave-1 cards (author-help
+// stage 7): one compilable file, one region per card. `check` does not
+// judge dependencies (errata E-0126), so the unresolvable import above is
+// green here; `lower` would need a resolve context.
+// region: entity-decl
+entity Person;
+// endregion: entity-decl
+// region: event-decl
+event Signed {
+    time: Interval<Instant>;
+}
+// endregion: event-decl
+// region: function-decl
+pure function double(n: Integer) -> Integer = n;
+// endregion: function-decl
+// region: type-decl
+type ArticleNumber = Natural;
+// endregion: type-decl
+// region: facts-decl
+relation present(x: Person) kind empirical;
+facts Attendance {
+    assert present(entity_ref("urn:x#p1"));
+}
+// endregion: facts-decl
+// region: query-decl
+query CheckIt(x: Person) -> Person {
+    return x;
+}
+// endregion: query-decl
+// region: expansion-decl
+expansion pair {
+    params { subject: binder; ground: relation(subject); result: relation(subject); }
+    exports { ok = self/ok; }
+    emit rule self/ok strict {
+        for subject; when ground(subject); then result(subject);
+        scope from self; effective from self; labels from self; source from self;
+    }
+}
+// endregion: expansion-decl

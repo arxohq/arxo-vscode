@@ -1,0 +1,26 @@
+// Card-examples fixture for the construct wave (batch 5): analyses over
+// decided matters. Every region is a card example; the whole file compiles
+// with `lawc check`. A counterfactual needs exactly one cost (E1205);
+// a property observes the program, it never extends it (E1314 warns).
+language "law.core" version "0.2";
+package handbook.card.analysis version "0.1.0";
+namespace "urn:law:handbook:card-analysis";
+
+entity Person;
+relation employed(p: Person) kind institutional;
+relation adult(p: Person) kind institutional;
+
+// region: counterfactual-decl
+counterfactual HireInstead {
+    target employed(entity_ref("urn:x#p1"));
+    mutable employed;
+    immutable adult;
+    cost FilingCost;
+}
+// endregion: counterfactual-decl
+// region: property-decl
+property NonNegativeTax {
+    forall input in GeneratedTaxInputs;
+    expect calculate_tax(input) >= 0 KZT;
+}
+// endregion: property-decl

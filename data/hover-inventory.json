@@ -1,0 +1,1574 @@
+{
+  "_": "Stage-7 word inventory (author-help layer). Each flat-registry word gets a migration layer and a migration order (1-based, wave by wave, SPEC-frequency within a wave). Layers follow plan §7.3 as narrowed by the session prompt (construct wave first). `flatWords` is the ratchet pin: the generator refuses growth of the flat set. Frequency is a SPEC-text proxy (whole-word, case-insensitive, same file set the generator reads): no corpus frequency snapshot exists and a full-corpus scan is out of frame.",
+  "flatWords": 259,
+  "waves": [
+    "construct",
+    "clause",
+    "std-function",
+    "type",
+    "modifier",
+    "other"
+  ],
+  "words": {
+    "Result": {
+      "layer": "type",
+      "order": 123,
+      "freq": 53,
+      "basis": "std:types"
+    },
+    "Actor": {
+      "layer": "type",
+      "order": 136,
+      "freq": 23,
+      "basis": "std:types"
+    },
+    "Natural": {
+      "layer": "type",
+      "order": 140,
+      "freq": 7,
+      "basis": "std:types"
+    },
+    "CountryCode": {
+      "layer": "type",
+      "order": 141,
+      "freq": 5,
+      "basis": "std:types"
+    },
+    "PositionInstance": {
+      "layer": "type",
+      "order": 142,
+      "freq": 5,
+      "basis": "std:types"
+    },
+    "CardinalityError": {
+      "layer": "type",
+      "order": 144,
+      "freq": 3,
+      "basis": "std:types"
+    },
+    "LegalContext": {
+      "layer": "type",
+      "order": 145,
+      "freq": 3,
+      "basis": "std:types"
+    },
+    "pub": {
+      "layer": "modifier",
+      "order": 146,
+      "freq": 55,
+      "basis": "grammar:visibility"
+    },
+    "default": {
+      "layer": "modifier",
+      "order": 147,
+      "freq": 37,
+      "basis": "grammar:rule_strength"
+    },
+    "official": {
+      "layer": "modifier",
+      "order": 148,
+      "freq": 29,
+      "basis": "grammar:label_status"
+    },
+    "external": {
+      "layer": "modifier",
+      "order": 149,
+      "freq": 27,
+      "basis": "grammar:relation_kind"
+    },
+    "pure": {
+      "layer": "modifier",
+      "order": 150,
+      "freq": 23,
+      "basis": "override:function modifier (function_decl-only member)"
+    },
+    "institutional": {
+      "layer": "modifier",
+      "order": 151,
+      "freq": 19,
+      "basis": "grammar:relation_kind"
+    },
+    "empirical": {
+      "layer": "modifier",
+      "order": 152,
+      "freq": 16,
+      "basis": "grammar:relation_kind"
+    },
+    "internal": {
+      "layer": "modifier",
+      "order": 153,
+      "freq": 7,
+      "basis": "grammar:visibility"
+    },
+    "translation": {
+      "layer": "modifier",
+      "order": 154,
+      "freq": 4,
+      "basis": "grammar:label_status"
+    },
+    "unofficial": {
+      "layer": "modifier",
+      "order": 155,
+      "freq": 4,
+      "basis": "grammar:label_status"
+    },
+    "evaluative": {
+      "layer": "modifier",
+      "order": 156,
+      "freq": 3,
+      "basis": "grammar:relation_kind"
+    },
+    "normative_auxiliary": {
+      "layer": "modifier",
+      "order": 157,
+      "freq": 1,
+      "basis": "grammar:relation_kind"
+    },
+    "id": {
+      "layer": "other",
+      "order": 158,
+      "freq": 260,
+      "basis": "grammar:stable_id_item"
+    },
+    "status": {
+      "layer": "other",
+      "order": 159,
+      "freq": 109,
+      "basis": "grammar:alignment_item,interpretation_item"
+    },
+    "Time": {
+      "layer": "other",
+      "order": 160,
+      "freq": 103,
+      "basis": "no-signal"
+    },
+    "policy": {
+      "layer": "other",
+      "order": 161,
+      "freq": 92,
+      "basis": "grammar:deadline_policy_decl,reference_item,support_item"
+    },
+    "profile": {
+      "layer": "other",
+      "order": 162,
+      "freq": 88,
+      "basis": "grammar:evidence_policy_item,context_decl"
+    },
+    "from": {
+      "layer": "other",
+      "order": 163,
+      "freq": 87,
+      "basis": "grammar:stage_index,term_item,inherited_context"
+    },
+    "not": {
+      "layer": "other",
+      "order": 164,
+      "freq": 86,
+      "basis": "grammar:meta_literal,proposition"
+    },
+    "value": {
+      "layer": "other",
+      "order": 165,
+      "freq": 76,
+      "basis": "grammar:expansion_type"
+    },
+    "version": {
+      "layer": "other",
+      "order": 166,
+      "freq": 75,
+      "basis": "grammar:language_decl,package_decl,import_decl"
+    },
+    "Duty": {
+      "layer": "other",
+      "order": 167,
+      "freq": 66,
+      "basis": "grammar:deontic_emit_head,duty_conclusion"
+    },
+    "duty": {
+      "layer": "other",
+      "order": 168,
+      "freq": 66,
+      "basis": "grammar:deontic_emit_head,duty_conclusion"
+    },
+    "for": {
+      "layer": "other",
+      "order": 169,
+      "freq": 66,
+      "basis": "grammar:emit_each,generated_rule_item,premise_each"
+    },
+    "not_known": {
+      "layer": "other",
+      "order": 170,
+      "freq": 62,
+      "basis": "grammar:status_function"
+    },
+    "established": {
+      "layer": "other",
+      "order": 171,
+      "freq": 61,
+      "basis": "grammar:status_function"
+    },
+    "kind": {
+      "layer": "other",
+      "order": 172,
+      "freq": 57,
+      "basis": "grammar:source_item,fragment_item,concept_decl"
+    },
+    "to": {
+      "layer": "other",
+      "order": 173,
+      "freq": 56,
+      "basis": "grammar:stage_index,transition_item"
+    },
+    "window": {
+      "layer": "other",
+      "order": 174,
+      "freq": 50,
+      "basis": "grammar:expansion_type,entrenchment_decl,liberty_item"
+    },
+    "self": {
+      "layer": "other",
+      "order": 175,
+      "freq": 47,
+      "basis": "grammar:local_use_decl,generated_ref,inherited_context"
+    },
+    "supported": {
+      "layer": "other",
+      "order": 176,
+      "freq": 42,
+      "basis": "grammar:status_function"
+    },
+    "effect": {
+      "layer": "other",
+      "order": 177,
+      "freq": 40,
+      "basis": "grammar:power_item"
+    },
+    "in": {
+      "layer": "other",
+      "order": 178,
+      "freq": 39,
+      "basis": "grammar:emit_each,premise_each,fragment_decl"
+    },
+    "label": {
+      "layer": "other",
+      "order": 179,
+      "freq": 39,
+      "basis": "grammar:label_item,label_lexical_block"
+    },
+    "only": {
+      "layer": "other",
+      "order": 180,
+      "freq": 39,
+      "basis": "no-signal"
+    },
+    "Power": {
+      "layer": "other",
+      "order": 181,
+      "freq": 37,
+      "basis": "grammar:power_conclusion"
+    },
+    "monotone": {
+      "layer": "other",
+      "order": 182,
+      "freq": 37,
+      "basis": "grammar:status_function"
+    },
+    "power": {
+      "layer": "other",
+      "order": 183,
+      "freq": 37,
+      "basis": "grammar:power_conclusion"
+    },
+    "condition": {
+      "layer": "other",
+      "order": 184,
+      "freq": 36,
+      "basis": "grammar:achievement_goal,maintenance_goal"
+    },
+    "judgment": {
+      "layer": "other",
+      "order": 185,
+      "freq": 36,
+      "basis": "grammar:external_judgment_relation"
+    },
+    "over": {
+      "layer": "other",
+      "order": 186,
+      "freq": 36,
+      "basis": "grammar:generated_priority_item,power_item,recurring_goal"
+    },
+    "or": {
+      "layer": "other",
+      "order": 187,
+      "freq": 35,
+      "basis": "grammar:disjunction"
+    },
+    "labels": {
+      "layer": "other",
+      "order": 188,
+      "freq": 34,
+      "basis": "grammar:inherited_labels"
+    },
+    "domain": {
+      "layer": "other",
+      "order": 189,
+      "freq": 33,
+      "basis": "grammar:closure_item,factors_item"
+    },
+    "emit": {
+      "layer": "other",
+      "order": 190,
+      "freq": 33,
+      "basis": "grammar:emit_rule,emit_priority"
+    },
+    "predicate": {
+      "layer": "other",
+      "order": 191,
+      "freq": 33,
+      "basis": "grammar:closure_item"
+    },
+    "goal": {
+      "layer": "other",
+      "order": 192,
+      "freq": 31,
+      "basis": "grammar:duty_item,claim_item"
+    },
+    "_": {
+      "layer": "other",
+      "order": 193,
+      "freq": 30,
+      "basis": "grammar:argument,pattern,integer_literal"
+    },
+    "severity": {
+      "layer": "other",
+      "order": 194,
+      "freq": 30,
+      "basis": "grammar:constraint_item"
+    },
+    "bearer": {
+      "layer": "other",
+      "order": 195,
+      "freq": 29,
+      "basis": "grammar:deontic_emit_head,duty_item,prohibition_item"
+    },
+    "entity_ref": {
+      "layer": "other",
+      "order": 196,
+      "freq": 29,
+      "basis": "grammar:argument_value"
+    },
+    "true": {
+      "layer": "other",
+      "order": 197,
+      "freq": 29,
+      "basis": "grammar:boolean_literal"
+    },
+    "valid": {
+      "layer": "other",
+      "order": 198,
+      "freq": 29,
+      "basis": "grammar:support_item,assertion_item"
+    },
+    "all": {
+      "layer": "other",
+      "order": 199,
+      "freq": 27,
+      "basis": "grammar:join_item,match_expression"
+    },
+    "expect": {
+      "layer": "other",
+      "order": 200,
+      "freq": 27,
+      "basis": "grammar:test_item,property_item"
+    },
+    "exact": {
+      "layer": "other",
+      "order": 201,
+      "freq": 26,
+      "basis": "grammar:definition_mode"
+    },
+    "on": {
+      "layer": "other",
+      "order": 202,
+      "freq": 26,
+      "basis": "grammar:transition_item"
+    },
+    "order": {
+      "layer": "other",
+      "order": 203,
+      "freq": 26,
+      "basis": "grammar:decision_table"
+    },
+    "index": {
+      "layer": "other",
+      "order": 204,
+      "freq": 25,
+      "basis": "grammar:stage_index,stage_bind"
+    },
+    "input": {
+      "layer": "other",
+      "order": 205,
+      "freq": 25,
+      "basis": "grammar:evidence_policy_item"
+    },
+    "unknown": {
+      "layer": "other",
+      "order": 206,
+      "freq": 25,
+      "basis": "grammar:status_function"
+    },
+    "conflicted": {
+      "layer": "other",
+      "order": 207,
+      "freq": 24,
+      "basis": "grammar:status_function"
+    },
+    "infinity": {
+      "layer": "other",
+      "order": 208,
+      "freq": 24,
+      "basis": "grammar:interval_endpoint"
+    },
+    "of": {
+      "layer": "other",
+      "order": 209,
+      "freq": 24,
+      "basis": "grammar:edition_decl,publication_decl,interpretation_decl"
+    },
+    "reason": {
+      "layer": "other",
+      "order": 210,
+      "freq": 24,
+      "basis": "grammar:generated_priority_item,priority_decl,priority_item"
+    },
+    "achievement": {
+      "layer": "other",
+      "order": 211,
+      "freq": 23,
+      "basis": "grammar:achievement_goal"
+    },
+    "authority": {
+      "layer": "other",
+      "order": 212,
+      "freq": 23,
+      "basis": "grammar:source_item,external_judgment_item,interpretation_item"
+    },
+    "Immunity": {
+      "layer": "other",
+      "order": 213,
+      "freq": 22,
+      "basis": "grammar:immunity_conclusion"
+    },
+    "activation": {
+      "layer": "other",
+      "order": 214,
+      "freq": 22,
+      "basis": "grammar:duty_item"
+    },
+    "evaluate": {
+      "layer": "other",
+      "order": 215,
+      "freq": 22,
+      "basis": "grammar:test_item"
+    },
+    "immunity": {
+      "layer": "other",
+      "order": 216,
+      "freq": 22,
+      "basis": "grammar:immunity_conclusion"
+    },
+    "valid_when": {
+      "layer": "other",
+      "order": 217,
+      "freq": 22,
+      "basis": "grammar:power_item"
+    },
+    "beneficiary": {
+      "layer": "other",
+      "order": 218,
+      "freq": 21,
+      "basis": "grammar:deontic_emit_head,duty_item,prohibition_item"
+    },
+    "binder": {
+      "layer": "other",
+      "order": 219,
+      "freq": 21,
+      "basis": "grammar:expansion_type"
+    },
+    "let": {
+      "layer": "other",
+      "order": 220,
+      "freq": 21,
+      "basis": "grammar:let_statement,rule_local,let_expression"
+    },
+    "holder": {
+      "layer": "other",
+      "order": 221,
+      "freq": 20,
+      "basis": "grammar:liberty_item,power_item,immunity_item"
+    },
+    "maintenance": {
+      "layer": "other",
+      "order": 222,
+      "freq": 20,
+      "basis": "grammar:maintenance_goal"
+    },
+    "requires": {
+      "layer": "other",
+      "order": 223,
+      "freq": 20,
+      "basis": "grammar:transition_item"
+    },
+    "Mass": {
+      "layer": "other",
+      "order": 224,
+      "freq": 19,
+      "basis": "no-signal"
+    },
+    "after": {
+      "layer": "other",
+      "order": 225,
+      "freq": 19,
+      "basis": "grammar:temporal_operator"
+    },
+    "origin": {
+      "layer": "other",
+      "order": 226,
+      "freq": 19,
+      "basis": "grammar:assertion_item"
+    },
+    "Amount": {
+      "layer": "other",
+      "order": 227,
+      "freq": 18,
+      "basis": "no-signal"
+    },
+    "Liberty": {
+      "layer": "other",
+      "order": 228,
+      "freq": 18,
+      "basis": "grammar:liberty_conclusion"
+    },
+    "cases": {
+      "layer": "other",
+      "order": 229,
+      "freq": 18,
+      "basis": "grammar:expansion_type"
+    },
+    "false": {
+      "layer": "other",
+      "order": 230,
+      "freq": 18,
+      "basis": "grammar:boolean_literal"
+    },
+    "given": {
+      "layer": "other",
+      "order": 231,
+      "freq": 18,
+      "basis": "grammar:test_item"
+    },
+    "liberty": {
+      "layer": "other",
+      "order": 232,
+      "freq": 18,
+      "basis": "grammar:liberty_conclusion"
+    },
+    "against": {
+      "layer": "other",
+      "order": 233,
+      "freq": 17,
+      "basis": "grammar:liberty_item,immunity_item,claim_item"
+    },
+    "capability": {
+      "layer": "other",
+      "order": 234,
+      "freq": 17,
+      "basis": "grammar:external_snapshot_item,external_opaque_item"
+    },
+    "match": {
+      "layer": "other",
+      "order": 235,
+      "freq": 17,
+      "basis": "grammar:match_expression"
+    },
+    "refuted": {
+      "layer": "other",
+      "order": 236,
+      "freq": 17,
+      "basis": "grammar:status_function"
+    },
+    "target": {
+      "layer": "other",
+      "order": 237,
+      "freq": 17,
+      "basis": "grammar:evidence_policy_item,counterfactual_item"
+    },
+    "template": {
+      "layer": "other",
+      "order": 238,
+      "freq": 17,
+      "basis": "grammar:grammatical_form_item"
+    },
+    "TruthStatus": {
+      "layer": "other",
+      "order": 239,
+      "freq": 16,
+      "basis": "no-signal"
+    },
+    "alias": {
+      "layer": "other",
+      "order": 240,
+      "freq": 16,
+      "basis": "grammar:unit_alias_decl"
+    },
+    "content_hash": {
+      "layer": "other",
+      "order": 241,
+      "freq": 16,
+      "basis": "grammar:content_hash_item"
+    },
+    "during": {
+      "layer": "other",
+      "order": 242,
+      "freq": 16,
+      "basis": "grammar:deontic_emit_goal,compact_duty_goal,temporal_operator"
+    },
+    "exercise": {
+      "layer": "other",
+      "order": 243,
+      "freq": 16,
+      "basis": "grammar:power_item"
+    },
+    "immutable": {
+      "layer": "other",
+      "order": 244,
+      "freq": 16,
+      "basis": "grammar:counterfactual_item"
+    },
+    "outcome": {
+      "layer": "other",
+      "order": 245,
+      "freq": 16,
+      "basis": "grammar:verification_item,precedent_item"
+    },
+    "Dimension": {
+      "layer": "other",
+      "order": 246,
+      "freq": 15,
+      "basis": "grammar:simple_unit_decl"
+    },
+    "dimension": {
+      "layer": "other",
+      "order": 247,
+      "freq": 15,
+      "basis": "grammar:simple_unit_decl"
+    },
+    "else": {
+      "layer": "other",
+      "order": 248,
+      "freq": 15,
+      "basis": "grammar:conditional_expression"
+    },
+    "join": {
+      "layer": "other",
+      "order": 249,
+      "freq": 15,
+      "basis": "grammar:join_item"
+    },
+    "initial": {
+      "layer": "other",
+      "order": 250,
+      "freq": 14,
+      "basis": "grammar:state_decl"
+    },
+    "prohibition": {
+      "layer": "other",
+      "order": 251,
+      "freq": 14,
+      "basis": "grammar:deontic_emit_head,prohibition_conclusion"
+    },
+    "aggregate": {
+      "layer": "other",
+      "order": 252,
+      "freq": 13,
+      "basis": "grammar:decision_table"
+    },
+    "forbearance": {
+      "layer": "other",
+      "order": 253,
+      "freq": 13,
+      "basis": "grammar:forbearance_goal"
+    },
+    "mod": {
+      "layer": "other",
+      "order": 254,
+      "freq": 13,
+      "basis": "grammar:additive_expression"
+    },
+    "require": {
+      "layer": "other",
+      "order": 255,
+      "freq": 13,
+      "basis": "grammar:constraint_item"
+    },
+    "Length": {
+      "layer": "other",
+      "order": 256,
+      "freq": 12,
+      "basis": "no-signal"
+    },
+    "bind": {
+      "layer": "other",
+      "order": 257,
+      "freq": 12,
+      "basis": "grammar:stage_bind,bind_argument"
+    },
+    "forall": {
+      "layer": "other",
+      "order": 258,
+      "freq": 12,
+      "basis": "grammar:property_item,universal_quantifier"
+    },
+    "parallel": {
+      "layer": "other",
+      "order": 259,
+      "freq": 12,
+      "basis": "grammar:state_decl"
+    },
+    "field": {
+      "layer": "other",
+      "order": 260,
+      "freq": 11,
+      "basis": "grammar:evidence_policy_item"
+    },
+    "locator": {
+      "layer": "other",
+      "order": 261,
+      "freq": 11,
+      "basis": "grammar:fragment_item,amendment_op_item,entrenchment_decl"
+    },
+    "mutable": {
+      "layer": "other",
+      "order": 262,
+      "freq": 11,
+      "basis": "grammar:counterfactual_item"
+    },
+    "recurring": {
+      "layer": "other",
+      "order": 263,
+      "freq": 11,
+      "basis": "grammar:recurring_goal"
+    },
+    "refutes": {
+      "layer": "other",
+      "order": 264,
+      "freq": 11,
+      "basis": "grammar:support_relation"
+    },
+    "supports": {
+      "layer": "other",
+      "order": 265,
+      "freq": 11,
+      "basis": "grammar:support_relation"
+    },
+    "EvaluationStatus": {
+      "layer": "other",
+      "order": 266,
+      "freq": 10,
+      "basis": "no-signal"
+    },
+    "claim": {
+      "layer": "other",
+      "order": 267,
+      "freq": 10,
+      "basis": "grammar:claim_conclusion"
+    },
+    "necessary": {
+      "layer": "other",
+      "order": 268,
+      "freq": 10,
+      "basis": "grammar:definition_mode"
+    },
+    "prefer": {
+      "layer": "other",
+      "order": 269,
+      "freq": 10,
+      "basis": "grammar:generated_priority_item,priority_item,priority_policy_item"
+    },
+    "previous": {
+      "layer": "other",
+      "order": 270,
+      "freq": 10,
+      "basis": "grammar:revision_item"
+    },
+    "text_matches": {
+      "layer": "other",
+      "order": 271,
+      "freq": 10,
+      "basis": "no-signal"
+    },
+    "Current": {
+      "layer": "other",
+      "order": 272,
+      "freq": 9,
+      "basis": "no-signal"
+    },
+    "any": {
+      "layer": "other",
+      "order": 273,
+      "freq": 9,
+      "basis": "grammar:join_item,ordinary_hit_policy"
+    },
+    "distinct": {
+      "layer": "other",
+      "order": 274,
+      "freq": 9,
+      "basis": "grammar:match_expression"
+    },
+    "each": {
+      "layer": "other",
+      "order": 275,
+      "freq": 9,
+      "basis": "grammar:emit_each,premise_each"
+    },
+    "expired": {
+      "layer": "other",
+      "order": 276,
+      "freq": 9,
+      "basis": "grammar:lifecycle_item"
+    },
+    "first": {
+      "layer": "other",
+      "order": 277,
+      "freq": 9,
+      "basis": "grammar:ordinary_hit_policy"
+    },
+    "include": {
+      "layer": "other",
+      "order": 278,
+      "freq": 9,
+      "basis": "grammar:interpretation_item"
+    },
+    "return": {
+      "layer": "other",
+      "order": 279,
+      "freq": 9,
+      "basis": "grammar:return_statement"
+    },
+    "alternatives": {
+      "layer": "other",
+      "order": 280,
+      "freq": 8,
+      "basis": "grammar:interpretation_item"
+    },
+    "cost": {
+      "layer": "other",
+      "order": 281,
+      "freq": 8,
+      "basis": "grammar:counterfactual_item"
+    },
+    "due": {
+      "layer": "other",
+      "order": 282,
+      "freq": 8,
+      "basis": "grammar:term_item"
+    },
+    "exactly_one": {
+      "layer": "other",
+      "order": 283,
+      "freq": 8,
+      "basis": "grammar:interpretation_item"
+    },
+    "extends": {
+      "layer": "other",
+      "order": 284,
+      "freq": 8,
+      "basis": "grammar:interpretation_decl,context_decl,context_inline"
+    },
+    "in_force": {
+      "layer": "other",
+      "order": 285,
+      "freq": 8,
+      "basis": "grammar:lifecycle_item"
+    },
+    "message": {
+      "layer": "other",
+      "order": 286,
+      "freq": 8,
+      "basis": "grammar:constraint_item"
+    },
+    "none": {
+      "layer": "other",
+      "order": 287,
+      "freq": 8,
+      "basis": "grammar:argument_value,literal"
+    },
+    "op": {
+      "layer": "other",
+      "order": 288,
+      "freq": 8,
+      "basis": "grammar:amendment_op"
+    },
+    "percent": {
+      "layer": "other",
+      "order": 289,
+      "freq": 8,
+      "basis": "grammar:percentage_literal"
+    },
+    "resource": {
+      "layer": "other",
+      "order": 290,
+      "freq": 8,
+      "basis": "grammar:calendar_item"
+    },
+    "scale": {
+      "layer": "other",
+      "order": 291,
+      "freq": 8,
+      "basis": "grammar:simple_unit_decl"
+    },
+    "step": {
+      "layer": "other",
+      "order": 292,
+      "freq": 8,
+      "basis": "grammar:stage_index"
+    },
+    "terminal": {
+      "layer": "other",
+      "order": 293,
+      "freq": 8,
+      "basis": "grammar:state_decl"
+    },
+    "CalendarPeriod": {
+      "layer": "other",
+      "order": 294,
+      "freq": 7,
+      "basis": "no-signal"
+    },
+    "basis": {
+      "layer": "other",
+      "order": 295,
+      "freq": 7,
+      "basis": "grammar:property_item"
+    },
+    "by": {
+      "layer": "other",
+      "order": 296,
+      "freq": 7,
+      "basis": "grammar:precedent_item"
+    },
+    "every": {
+      "layer": "other",
+      "order": 297,
+      "freq": 7,
+      "basis": "grammar:recurring_goal"
+    },
+    "exists": {
+      "layer": "other",
+      "order": 298,
+      "freq": 7,
+      "basis": "grammar:existential_quantifier"
+    },
+    "next": {
+      "layer": "other",
+      "order": 299,
+      "freq": 7,
+      "basis": "grammar:revision_item"
+    },
+    "ratio": {
+      "layer": "other",
+      "order": 300,
+      "freq": 7,
+      "basis": "grammar:precedent_item"
+    },
+    "sufficient": {
+      "layer": "other",
+      "order": 301,
+      "freq": 7,
+      "basis": "grammar:definition_mode"
+    },
+    "suspended": {
+      "layer": "other",
+      "order": 302,
+      "freq": 7,
+      "basis": "grammar:lifecycle_item"
+    },
+    "Court": {
+      "layer": "other",
+      "order": 303,
+      "freq": 6,
+      "basis": "grammar:precedent_item"
+    },
+    "DeadlinePolicy": {
+      "layer": "other",
+      "order": 304,
+      "freq": 6,
+      "basis": "no-signal"
+    },
+    "Velocity": {
+      "layer": "other",
+      "order": 305,
+      "freq": 6,
+      "basis": "no-signal"
+    },
+    "court": {
+      "layer": "other",
+      "order": 306,
+      "freq": 6,
+      "basis": "grammar:precedent_item"
+    },
+    "decided": {
+      "layer": "other",
+      "order": 307,
+      "freq": 6,
+      "basis": "grammar:precedent_item"
+    },
+    "entity_labels": {
+      "layer": "other",
+      "order": 308,
+      "freq": 6,
+      "basis": "grammar:entity_labels_item"
+    },
+    "exclude": {
+      "layer": "other",
+      "order": 309,
+      "freq": 6,
+      "basis": "grammar:interpretation_item"
+    },
+    "fallback": {
+      "layer": "other",
+      "order": 310,
+      "freq": 6,
+      "basis": "grammar:inherited_source"
+    },
+    "format": {
+      "layer": "other",
+      "order": 311,
+      "freq": 6,
+      "basis": "grammar:calendar_item"
+    },
+    "opaque": {
+      "layer": "other",
+      "order": 312,
+      "freq": 6,
+      "basis": "grammar:external_opaque_function,external_opaque_relation"
+    },
+    "recorded": {
+      "layer": "other",
+      "order": 313,
+      "freq": 6,
+      "basis": "grammar:assertion_item,verification_item"
+    },
+    "satisfies": {
+      "layer": "other",
+      "order": 314,
+      "freq": 6,
+      "basis": "grammar:universal_quantifier"
+    },
+    "with": {
+      "layer": "other",
+      "order": 315,
+      "freq": 6,
+      "basis": "grammar:alignment_decl"
+    },
+    "Collective": {
+      "layer": "other",
+      "order": 316,
+      "freq": 5,
+      "basis": "no-signal"
+    },
+    "before": {
+      "layer": "other",
+      "order": 317,
+      "freq": 5,
+      "basis": "grammar:temporal_operator"
+    },
+    "between": {
+      "layer": "other",
+      "order": 318,
+      "freq": 5,
+      "basis": "grammar:emit_window,argument_value"
+    },
+    "has_role": {
+      "layer": "other",
+      "order": 319,
+      "freq": 5,
+      "basis": "no-signal"
+    },
+    "multiple": {
+      "layer": "other",
+      "order": 320,
+      "freq": 5,
+      "basis": "grammar:ordinary_hit_policy"
+    },
+    "number": {
+      "layer": "other",
+      "order": 321,
+      "freq": 5,
+      "basis": "grammar:source_item"
+    },
+    "observed": {
+      "layer": "other",
+      "order": 322,
+      "freq": 5,
+      "basis": "grammar:assertion_item"
+    },
+    "overruled": {
+      "layer": "other",
+      "order": 323,
+      "freq": 5,
+      "basis": "grammar:precedent_item"
+    },
+    "period": {
+      "layer": "other",
+      "order": 324,
+      "freq": 5,
+      "basis": "grammar:calendar_item"
+    },
+    "quorum": {
+      "layer": "other",
+      "order": 325,
+      "freq": 5,
+      "basis": "grammar:join_item"
+    },
+    "request_schema": {
+      "layer": "other",
+      "order": 326,
+      "freq": 5,
+      "basis": "grammar:external_snapshot_item,external_judgment_item"
+    },
+    "termination": {
+      "layer": "other",
+      "order": 327,
+      "freq": 5,
+      "basis": "grammar:goal_item"
+    },
+    "unique": {
+      "layer": "other",
+      "order": 328,
+      "freq": 5,
+      "basis": "grammar:ordinary_hit_policy"
+    },
+    "variants": {
+      "layer": "other",
+      "order": 329,
+      "freq": 5,
+      "basis": "grammar:test_variants"
+    },
+    "EvaluationResult": {
+      "layer": "other",
+      "order": 330,
+      "freq": 4,
+      "basis": "no-signal"
+    },
+    "Luminosity": {
+      "layer": "other",
+      "order": 331,
+      "freq": 4,
+      "basis": "no-signal"
+    },
+    "NormativeStatus": {
+      "layer": "other",
+      "order": 332,
+      "freq": 4,
+      "basis": "no-signal"
+    },
+    "OffsetDateTime": {
+      "layer": "other",
+      "order": 333,
+      "freq": 4,
+      "basis": "no-signal"
+    },
+    "SourceEdition": {
+      "layer": "other",
+      "order": 334,
+      "freq": 4,
+      "basis": "no-signal"
+    },
+    "Temperature": {
+      "layer": "other",
+      "order": 335,
+      "freq": 4,
+      "basis": "no-signal"
+    },
+    "achieve": {
+      "layer": "other",
+      "order": 336,
+      "freq": 4,
+      "basis": "grammar:deontic_emit_goal,compact_duty_goal"
+    },
+    "adopted": {
+      "layer": "other",
+      "order": 337,
+      "freq": 4,
+      "basis": "grammar:lifecycle_item"
+    },
+    "arg": {
+      "layer": "other",
+      "order": 338,
+      "freq": 4,
+      "basis": "grammar:evidence_policy_item"
+    },
+    "complete_as_of": {
+      "layer": "other",
+      "order": 339,
+      "freq": 4,
+      "basis": "grammar:closure_item"
+    },
+    "create": {
+      "layer": "other",
+      "order": 340,
+      "freq": 4,
+      "basis": "grammar:legal_effect"
+    },
+    "officiality": {
+      "layer": "other",
+      "order": 341,
+      "freq": 4,
+      "basis": "grammar:edition_item"
+    },
+    "otherwise": {
+      "layer": "other",
+      "order": 342,
+      "freq": 4,
+      "basis": "grammar:decision_row"
+    },
+    "parent": {
+      "layer": "other",
+      "order": 343,
+      "freq": 4,
+      "basis": "grammar:fragment_item"
+    },
+    "prefix": {
+      "layer": "other",
+      "order": 344,
+      "freq": 4,
+      "basis": "grammar:inherited_labels"
+    },
+    "reports": {
+      "layer": "other",
+      "order": 345,
+      "freq": 4,
+      "basis": "grammar:support_relation"
+    },
+    "selection": {
+      "layer": "other",
+      "order": 346,
+      "freq": 4,
+      "basis": "grammar:interpretation_item"
+    },
+    "source_anchor": {
+      "layer": "other",
+      "order": 347,
+      "freq": 4,
+      "basis": "grammar:source_anchor_item"
+    },
+    "verifier": {
+      "layer": "other",
+      "order": 348,
+      "freq": 4,
+      "basis": "grammar:verification_item"
+    },
+    "BusinessPeriod": {
+      "layer": "other",
+      "order": 349,
+      "freq": 3,
+      "basis": "no-signal"
+    },
+    "EvidenceItem": {
+      "layer": "other",
+      "order": 350,
+      "freq": 3,
+      "basis": "no-signal"
+    },
+    "SupportEdge": {
+      "layer": "other",
+      "order": 351,
+      "freq": 3,
+      "basis": "no-signal"
+    },
+    "any_of": {
+      "layer": "other",
+      "order": 352,
+      "freq": 3,
+      "basis": "grammar:interpretation_item"
+    },
+    "ascending": {
+      "layer": "other",
+      "order": 353,
+      "freq": 3,
+      "basis": "grammar:stage_index"
+    },
+    "authenticates": {
+      "layer": "other",
+      "order": 354,
+      "freq": 3,
+      "basis": "grammar:support_relation"
+    },
+    "currency_convert": {
+      "layer": "other",
+      "order": 355,
+      "freq": 3,
+      "basis": "no-signal"
+    },
+    "defendant": {
+      "layer": "other",
+      "order": 356,
+      "freq": 3,
+      "basis": "grammar:factors_item,precedent_item"
+    },
+    "descending": {
+      "layer": "other",
+      "order": 357,
+      "freq": 3,
+      "basis": "grammar:stage_index"
+    },
+    "establishes": {
+      "layer": "other",
+      "order": 358,
+      "freq": 3,
+      "basis": "grammar:support_relation"
+    },
+    "hit": {
+      "layer": "other",
+      "order": 359,
+      "freq": 3,
+      "basis": "grammar:decision_table"
+    },
+    "invalidated": {
+      "layer": "other",
+      "order": 360,
+      "freq": 3,
+      "basis": "grammar:lifecycle_item"
+    },
+    "maintain": {
+      "layer": "other",
+      "order": 361,
+      "freq": 3,
+      "basis": "grammar:deontic_emit_goal,compact_duty_goal"
+    },
+    "measures": {
+      "layer": "other",
+      "order": 362,
+      "freq": 3,
+      "basis": "grammar:support_relation"
+    },
+    "no_evidence": {
+      "layer": "other",
+      "order": 363,
+      "freq": 3,
+      "basis": "grammar:status_test"
+    },
+    "opposed": {
+      "layer": "other",
+      "order": 364,
+      "freq": 3,
+      "basis": "grammar:status_function"
+    },
+    "plaintiff": {
+      "layer": "other",
+      "order": 365,
+      "freq": 3,
+      "basis": "grammar:factors_item,precedent_item"
+    },
+    "protects": {
+      "layer": "other",
+      "order": 366,
+      "freq": 3,
+      "basis": "grammar:evidence_policy_item"
+    },
+    "published": {
+      "layer": "other",
+      "order": 367,
+      "freq": 3,
+      "basis": "grammar:lifecycle_item"
+    },
+    "timezone_db": {
+      "layer": "other",
+      "order": 368,
+      "freq": 3,
+      "basis": "grammar:calendar_item"
+    },
+    "ProofRef": {
+      "layer": "other",
+      "order": 369,
+      "freq": 2,
+      "basis": "no-signal"
+    },
+    "accepts": {
+      "layer": "other",
+      "order": 370,
+      "freq": 2,
+      "basis": "grammar:evidence_policy_item"
+    },
+    "caused_by": {
+      "layer": "other",
+      "order": 371,
+      "freq": 2,
+      "basis": "grammar:revision_item"
+    },
+    "completeness_policy": {
+      "layer": "other",
+      "order": 372,
+      "freq": 2,
+      "basis": "grammar:goal_item"
+    },
+    "compose_explicitly": {
+      "layer": "other",
+      "order": 373,
+      "freq": 2,
+      "basis": "grammar:interpretation_item"
+    },
+    "contains": {
+      "layer": "other",
+      "order": 374,
+      "freq": 2,
+      "basis": "grammar:temporal_operator"
+    },
+    "derive_explicit_negative": {
+      "layer": "other",
+      "order": 375,
+      "freq": 2,
+      "basis": "grammar:closure_item"
+    },
+    "discharge_policy": {
+      "layer": "other",
+      "order": 376,
+      "freq": 2,
+      "basis": "grammar:duty_item"
+    },
+    "inclusive": {
+      "layer": "other",
+      "order": 377,
+      "freq": 2,
+      "basis": "grammar:emit_window"
+    },
+    "modify": {
+      "layer": "other",
+      "order": 378,
+      "freq": 2,
+      "basis": "grammar:legal_effect"
+    },
+    "overlaps": {
+      "layer": "other",
+      "order": 379,
+      "freq": 2,
+      "basis": "grammar:temporal_operator"
+    },
+    "presume": {
+      "layer": "other",
+      "order": 380,
+      "freq": 2,
+      "basis": "grammar:presumption_item"
+    },
+    "protected_effect": {
+      "layer": "other",
+      "order": 381,
+      "freq": 2,
+      "basis": "grammar:immunity_item"
+    },
+    "repealed": {
+      "layer": "other",
+      "order": 382,
+      "freq": 2,
+      "basis": "grammar:lifecycle_item"
+    },
+    "resolve_at": {
+      "layer": "other",
+      "order": 383,
+      "freq": 2,
+      "basis": "grammar:reference_item"
+    },
+    "restored": {
+      "layer": "other",
+      "order": 384,
+      "freq": 2,
+      "basis": "grammar:lifecycle_item"
+    },
+    "table": {
+      "layer": "other",
+      "order": 385,
+      "freq": 2,
+      "basis": "grammar:decision_table"
+    },
+    "violation_policy": {
+      "layer": "other",
+      "order": 386,
+      "freq": 2,
+      "basis": "grammar:duty_item,prohibition_item"
+    },
+    "courts": {
+      "layer": "other",
+      "order": 387,
+      "freq": 1,
+      "basis": "grammar:factors_item"
+    },
+    "deem": {
+      "layer": "other",
+      "order": 388,
+      "freq": 1,
+      "basis": "grammar:fiction_item"
+    },
+    "exclusive": {
+      "layer": "other",
+      "order": 389,
+      "freq": 1,
+      "basis": "grammar:emit_window"
+    },
+    "media_type": {
+      "layer": "other",
+      "order": 390,
+      "freq": 1,
+      "basis": "grammar:publication_item"
+    },
+    "retrieved_at": {
+      "layer": "other",
+      "order": 391,
+      "freq": 1,
+      "basis": "grammar:publication_item"
+    },
+    "reviewer": {
+      "layer": "other",
+      "order": 392,
+      "freq": 1,
+      "basis": "grammar:alignment_item"
+    },
+    "snapshot_from": {
+      "layer": "other",
+      "order": 393,
+      "freq": 1,
+      "basis": "grammar:external_snapshot_item"
+    },
+    "terminate": {
+      "layer": "other",
+      "order": 394,
+      "freq": 1,
+      "basis": "grammar:legal_effect"
+    },
+    "document_hash": {
+      "layer": "other",
+      "order": 395,
+      "freq": 0,
+      "basis": "grammar:verification_item"
+    },
+    "finishes": {
+      "layer": "other",
+      "order": 396,
+      "freq": 0,
+      "basis": "grammar:temporal_operator"
+    },
+    "materialization_status": {
+      "layer": "other",
+      "order": 397,
+      "freq": 0,
+      "basis": "grammar:edition_item"
+    },
+    "starts": {
+      "layer": "other",
+      "order": 398,
+      "freq": 0,
+      "basis": "grammar:temporal_operator"
+    }
+  }
+}

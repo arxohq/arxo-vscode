@@ -1,0 +1,16 @@
+// Card-examples fixture for the construct wave (batch 1): measurement
+// units. The `unit-decl` region serves both the `unit` card (§49.2) and the
+// `Unit` card (§259.1): `Unit` itself is not an annotatable type (E-0039),
+// unit tags are declared with `unit`. The whole file compiles with
+// `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.units version "0.1.0";
+namespace "urn:law:handbook:card-units";
+
+// region: unit-decl
+unit m dimension Length scale 1 / 1;
+unit s dimension Time scale 1 / 1;
+// endregion: unit-decl
+// region: derived-decl
+derived unit m_per_s = m / s;
+// endregion: derived-decl

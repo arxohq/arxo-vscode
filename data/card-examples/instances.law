@@ -1,0 +1,76 @@
+// Card-examples fixture for the construct wave (batch 4): expansion
+// instances. Every region is a card example; the whole file compiles with
+// `lawc check`. The instance names the expansion first, then itself, and
+// carries a label (E1339 without one).
+language "law.core" version "0.2";
+package handbook.card.instances version "0.1.0";
+namespace "urn:law:handbook:card-instances";
+
+entity Person;
+relation employed(p: Person) kind institutional;
+relation discount_eligible(p: Person) kind institutional;
+relation dismissed(p: Person) kind empirical;
+relation reinstated(p: Person) kind institutional;
+relation logged(v: Person, d: Date) kind empirical;
+expansion pair {
+// region: params-decl
+    params { subject: binder; ground: relation(subject); result: relation(subject); }
+// endregion: params-decl
+// region: exports-decl
+    exports { ok = self/ok; }
+// endregion: exports-decl
+    emit rule self/ok strict {
+        for subject; when ground(subject); then result(subject);
+        scope from self; effective from self; labels from self; source from self;
+    }
+}
+// region: expand-decl
+expand pair PairEmployees {
+    label en unofficial "Employee discount pair";
+    bind subject = e: Person;
+    ground = employed;
+    result = discount_eligible;
+}
+// endregion: expand-decl
+expansion charge {
+    params { subject: binder; guilt: option<relation(subject)>; result: relation(subject); }
+    exports { ok = self/ok; }
+    emit rule self/ok strict {
+        for subject;
+// region: as-decl
+        if some guilt as g { when g(subject); }
+// endregion: as-decl
+        then result(subject);
+        scope from self; effective from self; labels from self; source from self;
+    }
+}
+// region: some-decl
+expand charge ChargeCase {
+    label en unofficial "Charge with optional guilt";
+    bind subject = e: Person;
+    guilt = some dismissed;
+    result = reinstated;
+}
+// endregion: some-decl
+expansion frequent {
+    params {
+        subject: binder;
+        event: binder;
+        day: binder;
+        events: relation(subject, event, day);
+        complete: relation(subject);
+        threshold: integer;
+        window: window;
+        head: relation(subject);
+    }
+    exports { count = self/count; }
+    emit rule self/count defeasible {
+        for subject;
+        when complete(subject);
+// region: within-decl
+        when count(collect event, day where events(subject, event, day) and day within window) >= threshold;
+// endregion: within-decl
+        then head(subject);
+        scope from self; effective from self; labels from self; source from self;
+    }
+}

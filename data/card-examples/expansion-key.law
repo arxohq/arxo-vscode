@@ -1,0 +1,33 @@
+language "law.core" version "0.2";
+package handbook.card.examples version "0.1.0";
+namespace "urn:law:handbook:card-examples";
+
+// Self-contained fixture for the `key` card in an expansion: handbook pages
+// have no expansion context with a `key(c)` segment, so the card example
+// lives here under the same gates (check_constructs.py compiles it whole;
+// the generator shows the marked region).
+expansion quarantine {
+    params {
+        subject: binder;
+        ground: relation(subject);
+        result: relation(subject);
+        excluded: cases { premises: list<relation(subject)> min 1; };
+    }
+    exports { applicability = self/applicable; }
+    emit rule self/applicable defeasible {
+        for subject;
+        when ground(subject);
+        then result(subject);
+        scope from self; effective from self; labels from self; source from self;
+    }
+// region: expansion-key
+    for each c in excluded {
+        emit rule self/excluded/key(c)/excludes defeasible {
+            for subject;
+            for each p in c.premises { when p(subject); }
+            then not result(subject);
+            scope from self; effective from self; labels from c prefix "[excludes] "; source from c fallback self;
+        }
+    }
+// endregion: expansion-key
+}

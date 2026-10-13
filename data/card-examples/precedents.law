@@ -1,0 +1,31 @@
+// Card-examples fixture for the construct wave (batch 5): precedent
+// reasoning. Every region is a card example; the whole file compiles with
+// `lawc check`. The domain binds every signature variable (E2701); the
+// precedent names its vocabulary with `of`.
+language "law.core" version "0.2";
+package handbook.card.precedents version "0.1.0";
+namespace "urn:law:handbook:card-precedents";
+
+entity Person;
+relation employed(p: Person) kind institutional;
+relation dismissed(p: Person) kind empirical;
+relation reinstated(p: Person) kind institutional;
+
+// region: factors-decl
+factors EmploymentFactors {
+    for e: Person;
+    domain employed(e);
+    plaintiff employed;
+    defendant dismissed;
+    courts SupremeCourt > AppealsCourt;
+}
+// endregion: factors-decl
+// region: precedent-decl
+precedent SmithCase of EmploymentFactors {
+    court SupremeCourt;
+    decided @2024-05-01;
+    plaintiff employed;
+    defendant dismissed;
+    outcome reinstated(e);
+}
+// endregion: precedent-decl

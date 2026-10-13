@@ -2,6 +2,6 @@
 tools/**
 CONTRIBUTING.md
 engine.lock.json
+media/readme/**
 .gitignore
 **/*.vsix
-node_modules/**

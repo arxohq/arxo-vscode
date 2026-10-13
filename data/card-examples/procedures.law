@@ -1,0 +1,53 @@
+// Card-examples fixture for the construct wave (batch 3): procedures as
+// automata. Every region is a card example; the whole file compiles with
+// `lawc check`. The `transition-decl` region serves the batch-4 `transition`
+// card. Exactly one state is `initial` (E1311).
+language "law.core" version "0.2";
+package handbook.card.procedures version "0.1.0";
+namespace "urn:law:handbook:card-procedures";
+
+entity Application;
+entity Person;
+relation application_complete(app: Application) kind empirical;
+// region: action-decl
+action Review {
+    reviewer: Person;
+}
+// endregion: action-decl
+event ApplicationFiled {
+    application: Application;
+}
+
+// region: procedure-decl
+procedure Accreditation(app: Application) {
+    state Draft initial;
+    state Submitted;
+}
+// endregion: procedure-decl
+procedure DualTrack(app: Application) {
+    state Review initial parallel {
+// region: region-decl
+        region Legal {
+            state LegalDraft initial;
+            state LegalDone terminal;
+        }
+// endregion: region-decl
+        region Finance {
+            state FinanceDraft initial;
+            state FinanceDone terminal;
+        }
+        join all;
+    }
+}
+procedure GrantFlow(app: Application) {
+    state Filed initial;
+// region: state-decl
+    state Granted terminal;
+// endregion: state-decl
+// region: transition-decl
+    transition Grant {
+        from Filed;
+        to Granted;
+    }
+// endregion: transition-decl
+}

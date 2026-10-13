@@ -2,7 +2,7 @@
   "name": "law",
   "displayName": "Arxo Law",
   "description": "Syntax, diagnostics and compiler-backed hints for Arxo Law in .law, .lawtest, .lawcase and literate .law.md.",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "license": "Apache-2.0",
   "publisher": "arxo",
   "icon": "media/icon.png",
@@ -29,7 +29,7 @@
     "rules-as-code"
   ],
   "engines": {
-    "vscode": "^1.75.0"
+    "vscode": "^1.82.0"
   },
   "scripts": {
     "package": "./package.sh",
@@ -39,10 +39,14 @@
     "install:all": "./install.sh all"
   },
   "main": "./extension.js",
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
   "activationEvents": [
     "onLanguage:law",
     "onLanguage:markdown",
     "onLanguage:lawq",
+    "onLanguage:law-manifest",
     "workspaceContains:**/*.lawtest"
   ],
   "contributes": {
@@ -50,6 +54,9 @@
       "[law]": {
         "editor.semanticHighlighting.enabled": true,
         "editor.inlayHints.maximumLength": 0
+      },
+      "[law-manifest]": {
+        "editor.semanticHighlighting.enabled": true
       }
     },
     "semanticTokenTypes": [
@@ -75,6 +82,16 @@
           "lawStatus": ["keyword.control.status.law"]
         },
         "language": "markdown"
+      },
+      {
+        "scopes": {
+          "type.declaration": ["entity.name.section.law-manifest", "entity.name.type"],
+          "property": ["support.type.property-name.law-manifest", "variable.other.property"],
+          "namespace": ["entity.name.namespace.law-manifest", "entity.name.namespace"],
+          "function.declaration": ["entity.name.function.law-manifest", "entity.name.function"],
+          "variable.defaultLibrary": ["support.constant.law-manifest", "support.constant"]
+        },
+        "language": "law-manifest"
       }
     ],
     "languages": [
@@ -101,6 +118,17 @@
           ".lawq"
         ],
         "configuration": "./lawq-language-configuration.json"
+      },
+      {
+        "id": "law-manifest",
+        "aliases": [
+          "Arxo Law Manifest",
+          "law.toml"
+        ],
+        "filenames": [
+          "law.toml"
+        ],
+        "configuration": "./law-manifest-language-configuration.json"
       }
     ],
     "grammars": [
@@ -123,6 +151,11 @@
         "language": "lawq",
         "scopeName": "source.lawq",
         "path": "./syntaxes/lawq.tmLanguage.json"
+      },
+      {
+        "language": "law-manifest",
+        "scopeName": "source.law-manifest",
+        "path": "./syntaxes/law-manifest.tmLanguage.json"
       },
       {
         "scopeName": "markdown.lawq.codeblock",
@@ -166,6 +199,16 @@
           "type": "string",
           "default": "",
           "description": "Path to the compiler binary. Empty — look it up: builds at engines/lawc/target/{release,gate,debug}/law-cli in the workspace, then law-cli from PATH. A relative path is resolved from the workspace root."
+        },
+        "law.lsp.path": {
+          "type": "string",
+          "default": "law-lsp",
+          "description": "Path to law-lsp. A bare name is resolved from PATH; a relative path is resolved from the first workspace folder."
+        },
+        "law.lsp.legacyProviders": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use the legacy JavaScript language providers instead of law-lsp. Reload the window after changing this setting."
         },
         "law.check.enabled": {
           "type": "boolean",
@@ -249,7 +292,7 @@
         "law.enginePath": {
           "type": "string",
           "default": "",
-          "description": "Directory with the bindings and module (index.js, worker.js, law_wasm.wasm). Empty — apps/npm/law-engine/dist with wasm from engines/lawc/target/wasm-dist, then the engine/ bundle inside the extension."
+          "description": "Directory with the complete JavaScript SDK runtime and law_wasm.wasm. Empty — the engine/ bundle inside the extension, then a repository build from apps/npm/law-engine/dist and engines/lawc/target/wasm-dist."
         }
       }
     },

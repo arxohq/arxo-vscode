@@ -1,0 +1,55 @@
+// Card-examples fixture for the clause wave (batch 6): rule qualifiers,
+// exceptions, conjunctions, conditionals and comprehensions. Every region
+// is a card example; the whole file compiles with `lawc check`.
+// The `within`/`some`/`as` regions live in
+// `instances.law`, where their expansion context is.
+language "law.core" version "0.2";
+package handbook.card.clauses version "0.1.0";
+namespace "urn:law:handbook:card-clauses";
+
+entity Person;
+entity Household;
+relation adult(p: Person) kind institutional;
+relation employed(p: Person) kind institutional;
+relation retired(p: Person) kind institutional;
+relation convicted(p: Person) kind institutional;
+relation pardoned(p: Person) kind institutional;
+relation household_member(h: Household, m: Person) kind empirical;
+relation monthly_income(m: Person, a: Money) kind empirical;
+relation household_income(h: Household, a: Money) kind institutional;
+
+rule BenefitScope defeasible {
+    for p: Person;
+// region: scope-decl
+    scope employed(p);
+// endregion: scope-decl
+// region: effective-decl
+    effective [@2026-01-01, infinity);
+// endregion: effective-decl
+// region: governs-decl
+    governs event_time [@2026-01-01, infinity);
+// endregion: governs-decl
+// region: and-decl
+    when adult(p) and employed(p);
+// endregion: and-decl
+    then retired(p);
+}
+rule HiringRule defeasible {
+    for p: Person;
+    when adult(p);
+    then employed(p);
+// region: unless-decl
+    unless convicted(p);
+// endregion: unless-decl
+}
+// region: if-decl
+pure function senior_bonus(age: Integer) -> Decimal = if age >= 65 then 25 percent else 0 percent;
+// endregion: if-decl
+rule HouseholdTotal strict {
+    for h: Household;
+    for m: Person;
+    when household_member(h, m);
+// region: collect-where-decl
+    then household_income(h, sum(collect a: Money, x: Person where household_member(h, x) and monthly_income(x, a)));
+// endregion: collect-where-decl
+}

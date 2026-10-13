@@ -1,5 +1,5 @@
 # Builds the extension from this repository alone. The store releases are
-# built in the Arxo monorepo with the freshest compiler bundle; this job
+# built from the selected release compiler bundle; this job
 # proves the public tree packages with the published @arxo/law-engine.
 name: build
 on: [push, pull_request, workflow_dispatch]

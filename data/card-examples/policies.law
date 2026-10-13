@@ -1,0 +1,43 @@
+// Card-examples fixture for the construct wave (batch 4): policies,
+// revisions and roles. Every region is a card example; the whole file
+// compiles with `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.policies version "0.1.0";
+namespace "urn:law:handbook:card-policies";
+
+// region: deadline-decl
+deadline policy KZ_DEADLINES {
+    start_count next_day;
+    include_end true;
+    roll next_working_day;
+}
+// endregion: deadline-decl
+// region: temporal-resolution-policy-decl
+temporal_resolution_policy KZ_DAY_RESOLUTION {
+    utc_offset "+05:00";
+    day_boundary "00:00:00";
+    timezone "Asia/Almaty";
+}
+// endregion: temporal-resolution-policy-decl
+// region: revision-decl
+revision AMENDMENT_2026 {
+    previous ORDER_343_2025_RU;
+    next ORDER_343_2026_RU;
+    relation supersedes;
+    effective @2026-07-01;
+}
+// endregion: revision-decl
+// region: role-decl
+role Taxpayer for Actor;
+// endregion: role-decl
+// region: entrenchment-decl
+entrenchment ShieldClause {
+    source ORDER_343;
+    locator "article/9";
+    window [@2026-01-01, @2031-01-01);
+}
+// endregion: entrenchment-decl
+source ORDER_343 {
+    kind kz.sources::MinisterOrder;
+    number "343";
+}

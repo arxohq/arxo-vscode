@@ -91,14 +91,6 @@
     ],
     "description": "closure — SPEC §70. Closed-world declarations"
   },
-  "concept": {
-    "prefix": "concept",
-    "body": [
-      "concept ${1:Minor}(person: Person);",
-      "$0"
-    ],
-    "description": "concept — SPEC §44. Concept sugar"
-  },
   "const": {
     "prefix": "const",
     "body": [
@@ -122,19 +114,16 @@
   "context": {
     "prefix": "context",
     "body": [
-      "context profile KZ_COMPLIANCE_2026 {",
-      "    jurisdiction KZ;",
+      "context ${1:EvaluationContext} {",
+      "    legal_time @2026-08-25;",
+      "    temporal_resolution_policy KZ_CIVIL_DAY_RESOLUTION;",
+      "    decision_time @2026-08-25T14:30:00+05:00;",
+      "    knowledge_time @2026-08-25T14:00:00+05:00;",
       "    timezone \"Asia/Qyzylorda\";",
-      "    timezone_db_snapshot TZDB_2026A;",
-      "    source_resolver KZ_OFFICIAL_RESOLVER_2026;",
-      "    evidence_policy OFFICIAL_RECORDS_POLICY;",
-      "    calendar KZ_2026;",
-      "    deadline_policy KZ_DEFAULT_DEADLINES_2026;",
-      "    mode compliance;",
       "}",
       "$0"
     ],
-    "description": "context — SPEC §89. Evaluation Context"
+    "description": "context — SPEC §83. Context time"
   },
   "counterfactual": {
     "prefix": "counterfactual",
@@ -179,7 +168,7 @@
   "definition": {
     "prefix": "definition",
     "body": [
-      "definition ${1:Minor}(p: Person) sufficient {",
+      "definition ${1:Minor}(p: Person) exact {",
       "    when age(p) < 18 year;",
       "    scope context.jurisdiction == KZ;",
       "}",
@@ -649,6 +638,18 @@
     ],
     "description": "source — SPEC §27. Три уровня идентичности источника"
   },
+  "stage": {
+    "prefix": "stage",
+    "body": [
+      "stage ${1:CountingRounds} {",
+      "    index round: Integer from 1 to 12;          // порядок по умолчанию ascending",
+      "    bind remaining_value index 3;               // третий аргумент отношения — индекс",
+      "    bind eliminated index 2;",
+      "}",
+      "$0"
+    ],
+    "description": "stage — SPEC §111. Порядок evaluation strata"
+  },
   "state": {
     "prefix": "state",
     "body": [
@@ -739,6 +740,17 @@
       "$0"
     ],
     "description": "unit — SPEC §49. Dimensional checking"
+  },
+  "use": {
+    "prefix": "use",
+    "body": [
+      "use self::{",
+      "    Person,",
+      "    Sanction,",
+      "};",
+      "$0"
+    ],
+    "description": "use — SPEC §23. Import"
   },
   "sum": {
     "prefix": "sum",

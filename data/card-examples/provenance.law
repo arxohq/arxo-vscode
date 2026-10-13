@@ -1,0 +1,68 @@
+// Card-examples fixture for the construct wave (batch 1): source identity
+// chain and its reading. Every region is a card example; the whole file
+// compiles with `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.provenance version "0.1.0";
+namespace "urn:law:handbook:card-provenance";
+
+// region: source-decl
+source ORDER_343 {
+    kind kz.sources::MinisterOrder;
+    jurisdiction KZ;
+    number "343";
+}
+// endregion: source-decl
+// region: edition-decl
+edition ORDER_343_RU of ORDER_343 {
+    language ru-KZ;
+    officiality official;
+}
+// endregion: edition-decl
+// region: fragment-decl
+fragment ORDER_343_ART1 in ORDER_343_RU {
+    kind article;
+    locator "article/1";
+}
+// endregion: fragment-decl
+fragment ORDER_343_ART1_KK in ORDER_343_RU {
+    kind article;
+    locator "article/1";
+}
+// region: align-decl
+align ORDER_343_ART1 with ORDER_343_ART1_KK {
+    relation corresponding_official_text;
+    status reviewed;
+    reviewer LEGAL_EDITOR_17;
+}
+// endregion: align-decl
+// region: interpretation-decl
+interpretation LiteralReading of ORDER_343_ART1 {
+    status reviewed;
+    authority LEGAL_TEAM_A;
+}
+// endregion: interpretation-decl
+interpretation CourtReading of ORDER_343_ART1 {
+    status binding;
+    authority COURT_77;
+}
+// region: interpretation-group-decl
+interpretation_group MeaningOfArticle1 {
+    alternatives LiteralReading, CourtReading;
+    selection exactly_one;
+}
+// endregion: interpretation-group-decl
+// region: reference-decl
+reference CURRENT_ART_125 {
+    source ORDER_343;
+    locator "article/125/paragraph/3";
+    resolve_at legal_time;
+}
+// endregion: reference-decl
+// region: publication-decl
+publication ORDER_343_PDF of ORDER_343 {
+    media_type "application/pdf";
+    uri "https://example.invalid/o343.pdf";
+    retrieved_at @2026-02-01T09:00:00+05:00;
+    content_hash "sha256:0000000000000000000000000000000000000000000000000000000000000000";
+}
+// endregion: publication-decl

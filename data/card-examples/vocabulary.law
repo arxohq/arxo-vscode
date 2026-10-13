@@ -1,0 +1,14 @@
+// Card-examples fixture for the vocabulary cards: a keyed relation.
+// Every region is a card example; the whole file compiles with `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.vocabulary version "0.1.0";
+namespace "urn:law:handbook:card-vocabulary";
+
+entity Company;
+entity Region;
+
+// region: relation-with-key
+pub relation registered_in(c: Company, r: Region) kind institutional {
+    key(c);
+}
+// endregion: relation-with-key

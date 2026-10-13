@@ -1,0 +1,36 @@
+// Card-examples fixture for the rule-strength cards: a strict rule, a
+// defeasible rule and a defeater. Every region is a card example; the whole
+// file compiles with `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.rules version "0.1.0";
+namespace "urn:law:handbook:card-rules";
+
+entity Enterprise;
+relation employee_count(e: Enterprise, n: Integer) kind empirical { key(e); }
+relation registered(e: Enterprise) kind institutional;
+relation small_enterprise(e: Enterprise) kind institutional;
+relation exempt_from_planned_inspection(e: Enterprise) kind institutional;
+relation violation_found_last_year(e: Enterprise) kind empirical;
+
+// region: strict-minimal
+rule SmallEnterprise strict {
+    for e: Enterprise;
+    for n: Integer;
+    when employee_count(e, n) and n <= 100;
+    then small_enterprise(e);
+}
+// endregion: strict-minimal
+// region: defeasible-minimal
+rule SmallEnterpriseExempt defeasible {
+    for e: Enterprise;
+    when small_enterprise(e) and registered(e);
+    then exempt_from_planned_inspection(e);
+}
+// endregion: defeasible-minimal
+// region: defeater-minimal
+rule ViolationRemovesExemption defeater {
+    for e: Enterprise;
+    when violation_found_last_year(e);
+    defeat exempt_from_planned_inspection(e);
+}
+// endregion: defeater-minimal

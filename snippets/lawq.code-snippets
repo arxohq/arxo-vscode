@@ -28,11 +28,11 @@
     "prefix": "name",
     "body": [
       "# name: ${1:query-name}",
-      "# description: ${2:Что находит запрос.}",
+      "# description: ${2:What the query finds.}",
       "# source: ${3:docs/plans/engine/QL-PLAN.ru.md; SPEC §…}",
       "$0"
     ],
-    "description": "Header of a named query in the corpus/ql/lints catalog"
+    "description": "Header of a named query in the spec/ql/lints catalog"
   },
   "let-eval": {
     "prefix": "let",

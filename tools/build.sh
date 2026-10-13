@@ -13,6 +13,8 @@ version="$(node -p "require('$root/package.json').version")"
 name="$(node -p "require('$root/package.json').name")"
 engine_version="$(node -p "require('$root/engine.lock.json').version")"
 
+(cd "$root" && npm ci --ignore-scripts)
+
 work="$(mktemp -d)"
 trap 'rm -rf "$work"' EXIT
 (cd "$work" && npm pack "@arxo/law-engine@$engine_version" --quiet >/dev/null && tar xzf ./*.tgz)
@@ -20,7 +22,10 @@ dist="$work/package/dist"
 
 rm -rf "$root/engine"
 mkdir -p "$root/engine"
-cp "$dist/index.js" "$dist/worker.js" "$dist/law_wasm.wasm" "$root/engine/"
+for runtime in index.js worker.js worker-runtime.js host-error.js composition.js law_wasm.wasm; do
+  cp "$dist/$runtime" "$root/engine/"
+done
+printf '%s\n' '{"type":"module"}' > "$root/engine/package.json"
 node - "$root/engine" "$engine_version" <<'JS'
 const fs = require('node:fs');
 const path = require('node:path');
@@ -33,5 +38,5 @@ const manifest = { package: 'arxo.law', engine: `@arxo/law-engine@${engineVersio
 fs.writeFileSync(path.join(directory, 'build-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 JS
 
-(cd "$root" && npx --yes @vscode/vsce package --out "$out_dir/$name-$version.vsix")
+(cd "$root" && npx --yes @vscode/vsce@3.9.2 package --out "$out_dir/$name-$version.vsix")
 echo "$out_dir/$name-$version.vsix"

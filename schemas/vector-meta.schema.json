@@ -65,6 +65,124 @@
                   }
                 }
               }
+            },
+            {
+              "if": {
+                "properties": {
+                  "mode": {
+                    "const": "measure"
+                  }
+                },
+                "required": [
+                  "mode"
+                ]
+              },
+              "then": {
+                "description": "§33.1 (errata E-0249, DECISION-0383): режим `measure` несёт CLIR (`ir`), закреплённый текст (`text`) и утверждает либо ожиданиями из prose (`expectations`), либо замороженным голденом канонических байтов документа меры (`expected`); пара допустима.",
+                "properties": {
+                  "files": {
+                    "allOf": [
+                      {
+                        "required": [
+                          "ir",
+                          "text"
+                        ]
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "required": [
+                              "expected"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "expectations"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "mode": {
+                    "const": "lawtest"
+                  }
+                },
+                "required": [
+                  "mode"
+                ]
+              },
+              "then": {
+                "description": "§267 (E-0312): один `.lawtest`-файл (`test`) проходит через оба публичных раннера — `law test --program` (программа `ir`) и `lower-test` + oracle `run_test`; утверждает `expected` с `rejects` (оба раннера отказывают) и `mentions` (слова каждого отказа) либо проходом обоих при `rejects: false`.",
+                "properties": {
+                  "files": {
+                    "required": [
+                      "test",
+                      "ir",
+                      "expected"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "mode": {
+                    "const": "verbalize_answer"
+                  }
+                },
+                "required": [
+                  "mode"
+                ]
+              },
+              "then": {
+                "description": "LS §3.7.8 (DECISION-0388): вербализация вопроса и ответа несёт вход проекции — запрос (`query`), CLIR мира (`ir`), дело (`case`), замороженный evaluation-документ (`evaluation`) — и пак (`pack`, от корня репозитория); утверждает голденом текста (`expected`) и его метаданными (`meta`: contentHash, пробелы, разделы либо ожидаемый отказ пака).",
+                "properties": {
+                  "files": {
+                    "required": [
+                      "ir",
+                      "case",
+                      "query",
+                      "evaluation",
+                      "pack",
+                      "expected",
+                      "meta"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "mode": {
+                    "const": "verbalize_question"
+                  }
+                },
+                "required": [
+                  "mode"
+                ]
+              },
+              "then": {
+                "description": "LS §3.10 (DECISION-0388): канонический вопрос карточки каталога DECISION-0190 — вход CLIR пакета (`ir`) и каталог (`catalog`), пак (`pack`, от корня репозитория); голден `expected` — формулировки по порядку карточек либо ожидаемый отказ пака.",
+                "properties": {
+                  "files": {
+                    "required": [
+                      "ir",
+                      "catalog",
+                      "pack",
+                      "expected"
+                    ]
+                  }
+                }
+              }
             }
           ],
           "properties": {
@@ -99,9 +217,18 @@
                 "property",
                 "resolve",
                 "static",
+                "lawtest",
                 "verbalize",
                 "world",
-                "ask"
+                "ask",
+                "measure",
+                "verbalize_answer",
+                "verbalize_question",
+                "validate",
+                "integrity",
+                "certificate",
+                "change-verify",
+                "derived-facts"
               ]
             }
           },
@@ -125,11 +252,15 @@
         "smoke",
         "units",
         "scaled_units",
-        "cases"
+        "cases",
+        "proto",
+        "derived",
+        "preproduction",
+        "workspace"
       ]
     },
     "id": {
-      "pattern": "^[A-Z][A-Z0-9-]{2,40}$",
+      "pattern": "^[A-Z][A-Z0-9-]{2,62}$",
       "type": "string"
     },
     "layer": {
@@ -140,11 +271,29 @@
         "L3"
       ]
     },
+    "goldenOrigin": {
+      "description": "DECISION-0471 §3: голден старого выпуска перезаморожен текущим Rust через инструмент переноса; не независимый оракул до фазы выравнивания (DECISION-0462).",
+      "pattern": "^rust-[0-9]+\\.[0-9]+\\.[0-9]+-refreeze$",
+      "type": "string"
+    },
     "semanticVersion": {
+      "description": "Версия запроса оценки. Корпус содержит только текущий выпуск `releaseBuild.execute` (DECISION-0471): точный выпуск либо имя линии 0.2; генераторы пишут его из реестра. Прочие значения перечня допустимы лишь у векторов явного отказа, где старый пин — враждебный вход, и уходят из перечня по завершении переноса.",
       "enum": [
         "0.1.0",
         "0.2",
+        "0.2.0",
+        "0.2.3",
+        "0.2.4",
+        "0.2.6",
+        "0.2.7",
+        "0.2.11",
         "0.3"
+      ]
+    },
+    "inputForm": {
+      "description": "errata E-0267: вход вектора НАРОЧНО вне проводной формы запроса §168.3 (outside-wire) — проверка устойчивости ядра ниже границы протокола; на границе такой вход — отказ формы",
+      "enum": [
+        "outside-wire"
       ]
     },
     "layerRefinement": {
@@ -184,6 +333,11 @@
     "xfailReason": {
       "minLength": 1,
       "type": "string"
+    },
+    "goldenOrigin": {
+      "description": "DECISION-0471: голден перезаморожен текущим Rust при переносе вектора на текущий выпуск; не независимый оракул до подтверждения differential фазой выравнивания (DECISION-0462).",
+      "type": "string",
+      "pattern": "^rust-[0-9]+\\.[0-9]+\\.[0-9]+-refreeze$"
     }
   },
   "required": [

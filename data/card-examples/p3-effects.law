@@ -1,0 +1,22 @@
+language "law.core" version "0.2";
+package editor.p3effects version "0.1.0";
+namespace "urn:editor:p3effects";
+entity Actor;
+relation trig(a: Actor) kind empirical;
+relation before_fact(a: Actor) kind institutional;
+relation after_fact(a: Actor) kind institutional;
+// region: power-terminate
+rule Terminate strict {for a: Actor; when trig(a); then power PTerminate {
+    holder a; over a; exercise trig(a); effect_terminate before_fact(a); valid_when trig(a);
+};}
+// endregion: power-terminate
+// region: power-modify
+rule Modify strict {for a: Actor; when trig(a); then power PModify {
+    holder a; over a; exercise trig(a); effect_modify modify(before_fact(a), after_fact(a)); valid_when trig(a);
+};}
+// endregion: power-modify
+// region: immunity-terminate
+rule Protect strict {for a: Actor; when trig(a); then immunity I {
+    holder a; against a; protected_effect_terminate before_fact(a);
+};}
+// endregion: immunity-terminate

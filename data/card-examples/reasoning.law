@@ -1,0 +1,45 @@
+// Card-examples fixture for the construct wave (batch 4): defeasible
+// reasoning shapes and legal time terms. Every region is a card example;
+// the whole file compiles with `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.reasoning version "0.1.0";
+namespace "urn:law:handbook:card-reasoning";
+
+entity Person;
+entity Company;
+entity Document;
+relation accused(p: Person) kind institutional;
+relation innocent(p: Person) kind institutional;
+relation final_conviction(p: Person) kind institutional;
+relation delivered(d: Document) kind empirical;
+relation received(d: Document) kind institutional;
+relation annual_revenue(c: Company) kind empirical;
+relation notified(p: Person, d: Date) kind empirical;
+relation deadline_due(p: Person, d: Date) kind institutional;
+
+// region: presumption-decl
+presumption Innocence(p: Person) {
+    when accused(p);
+    presume innocent(p);
+    unless final_conviction(p);
+}
+// endregion: presumption-decl
+// region: fiction-decl
+fiction DeemedReceipt strict {
+    for d: Document;
+    when delivered(d);
+    deem received(d);
+}
+// endregion: fiction-decl
+// region: classification-decl
+classification SmallBusiness(c: Company) defeasible {
+    when annual_revenue(c);
+}
+// endregion: classification-decl
+// region: term-decl
+term FilingDeadline(p: Person, day: Date) {
+    from notified(p, day);
+    due deadline_due(p);
+    default 1 calendar_month;
+}
+// endregion: term-decl

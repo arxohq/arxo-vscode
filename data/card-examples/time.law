@@ -1,0 +1,19 @@
+// Card-examples fixture for the construct wave (batch 2): calendars and
+// external snapshots. Every region is a card example; the whole file
+// compiles with `lawc check`.
+language "law.core" version "0.2";
+package handbook.card.time version "0.1.0";
+namespace "urn:law:handbook:card-time";
+
+// region: calendar-decl
+calendar KZ_2026 {
+    timezone "Asia/Qyzylorda";
+    resource "calendars/kz-2026";
+}
+// endregion: calendar-decl
+// region: snapshot-decl
+external snapshot function rate_on(from: Text, day: Date) -> Decimal {
+    capability "nbk.exchange-rates";
+    snapshot_from context.rate_snapshot;
+}
+// endregion: snapshot-decl

@@ -1,6 +1,6 @@
 {
   "information_for_contributors": [
-    "Markdown injection: highlighting for ```lawq blocks in documentation (docs/reference/authoring/QL-COOKBOOK.ru.md",
+    "Markdown injection: highlighting for ```lawq blocks in documentation (docs/authoring/reference/authoring/QL-COOKBOOK.ru.md",
     "and package notes). The compiler does not pick up these blocks — this is highlighting only,",
     "the block condition mirrors the law injection: exactly three backticks, info-string 'lawq'."
   ],

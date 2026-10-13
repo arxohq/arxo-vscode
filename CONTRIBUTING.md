@@ -15,11 +15,12 @@ monorepo history: each commit on `main` is one release, tagged `v<version>`.
 tools/build.sh
 ```
 
-The script takes the compiler bundle (`law_wasm.wasm` and its bindings) from the
+Use Node.js 22 or newer. The script installs the locked extension dependencies,
+takes the compiler bundle (`law_wasm.wasm` and its bindings) from the
 npm package `@arxo/law-engine` at the version pinned in `engine.lock.json` and
-packages the `.vsix` with `@vscode/vsce`. The `.vsix` attached to a GitHub
-release and uploaded to the stores is built in the monorepo with the compiler
-of the same commit; `engine/build-manifest.json` inside any `.vsix` names the
+packages the `.vsix` with `@vscode/vsce` 3.9.2. The `.vsix` attached to a GitHub
+release and uploaded to the stores uses the selected release compiler bundle;
+`engine/build-manifest.json` inside any `.vsix` names the
 SHA-256 of the bundled module, so the two can be compared.
 
 ## Generated files

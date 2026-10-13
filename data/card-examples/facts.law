@@ -1,0 +1,42 @@
+// Card-examples fixture for the construct wave (batch 2): facts, their
+// scope and named values. Every region is a card example; the whole file
+// compiles with `lawc check`. The `enum-decl` region is dictionary for the
+// batch-3 `enum` card.
+language "law.core" version "0.2";
+package handbook.card.facts version "0.1.0";
+namespace "urn:law:handbook:card-facts";
+
+// region: language-decl
+language "law.core" version "0.2";
+// endregion: language-decl
+
+entity Company;
+entity Vendor;
+relation registered(c: Company) kind institutional;
+relation licensed(v: Vendor) kind institutional;
+relation in_registry(v: Vendor) kind empirical;
+
+// region: assert-decl
+assert registered(entity_ref("urn:x#acme")) {
+    id "assert-acme-registered";
+    origin source_asserted;
+}
+// endregion: assert-decl
+// region: closure-decl
+closure LicenceClosure {
+    predicate licensed;
+    domain in_registry;
+    snapshot LICENCE_REGISTRY_2026;
+    complete_as_of @2026-03-01T00:00:00+05:00;
+    derive_explicit_negative true;
+}
+// endregion: closure-decl
+// region: const-decl
+const MAX_RATE: Decimal = 25 percent;
+// endregion: const-decl
+// region: enum-decl
+enum RiskLevel {
+    low;
+    high;
+}
+// endregion: enum-decl

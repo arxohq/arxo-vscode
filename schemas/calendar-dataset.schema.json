@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:law-dsl:core:0.1:schema:calendar-dataset",
-  "title": "Law DSL Calendar Dataset 0.1",
-  "description": "Immutable deterministic calendar snapshot used by Law DSL Core business-time functions.",
+  "$id": "https://law.arxo.io/schema/calendar-dataset.schema.json",
+  "title": "Arxo calendar dataset 0.1",
+  "description": "Immutable deterministic calendar snapshot used by Arxo Core business-time functions.",
   "type": "object",
   "additionalProperties": false,
   "properties": {

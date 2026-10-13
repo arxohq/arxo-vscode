@@ -1,0 +1,77 @@
+// Card-examples fixture for the construct wave (batch 1): decisions,
+// cases and case-homed inputs. Every region is a card example; the whole
+// file compiles with `lawc check`. Evidence and support live inside a case
+// on purpose: at package level they warn LDC-E1314 (§61/§63).
+language "law.core" version "0.2";
+package handbook.card.cases version "0.1.0";
+namespace "urn:law:handbook:card-cases";
+
+entity Person;
+relation employed(p: Person) kind institutional;
+relation adult(p: Person) kind institutional;
+record TaxInput {
+    income: Money;
+}
+record RegistryRecord {
+    issuer: Text;
+}
+
+// region: decision-decl
+decision TaxRate(input: TaxInput) -> Decimal {
+    table hit unique {
+        when input.income >= 1000000 KZT => 10 percent;
+        otherwise => 0 percent;
+    }
+}
+// endregion: decision-decl
+// region: context-profile
+context profile KZ_COMPLIANCE_2026 {
+    jurisdiction KZ;
+    timezone "Asia/Qyzylorda";
+    mode compliance;
+}
+// endregion: context-profile
+// region: constraint-decl
+constraint MinorOnlyIfAge(p: Person) {
+    when adult(p);
+    require employed(p);
+    severity error;
+}
+// endregion: constraint-decl
+// region: stage-decl
+stage AuditStage {}
+// endregion: stage-decl
+// region: case-decl
+case HiringCase {
+    context {
+        jurisdiction KZ;
+        legal_time @2026-08-25;
+    }
+    assert employed(entity_ref("urn:x#p1"));
+}
+// endregion: case-decl
+case EvidenceCase {
+    context {
+        jurisdiction KZ;
+        legal_time @2026-08-25;
+    }
+// region: evidence-decl
+    evidence LICENSE_REGISTER_17: RegistryRecord {
+        status verified;
+    }
+// endregion: evidence-decl
+// region: support-decl
+    support LICENSE_REGISTER_17 supports employed(entity_ref("urn:x#p1")) {
+        policy OfficialRegistryEvidence;
+    }
+// endregion: support-decl
+// region: verification-decl
+    verification DOC_CHECK_1 {
+        evidence LICENSE_REGISTER_17;
+        document_hash "sha256:0000000000000000000000000000000000000000000000000000000000000000";
+        verifier "kz-verify-service";
+        outcome verified;
+        recorded @2026-03-01T09:00:00+05:00;
+    }
+// endregion: verification-decl
+}
